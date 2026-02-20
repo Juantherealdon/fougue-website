@@ -242,26 +242,26 @@ export default function ReservationsAdmin() {
       // Create safe copy to avoid serialization issues
       const safeData = JSON.parse(JSON.stringify(data))
 
-      // Map API data to component format with proper date serialization
+      // Map API data to component format (handle both camelCase and snake_case)
       const mappedReservations: Reservation[] = safeData.map((booking: any) => ({
         id: booking.id || '',
         customer: {
-          name: booking.customerName || 'N/A',
-          email: booking.customerEmail || 'N/A',
-          phone: booking.customerPhone || 'N/A',
+          name: booking.customer_name || booking.customerName || 'N/A',
+          email: booking.customer_email || booking.customerEmail || 'N/A',
+          phone: booking.customer_phone || booking.customerPhone || 'N/A',
         },
         experience: {
-          id: booking.experienceId || '',
-          name: booking.experienceTitle || 'Expérience',
+          id: booking.experience_id || booking.experienceId || '',
+          name: booking.experience_title || booking.experienceTitle || 'Experience',
         },
         date: typeof booking.date === 'string' ? booking.date : new Date(booking.date).toISOString().split('T')[0],
         time: booking.time || '00:00',
         guests: booking.guests || 1,
         status: booking.status || 'confirmed',
-        specialRequests: booking.specialRequests || '',
+        specialRequests: booking.special_requests || booking.specialRequests || '',
         location: 'To be determined',
-        createdAt: typeof booking.createdAt === 'string' ? booking.createdAt : new Date(booking.createdAt).toISOString(),
-        totalPaid: booking.totalAmount || 0,
+        createdAt: typeof (booking.created_at || booking.createdAt) === 'string' ? (booking.created_at || booking.createdAt) : new Date(booking.created_at || booking.createdAt).toISOString(),
+        totalPaid: booking.total_amount || booking.totalAmount || 0,
         currency: booking.currency || 'AED',
       }))
       
