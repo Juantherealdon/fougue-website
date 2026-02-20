@@ -222,28 +222,38 @@ export default function ReservationsAdmin() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch bookings from API
+  // Fetch bookings from both bookings and reservations tables
   const fetchBookings = async () => {
     setIsLoading(true)
     setError(null)
     try {
-      const response = await fetch('/api/admin/bookings', { cache: 'no-store' })
-      if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des réservations')
-      }
-      const data = await response.json()
-      
-      if (!data || !Array.isArray(data)) {
-        console.error('[v0] Invalid data format:', data)
-        setReservations([])
-        return
+      const [bookingsRes, reservationsRes] = await Promise.all([
+        fetch('/api/admin/bookings', { cache: 'no-store' }),
+        fetch('/api/admin/bookings?source=reservations', { cache: 'no-store' }),
+      ])
+
+      const allEntries: any[] = []
+
+      if (bookingsRes.ok) {
+        const bookingsData = await bookingsRes.json()
+        if (Array.isArray(bookingsData)) allEntries.push(...bookingsData)
       }
 
-      // Create safe copy to avoid serialization issues
-      const safeData = JSON.parse(JSON.stringify(data))
+      if (reservationsRes.ok) {
+        const reservationsData = await reservationsRes.json()
+        if (Array.isArray(reservationsData)) allEntries.push(...reservationsData)
+      }
+
+      // Deduplicate by id
+      const seen = new Set<string>()
+      const deduped = allEntries.filter(entry => {
+        if (seen.has(entry.id)) return false
+        seen.add(entry.id)
+        return true
+      })
 
       // Map API data to component format (handle both camelCase and snake_case)
-      const mappedReservations: Reservation[] = safeData.map((booking: any) => ({
+      const mappedReservations: Reservation[] = deduped.map((booking: any) => ({
         id: booking.id || '',
         customer: {
           name: booking.customer_name || booking.customerName || 'N/A',

@@ -257,9 +257,9 @@ export default function OrdersAdmin() {
           phone: order.shippingAddress?.phone || 'N/A',
         },
         items: Array.isArray(order.items) ? order.items.map((item: any) => ({
-          name: item.title || 'Produit',
-          quantity: item.quantity || 1,
-          price: item.price || 0,
+          name: item.title || item.name || item.t || 'Produit',
+          quantity: item.quantity || item.q || 1,
+          price: item.price || item.p || 0,
         })) : [],
         total: order.totalAmount || 0,
         currency: order.currency || 'AED',
