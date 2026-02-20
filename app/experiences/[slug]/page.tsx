@@ -414,7 +414,7 @@ function AddOnsSection({ experience }: { experience: Experience }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {availableAddons.map((addon, index) => (
             <div
-              key={addon.id}
+              key={addon.id || `addon-${index}`}
               className={`bg-[#FBF5EF] p-6 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
               style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
