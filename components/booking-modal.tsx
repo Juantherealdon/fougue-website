@@ -227,20 +227,25 @@ export function BookingModal({
 
   const isDateSelectable = (day: number) => {
     const date = new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth(),
-      day
+    currentMonth.getFullYear(),
+    currentMonth.getMonth(),
+    day
     )
     const today = new Date()
     today.setHours(0, 0, 0, 0)
     
     // Check if date is in the past
     if (date < today) return false
+
+    // Minimum 5 days lead time
+    const minDate = new Date(today)
+    minDate.setDate(minDate.getDate() + 5)
+    if (date < minDate) return false
     
     // Check if date has available slots
     const dateStr = date.toISOString().split('T')[0]
     return availableDates.includes(dateStr)
-  }
+    }
 
   const formatMonth = (date: Date) => {
     return date.toLocaleDateString("en-US", { month: "long", year: "numeric" })

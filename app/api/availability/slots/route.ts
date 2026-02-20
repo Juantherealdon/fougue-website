@@ -65,11 +65,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: specificError.message }, { status: 500 })
     }
 
-    // 3. Get existing reservations for this experience in date range
-    const { data: reservations, error: reservationsError } = await supabase
+    // 3. Get ALL existing reservations across all experiences in date range
+    // When any experience is booked on a date, that entire day is blocked
+    const { data: allReservations, error: reservationsError } = await supabase
       .from("reservations")
-      .select("*")
-      .eq("experience_id", experienceId)
+      .select("date, time, experience_id")
       .gte("date", startDate)
       .lte("date", endDate)
       .neq("status", "cancelled")
@@ -78,6 +78,24 @@ export async function GET(request: NextRequest) {
       console.error("[v0] Error fetching reservations:", reservationsError)
       return NextResponse.json({ error: reservationsError.message }, { status: 500 })
     }
+
+    // Also check the bookings table (from checkout flow)
+    const { data: allBookings } = await supabase
+      .from("bookings")
+      .select("date, time, experience_id")
+      .gte("date", startDate)
+      .lte("date", endDate)
+      .not("status", "eq", "cancelled")
+
+    // Build a set of dates that have ANY booking (from any experience)
+    const bookedDates = new Set<string>()
+    for (const r of [...(allReservations || []), ...(allBookings || [])]) {
+      if (r.date) {
+        bookedDates.add(r.date)
+      }
+    }
+
+    const reservations = allReservations || []
 
     // 4. Generate available slots
     const slots: { date: string; times: { time: string; available: boolean }[] }[] = []
@@ -92,6 +110,12 @@ export async function GET(request: NextRequest) {
       // Check if date is specifically blocked
       const blockedDate = specific?.find(s => s.date === dateStr && s.is_blocked)
       if (blockedDate) {
+        slots.push({ date: dateStr, times: [] })
+        continue
+      }
+
+      // Check if this day already has ANY booking from any experience — block entire day
+      if (bookedDates.has(dateStr)) {
         slots.push({ date: dateStr, times: [] })
         continue
       }
