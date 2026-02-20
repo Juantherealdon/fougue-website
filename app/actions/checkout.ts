@@ -76,37 +76,64 @@ export async function startCheckoutSession(data: CheckoutData) {
     return sum + itemTotal
   }, 0)
 
-  // Create Stripe Checkout Session
-  console.log("[v0] Creating Stripe session with", lineItems.length, "items, total:", totalAmount)
-  
-  try {
-    const session = await stripe.checkout.sessions.create({
-      ui_mode: 'embedded',
-      redirect_on_completion: 'never',
-      customer_email: customerEmail,
-      line_items: lineItems,
-      mode: 'payment',
-      metadata: {
-        customerName,
-        customerEmail,
-        customerPhone: data.customerPhone || '',
-        authUserId: data.authUserId || '',
-        itemsJson: JSON.stringify(items),
-        shippingJson: data.shippingAddress ? JSON.stringify(data.shippingAddress) : '',
-        specialRequests: data.specialRequests || '',
-      },
-    })
+  // Build compact items summary for metadata (max 500 chars per value)
+  const compactItems = items.map(item => ({
+    i: item.id,
+    t: item.title.substring(0, 40),
+    p: item.price,
+    q: item.quantity,
+    y: item.type === 'experience' ? 'e' : 'p',
+    ...(item.experienceDate ? { d: item.experienceDate } : {}),
+    ...(item.experienceTime ? { tm: item.experienceTime } : {}),
+    ...(item.guests ? { g: item.guests } : {}),
+    ...(item.addons?.length ? { a: item.addons.map(a => ({ i: a.id, n: a.name.substring(0, 20), p: a.price })) } : {}),
+  }))
 
-    console.log("[v0] Stripe session created:", session.id)
-
-    return {
-      clientSecret: session.client_secret,
-      sessionId: session.id,
-      totalAmount,
+  // Split items into chunks if needed (Stripe metadata max 500 chars per value)
+  const itemsStr = JSON.stringify(compactItems)
+  const metadataItems: Record<string, string> = {}
+  if (itemsStr.length <= 500) {
+    metadataItems.items_0 = itemsStr
+  } else {
+    // Split into multiple metadata keys
+    for (let idx = 0, chunk = 0; idx < itemsStr.length; idx += 490, chunk++) {
+      metadataItems[`items_${chunk}`] = itemsStr.substring(idx, idx + 490)
     }
-  } catch (stripeError: any) {
-    console.error("[v0] Stripe session creation failed:", stripeError.message, stripeError.type, stripeError.code)
-    throw stripeError
+  }
+
+  // Compact shipping (if present)
+  const shippingStr = data.shippingAddress
+    ? JSON.stringify({
+        l1: data.shippingAddress.line1,
+        l2: data.shippingAddress.line2 || '',
+        c: data.shippingAddress.city,
+        s: data.shippingAddress.state || '',
+        z: data.shippingAddress.postalCode,
+        co: data.shippingAddress.country,
+      })
+    : ''
+
+  const session = await stripe.checkout.sessions.create({
+    ui_mode: 'embedded',
+    redirect_on_completion: 'never',
+    customer_email: customerEmail,
+    line_items: lineItems,
+    mode: 'payment',
+    metadata: {
+      customerName: customerName.substring(0, 500),
+      customerEmail: customerEmail.substring(0, 500),
+      customerPhone: (data.customerPhone || '').substring(0, 500),
+      authUserId: data.authUserId || '',
+      ...metadataItems,
+      shipping: shippingStr.substring(0, 500),
+      specialRequests: (data.specialRequests || '').substring(0, 500),
+    },
+  })
+
+  return {
+    clientSecret: session.client_secret,
+    sessionId: session.id,
+    totalAmount,
   }
 }
 
@@ -129,13 +156,47 @@ export async function processCheckoutComplete(sessionId: string) {
     throw new Error('Missing session metadata')
   }
 
-  const items: CheckoutItem[] = JSON.parse(metadata.itemsJson || '[]')
+  // Reconstruct items from chunked metadata
+  let itemsStr = ''
+  for (let chunk = 0; metadata[`items_${chunk}`]; chunk++) {
+    itemsStr += metadata[`items_${chunk}`]
+  }
+  const compactItems = JSON.parse(itemsStr || '[]')
+  const items: CheckoutItem[] = compactItems.map((ci: any) => ({
+    id: ci.i,
+    title: ci.t,
+    price: ci.p,
+    quantity: ci.q,
+    type: ci.y === 'e' ? 'experience' : 'product',
+    experienceDate: ci.d,
+    experienceTime: ci.tm,
+    guests: ci.g,
+    addons: ci.a?.map((a: any) => ({ id: a.i, name: a.n, price: a.p })),
+  }))
+
   const customerName = metadata.customerName || ''
   const customerEmail = metadata.customerEmail || session.customer_email || ''
   const customerPhone = metadata.customerPhone || ''
   const authUserId = metadata.authUserId && metadata.authUserId !== '' ? metadata.authUserId : null
-  const shippingAddress = metadata.shippingJson ? JSON.parse(metadata.shippingJson) : null
   const specialRequests = metadata.specialRequests || ''
+
+  // Reconstruct shipping address
+  let shippingAddress = null
+  if (metadata.shipping) {
+    try {
+      const cs = JSON.parse(metadata.shipping)
+      shippingAddress = {
+        line1: cs.l1,
+        line2: cs.l2 || undefined,
+        city: cs.c,
+        state: cs.s || undefined,
+        postalCode: cs.z,
+        country: cs.co,
+      }
+    } catch {
+      shippingAddress = null
+    }
+  }
 
   // Separate products and experiences
   const products = items.filter(item => item.type === 'product')
