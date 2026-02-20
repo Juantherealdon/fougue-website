@@ -614,7 +614,7 @@ export function BookingModal({
               <h3 className="text-[#1E1E1E] text-2xl font-light mb-5 text-balance text-center">
                 Let Us Curate <span className="italic font-serif text-[#800913]">Your</span> Moment
               </h3>
-              <p className="text-[#1E1E1E]/50 text-sm leading-relaxed max-w-sm text-center">
+              <p className="text-[#1E1E1E]/50 text-sm leading-relaxed max-w-md text-center">
                 Once your experience is confirmed, we will personally connect with you to refine the intimate details: from dietary preferences, to subtle touches and the little things that only you would know — so the moment feels unmistakably yours.
               </p>
             </div>
