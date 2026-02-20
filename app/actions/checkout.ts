@@ -3,6 +3,7 @@
 import { stripe } from '@/lib/stripe'
 import { revalidatePath } from 'next/cache'
 import { findClientByEmail, updateClient, addClient, addOrder, addBooking } from '@/lib/db'
+import { sendOrderConfirmationEmail } from '@/lib/emails/send-order-confirmation'
 
 export interface CheckoutItem {
   id: string
@@ -304,6 +305,21 @@ export async function processCheckoutComplete(sessionId: string) {
       addons: exp.addons,
     })
     results.bookings.push(booking.id)
+  }
+
+  // Send order confirmation email (non-blocking — failure does not break checkout)
+  try {
+    await sendOrderConfirmationEmail({
+      customerName,
+      customerEmail,
+      items,
+      orderId: results.orders[0],
+      bookingIds: results.bookings.length > 0 ? results.bookings : undefined,
+      stripeSessionId: sessionId,
+      currency: 'AED',
+    })
+  } catch (emailErr) {
+    console.error('[checkout] Email send failed but order is complete:', emailErr)
   }
 
   // Revalidate admin pages to show new data
