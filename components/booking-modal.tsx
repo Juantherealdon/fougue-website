@@ -271,14 +271,7 @@ export function BookingModal({
     if (step === 1) return true
     if (step === 2) return selectedDate !== null && selectedTime !== null
     if (step === 3) {
-      return (
-        formData.firstName &&
-        formData.lastName &&
-        formData.email &&
-        formData.phone &&
-        formData.occasion &&
-        formData.forWhom
-      )
+      return true
     }
     return false
   }
@@ -598,139 +591,83 @@ export function BookingModal({
             </div>
           )}
 
-          {/* Step 3: Personal Details */}
+          {/* Step 3: Curation & Personalisation */}
           {step === 3 && (
-            <div className="space-y-6">
-              <div className="text-center mb-8">
-                <h3 className="text-[#1E1E1E] text-2xl font-light mb-2">
-                  Tell Us About You
+            <div className="space-y-8">
+              {/* Premium curation message */}
+              <div className="text-center px-4">
+                <div className="w-px h-10 bg-[#800913]/30 mx-auto mb-6" />
+                <h3 className="text-[#1E1E1E] text-2xl font-light mb-4 text-balance">
+                  Let Us Curate <span className="italic font-serif text-[#800913]">Your</span> Moment
                 </h3>
-                <p className="text-[#1E1E1E]/60">
-                  Help us personalize your experience
+                <p className="text-[#1E1E1E]/55 text-sm leading-relaxed max-w-md mx-auto">
+                  Once your experience is confirmed, we will personally connect with you to refine the intimate details: from dietary preferences, to subtle touches and the little things that only you would know — so the moment feels unmistakably yours.
                 </p>
+                <div className="w-px h-10 bg-[#800913]/30 mx-auto mt-6" />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Occasion & For Whom — kept for curation purposes */}
+              <div className="space-y-5 pt-2">
                 <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    First Name *
+                  <label className="block text-[#1E1E1E] text-xs tracking-[0.15em] uppercase mb-3">
+                    What is the occasion?
                   </label>
-                  <input
-                    type="text"
-                    value={formData.firstName}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {occasions.map((occasion) => (
+                      <button
+                        key={occasion}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, occasion })}
+                        className={`py-2.5 px-3 text-sm transition-all ${
+                          formData.occasion === occasion
+                            ? "bg-[#800913] text-white"
+                            : "border border-[#1E1E1E]/15 text-[#1E1E1E]/70 hover:border-[#800913] hover:text-[#800913]"
+                        }`}
+                      >
+                        {occasion}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[#1E1E1E] text-xs tracking-[0.15em] uppercase mb-3">
+                    Who is this experience for?
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {["For Her", "For Him", "For Us"].map((option) => (
+                      <button
+                        key={option}
+                        type="button"
+                        onClick={() =>
+                          setFormData({ ...formData, forWhom: option })
+                        }
+                        className={`py-3 text-sm transition-all ${
+                          formData.forWhom === option
+                            ? "bg-[#800913] text-white"
+                            : "border border-[#1E1E1E]/15 text-[#1E1E1E]/70 hover:border-[#800913] hover:text-[#800913]"
+                        }`}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[#1E1E1E] text-xs tracking-[0.15em] uppercase mb-3">
+                    Anything we should know?
+                  </label>
+                  <textarea
+                    value={formData.specialRequests}
                     onChange={(e) =>
-                      setFormData({ ...formData, firstName: e.target.value })
+                      setFormData({ ...formData, specialRequests: e.target.value })
                     }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="Your first name"
+                    rows={3}
+                    className="w-full px-4 py-3 bg-[#FBF5EF]/50 border border-[#1E1E1E]/10 focus:border-[#800913] outline-none transition-colors resize-none text-sm"
+                    placeholder="Dietary preferences, meaningful details, or anything that would make this moment uniquely yours..."
                   />
                 </div>
-                <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    Last Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, lastName: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="Your last name"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    Phone *
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="+971 XX XXX XXXX"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[#1E1E1E] text-sm mb-2">
-                  What is the occasion? *
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {occasions.map((occasion) => (
-                    <button
-                      key={occasion}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, occasion })}
-                      className={`py-2 px-3 text-sm transition-all ${
-                        formData.occasion === occasion
-                          ? "bg-[#800913] text-white"
-                          : "border border-[#1E1E1E]/20 text-[#1E1E1E] hover:border-[#800913]"
-                      }`}
-                    >
-                      {occasion}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[#1E1E1E] text-sm mb-2">
-                  Who is this experience for? *
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {["For Her", "For Him", "For Us"].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() =>
-                        setFormData({ ...formData, forWhom: option })
-                      }
-                      className={`py-3 text-sm transition-all ${
-                        formData.forWhom === option
-                          ? "bg-[#800913] text-white"
-                          : "border border-[#1E1E1E]/20 text-[#1E1E1E] hover:border-[#800913]"
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[#1E1E1E] text-sm mb-2">
-                  Special Requests or Notes
-                </label>
-                <textarea
-                  value={formData.specialRequests}
-                  onChange={(e) =>
-                    setFormData({ ...formData, specialRequests: e.target.value })
-                  }
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors resize-none"
-                  placeholder="Allergies, preferences, or anything we should know to make this perfect..."
-                />
               </div>
             </div>
           )}
