@@ -593,82 +593,30 @@ export function BookingModal({
 
           {/* Step 3: Curation & Personalisation */}
           {step === 3 && (
-            <div className="space-y-8">
-              {/* Premium curation message */}
-              <div className="text-center px-4">
-                <div className="w-px h-10 bg-[#800913]/30 mx-auto mb-6" />
-                <h3 className="text-[#1E1E1E] text-2xl font-light mb-4 text-balance">
-                  Let Us Curate <span className="italic font-serif text-[#800913]">Your</span> Moment
-                </h3>
-                <p className="text-[#1E1E1E]/55 text-sm leading-relaxed max-w-md mx-auto">
-                  Once your experience is confirmed, we will personally connect with you to refine the intimate details: from dietary preferences, to subtle touches and the little things that only you would know — so the moment feels unmistakably yours.
-                </p>
-                <div className="w-px h-10 bg-[#800913]/30 mx-auto mt-6" />
-              </div>
-
-              {/* Occasion & For Whom — kept for curation purposes */}
-              <div className="space-y-5 pt-2">
-                <div>
-                  <label className="block text-[#1E1E1E] text-xs tracking-[0.15em] uppercase mb-3">
-                    What is the occasion?
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    {occasions.map((occasion) => (
-                      <button
-                        key={occasion}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, occasion })}
-                        className={`py-2.5 px-3 text-sm transition-all ${
-                          formData.occasion === occasion
-                            ? "bg-[#800913] text-white"
-                            : "border border-[#1E1E1E]/15 text-[#1E1E1E]/70 hover:border-[#800913] hover:text-[#800913]"
-                        }`}
-                      >
-                        {occasion}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[#1E1E1E] text-xs tracking-[0.15em] uppercase mb-3">
-                    Who is this experience for?
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {["For Her", "For Him", "For Us"].map((option) => (
-                      <button
-                        key={option}
-                        type="button"
-                        onClick={() =>
-                          setFormData({ ...formData, forWhom: option })
-                        }
-                        className={`py-3 text-sm transition-all ${
-                          formData.forWhom === option
-                            ? "bg-[#800913] text-white"
-                            : "border border-[#1E1E1E]/15 text-[#1E1E1E]/70 hover:border-[#800913] hover:text-[#800913]"
-                        }`}
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[#1E1E1E] text-xs tracking-[0.15em] uppercase mb-3">
-                    Anything we should know?
-                  </label>
-                  <textarea
-                    value={formData.specialRequests}
-                    onChange={(e) =>
-                      setFormData({ ...formData, specialRequests: e.target.value })
-                    }
-                    rows={3}
-                    className="w-full px-4 py-3 bg-[#FBF5EF]/50 border border-[#1E1E1E]/10 focus:border-[#800913] outline-none transition-colors resize-none text-sm"
-                    placeholder="Dietary preferences, meaningful details, or anything that would make this moment uniquely yours..."
-                  />
-                </div>
-              </div>
+            <div className="flex flex-col items-center justify-center py-8 px-6">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#800913"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mb-6"
+              >
+                <path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z" />
+                <path d="M5 3v4" />
+                <path d="M3 5h4" />
+                <path d="M19 17v4" />
+                <path d="M17 19h4" />
+              </svg>
+              <h3 className="text-[#1E1E1E] text-2xl font-light mb-5 text-balance text-center">
+                Let Us Curate <span className="italic font-serif text-[#800913]">Your</span> Moment
+              </h3>
+              <p className="text-[#1E1E1E]/50 text-sm leading-relaxed max-w-sm text-center">
+                Once your experience is confirmed, we will personally connect with you to refine the intimate details: from dietary preferences, to subtle touches and the little things that only you would know — so the moment feels unmistakably yours.
+              </p>
             </div>
           )}
         </div>
