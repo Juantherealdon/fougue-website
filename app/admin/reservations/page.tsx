@@ -20,6 +20,9 @@ import {
   Download,
   Plus,
   RefreshCw,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -221,6 +224,24 @@ export default function ReservationsAdmin() {
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [sortColumn, setSortColumn] = useState<string>("createdAt")
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+    } else {
+      setSortColumn(column)
+      setSortDirection("desc")
+    }
+  }
+
+  const SortIcon = ({ column }: { column: string }) => {
+    if (sortColumn !== column) return <ArrowUpDown size={12} className="ml-1 text-[#1E1E1E]/30" />
+    return sortDirection === "asc"
+      ? <ArrowUp size={12} className="ml-1 text-[#800913]" />
+      : <ArrowDown size={12} className="ml-1 text-[#800913]" />
+  }
 
   // Fetch bookings from both bookings and reservations tables
   const fetchBookings = async () => {
@@ -303,6 +324,18 @@ export default function ReservationsAdmin() {
     const matchesExperience =
       experienceFilter === "all" || res.experience.id === experienceFilter
     return matchesSearch && matchesStatus && matchesExperience
+  }).sort((a, b) => {
+    const dir = sortDirection === "asc" ? 1 : -1
+    switch (sortColumn) {
+      case "id": return dir * a.id.localeCompare(b.id)
+      case "customer": return dir * a.customer.name.localeCompare(b.customer.name)
+      case "experience": return dir * a.experience.name.localeCompare(b.experience.name)
+      case "date": return dir * (new Date(a.date).getTime() - new Date(b.date).getTime())
+      case "guests": return dir * (a.guests - b.guests)
+      case "status": return dir * a.status.localeCompare(b.status)
+      case "createdAt": return dir * (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      default: return 0
+    }
   }) : []
 
   const upcomingReservations = filteredReservations && filteredReservations.length > 0 ? filteredReservations.filter(
@@ -354,6 +387,24 @@ export default function ReservationsAdmin() {
       return new Intl.DateTimeFormat("fr-FR", {
         day: "2-digit",
         month: "short",
+      }).format(date)
+    } catch {
+      return 'N/A'
+    }
+  }
+
+  const formatPaymentDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString)
+      if (isNaN(date.getTime())) {
+        return 'N/A'
+      }
+      return new Intl.DateTimeFormat("fr-FR", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       }).format(date)
     } catch {
       return 'N/A'
@@ -513,23 +564,26 @@ export default function ReservationsAdmin() {
             <table className="w-full">
               <thead className="bg-[#F8F8F8] border-b border-[#1E1E1E]/10">
                 <tr>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Réservation
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("id")}>
+                    <span className="inline-flex items-center">Reservation <SortIcon column="id" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Client
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("customer")}>
+                    <span className="inline-flex items-center">Client <SortIcon column="customer" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Expérience
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("experience")}>
+                    <span className="inline-flex items-center">Experience <SortIcon column="experience" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Date & Heure
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("date")}>
+                    <span className="inline-flex items-center">{"Date & Heure"} <SortIcon column="date" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Invités
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("guests")}>
+                    <span className="inline-flex items-center">{"Invites"} <SortIcon column="guests" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Statut
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("status")}>
+                    <span className="inline-flex items-center">Statut <SortIcon column="status" /></span>
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("createdAt")}>
+                    <span className="inline-flex items-center">Date de paiement <SortIcon column="createdAt" /></span>
                   </th>
                   <th className="text-right px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
                     Actions
@@ -577,6 +631,11 @@ export default function ReservationsAdmin() {
                           <StatusIcon size={12} />
                           {statusConfig[reservation.status].label}
                         </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        <p className="text-sm text-[#1E1E1E]/60">
+                          {formatPaymentDate(reservation.createdAt)}
+                        </p>
                       </td>
                       <td className="px-4 py-4 text-right">
                         <DropdownMenu>

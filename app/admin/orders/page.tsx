@@ -17,6 +17,9 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -226,7 +229,25 @@ export default function OrdersAdmin() {
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [sortColumn, setSortColumn] = useState<string>("createdAt")
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
   const ordersPerPage = 10
+
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+    } else {
+      setSortColumn(column)
+      setSortDirection("desc")
+    }
+  }
+
+  const SortIcon = ({ column }: { column: string }) => {
+    if (sortColumn !== column) return <ArrowUpDown size={12} className="ml-1 text-[#1E1E1E]/30" />
+    return sortDirection === "asc"
+      ? <ArrowUp size={12} className="ml-1 text-[#800913]" />
+      : <ArrowDown size={12} className="ml-1 text-[#800913]" />
+  }
 
   // Fetch orders from API
   const fetchOrders = async () => {
@@ -293,6 +314,16 @@ export default function OrdersAdmin() {
       order.customer.email.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesStatus = statusFilter === "all" || order.status === statusFilter
     return matchesSearch && matchesStatus
+  }).sort((a, b) => {
+    const dir = sortDirection === "asc" ? 1 : -1
+    switch (sortColumn) {
+      case "id": return dir * a.id.localeCompare(b.id)
+      case "customer": return dir * a.customer.name.localeCompare(b.customer.name)
+      case "total": return dir * (a.total - b.total)
+      case "status": return dir * a.status.localeCompare(b.status)
+      case "createdAt": return dir * (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      default: return 0
+    }
   }) : []
 
   const totalPages = filteredOrders.length > 0 ? Math.ceil(filteredOrders.length / ordersPerPage) : 1
@@ -458,26 +489,26 @@ export default function OrdersAdmin() {
           <table className="w-full">
             <thead className="bg-[#F8F8F8] border-b border-[#1E1E1E]/10">
               <tr>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                  Commande
+                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("id")}>
+                  <span className="inline-flex items-center">Commande <SortIcon column="id" /></span>
                 </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                  Client
+                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("customer")}>
+                  <span className="inline-flex items-center">Client <SortIcon column="customer" /></span>
                 </th>
                 <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
                   Articles
                 </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                  Total
+                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("total")}>
+                  <span className="inline-flex items-center">Total <SortIcon column="total" /></span>
                 </th>
                 <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
                   Paiement
                 </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                  Statut
+                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("status")}>
+                  <span className="inline-flex items-center">Statut <SortIcon column="status" /></span>
                 </th>
-                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                  Date
+                <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("createdAt")}>
+                  <span className="inline-flex items-center">Date de paiement <SortIcon column="createdAt" /></span>
                 </th>
                 <th className="text-right px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
                   Actions
