@@ -6,6 +6,8 @@ export async function GET() {
   
   const { data: { user }, error: authError } = await supabase.auth.getUser()
   
+  console.log("[v0] /api/user/orders - auth user:", user?.id || "null", "authError:", authError?.message || "none")
+  
   if (authError || !user) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
   }
@@ -17,6 +19,8 @@ export async function GET() {
     .eq('auth_user_id', user.id)
     .order('created_at', { ascending: false })
 
+  console.log("[v0] Orders found:", orders?.length || 0, "error:", ordersError?.message || "none")
+  
   if (ordersError) {
     console.error('Error fetching orders:', ordersError)
     return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 })
@@ -29,6 +33,8 @@ export async function GET() {
     .eq('auth_user_id', user.id)
     .order('created_at', { ascending: false })
 
+  console.log("[v0] Bookings found:", bookings?.length || 0, "error:", bookingsError?.message || "none")
+  
   if (bookingsError) {
     console.error('Error fetching bookings:', bookingsError)
   }
@@ -40,6 +46,8 @@ export async function GET() {
     .eq('auth_user_id', user.id)
     .order('created_at', { ascending: false })
 
+  console.log("[v0] Reservations found:", reservations?.length || 0, "error:", reservationsError?.message || "none")
+  
   if (reservationsError) {
     console.error('Error fetching reservations:', reservationsError)
   }

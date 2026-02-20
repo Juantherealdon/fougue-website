@@ -24,39 +24,14 @@ import { Footer } from "@/components/footer"
 import { useAuth, type UserBooking } from "@/components/auth-context"
 import { EditBookingModal } from "@/components/edit-booking-modal"
 
-// Sample products for favorites display
-const allProducts = [
-  {
-    id: "mystery-box",
-    title: "Mystery Experience Box",
-    price: 500,
-    image: "/images/gift-door.jpg",
-  },
-  {
-    id: "experience-voucher-500",
-    title: "Experience Voucher - 500 AED",
-    price: 500,
-    image: "/images/letter-seal.jpg",
-  },
-  {
-    id: "couples-massage-kit",
-    title: "Couples Massage Kit",
-    price: 350,
-    image: "/images/surprise-hands.jpg",
-  },
-  {
-    id: "love-letter-set",
-    title: "Love Letter Writing Set",
-    price: 180,
-    image: "/images/letter-seal.jpg",
-  },
-  {
-    id: "romantic-playlist",
-    title: "Curated Romantic Playlist",
-    price: 25,
-    image: "/images/couple-dancing.jpg",
-  },
-]
+interface FavoriteProduct {
+  id: string
+  name: string
+  price: number
+  images: string[]
+  slug: string
+  currency: string
+}
 
 type TabType = "profile" | "favorites" | "orders" | "bookings"
 
@@ -103,6 +78,9 @@ export default function AccountPage() {
   const [dbOrders, setDbOrders] = useState<DbOrder[]>([])
   const [dbBookings, setDbBookings] = useState<DbBooking[]>([])
   const [ordersLoading, setOrdersLoading] = useState(true)
+  
+  // Favorite products from DB
+  const [favoriteProducts, setFavoriteProducts] = useState<FavoriteProduct[]>([])
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -116,14 +94,18 @@ export default function AccountPage() {
     if (userId) {
       setOrdersLoading(true)
       Promise.all([
-        fetch('/api/user/orders').then(res => res.ok ? res.json() : { orders: [], bookings: [] }),
+        fetch('/api/user/orders').then(res => {
+          console.log("[v0] /api/user/orders response status:", res.status)
+          return res.ok ? res.json() : res.json().then(e => { console.log("[v0] API error:", e); return { orders: [], bookings: [] } })
+        }),
         refreshUserData()
       ])
         .then(([data]) => {
+          console.log("[v0] Orders received:", data.orders?.length || 0, "Bookings received:", data.bookings?.length || 0)
           setDbOrders(data.orders || [])
           setDbBookings(data.bookings || [])
         })
-        .catch(() => {})
+        .catch((err) => { console.log("[v0] Fetch error:", err) })
         .finally(() => setOrdersLoading(false))
     }
   }
@@ -166,9 +148,31 @@ export default function AccountPage() {
     router.push("/")
   }
 
-  const favoriteProducts = allProducts.filter((p) =>
-    user?.favorites.includes(p.id)
-  )
+  // Fetch favorite products from DB when favorites change
+  const userFavorites = user?.favorites
+  useEffect(() => {
+    if (!userFavorites || userFavorites.length === 0) {
+      setFavoriteProducts([])
+      return
+    }
+    fetch('/api/products')
+      .then(res => res.ok ? res.json() : [])
+      .then((products: any[]) => {
+        const favProds = products
+          .filter((p: any) => userFavorites.includes(String(p.id)))
+          .map((p: any) => ({
+            id: String(p.id),
+            name: p.name || p.title || '',
+            price: Number(p.price) || 0,
+            images: p.images || [],
+            slug: p.slug || p.id,
+            currency: p.currency || 'AED',
+          }))
+        console.log("[v0] Favorite products matched:", favProds.length, "from", products.length, "total products, favorites IDs:", userFavorites)
+        setFavoriteProducts(favProds)
+      })
+      .catch(() => setFavoriteProducts([]))
+  }, [userFavorites])
 
   if (isLoading) {
     return (
@@ -480,8 +484,8 @@ export default function AccountPage() {
                         <div key={product.id} className="bg-white group">
                           <div className="relative aspect-square overflow-hidden">
                             <Image
-                              src={product.image || "/placeholder.svg"}
-                              alt={product.title}
+                              src={product.images?.[0] || "/placeholder.svg"}
+                              alt={product.name}
                               fill
                               className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
@@ -494,13 +498,13 @@ export default function AccountPage() {
                           </div>
                           <div className="p-5">
                             <h3 className="text-[#1E1E1E] mb-2">
-                              {product.title}
+                              {product.name}
                             </h3>
                             <p className="text-[#800913] font-medium">
-                              AED {product.price}
+                              {product.currency} {product.price}
                             </p>
                             <Link
-                              href="/gifts"
+                              href={`/gifts/${product.slug}`}
                               className="mt-4 block text-center py-2 border border-[#1E1E1E]/20 text-sm tracking-wide hover:bg-[#1E1E1E] hover:text-white transition-colors"
                             >
                               View Product
@@ -574,9 +578,9 @@ export default function AccountPage() {
                           </div>
 
                           <div className="divide-y divide-[#1E1E1E]/5">
-                            {order.items.map((item) => (
+                            {(order.items || []).map((item: any, index: number) => (
                               <div
-                                key={item.id}
+                                key={item.id || index}
                                 className="flex items-center gap-4 py-4"
                               >
                                 <div className="w-12 h-12 bg-[#FBF5EF] flex items-center justify-center shrink-0">
@@ -584,14 +588,14 @@ export default function AccountPage() {
                                 </div>
                                 <div className="flex-1">
                                   <p className="text-[#1E1E1E]">
-                                    {item.title}
+                                    {item.title || item.name || 'Product'}
                                   </p>
                                   <p className="text-sm text-[#1E1E1E]/50">
-                                    Qty: {item.quantity}
+                                    Qty: {item.quantity || 1}
                                   </p>
                                 </div>
                                 <p className="text-[#800913] font-medium">
-                                  AED {item.price * item.quantity}
+                                  {order.currency || 'AED'} {(item.price || 0) * (item.quantity || 1)}
                                 </p>
                               </div>
                             ))}
