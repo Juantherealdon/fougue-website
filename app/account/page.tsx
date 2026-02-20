@@ -95,17 +95,15 @@ export default function AccountPage() {
       setOrdersLoading(true)
       Promise.all([
         fetch('/api/user/orders').then(res => {
-          console.log("[v0] /api/user/orders response status:", res.status)
-          return res.ok ? res.json() : res.json().then(e => { console.log("[v0] API error:", e); return { orders: [], bookings: [] } })
+          return res.ok ? res.json() : { orders: [], bookings: [] }
         }),
         refreshUserData()
       ])
         .then(([data]) => {
-          console.log("[v0] Orders received:", data.orders?.length || 0, "Bookings received:", data.bookings?.length || 0)
           setDbOrders(data.orders || [])
           setDbBookings(data.bookings || [])
         })
-        .catch((err) => { console.log("[v0] Fetch error:", err) })
+        .catch(() => {})
         .finally(() => setOrdersLoading(false))
     }
   }
@@ -168,7 +166,6 @@ export default function AccountPage() {
             slug: p.slug || p.id,
             currency: p.currency || 'AED',
           }))
-        console.log("[v0] Favorite products matched:", favProds.length, "from", products.length, "total products, favorites IDs:", userFavorites)
         setFavoriteProducts(favProds)
       })
       .catch(() => setFavoriteProducts([]))
