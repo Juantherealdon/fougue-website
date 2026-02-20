@@ -77,27 +77,36 @@ export async function startCheckoutSession(data: CheckoutData) {
   }, 0)
 
   // Create Stripe Checkout Session
-  const session = await stripe.checkout.sessions.create({
-    ui_mode: 'embedded',
-    redirect_on_completion: 'never',
-    customer_email: customerEmail,
-    line_items: lineItems,
-    mode: 'payment',
-    metadata: {
-      customerName,
-      customerEmail,
-      customerPhone: data.customerPhone || '',
-      authUserId: data.authUserId || '',
-      itemsJson: JSON.stringify(items),
-      shippingJson: data.shippingAddress ? JSON.stringify(data.shippingAddress) : '',
-      specialRequests: data.specialRequests || '',
-    },
-  })
+  console.log("[v0] Creating Stripe session with", lineItems.length, "items, total:", totalAmount)
+  
+  try {
+    const session = await stripe.checkout.sessions.create({
+      ui_mode: 'embedded',
+      redirect_on_completion: 'never',
+      customer_email: customerEmail,
+      line_items: lineItems,
+      mode: 'payment',
+      metadata: {
+        customerName,
+        customerEmail,
+        customerPhone: data.customerPhone || '',
+        authUserId: data.authUserId || '',
+        itemsJson: JSON.stringify(items),
+        shippingJson: data.shippingAddress ? JSON.stringify(data.shippingAddress) : '',
+        specialRequests: data.specialRequests || '',
+      },
+    })
 
-  return {
-    clientSecret: session.client_secret,
-    sessionId: session.id,
-    totalAmount,
+    console.log("[v0] Stripe session created:", session.id)
+
+    return {
+      clientSecret: session.client_secret,
+      sessionId: session.id,
+      totalAmount,
+    }
+  } catch (stripeError: any) {
+    console.error("[v0] Stripe session creation failed:", stripeError.message, stripeError.type, stripeError.code)
+    throw stripeError
   }
 }
 
