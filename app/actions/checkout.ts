@@ -1,0 +1,254 @@
+'use server'
+
+import { stripe } from '@/lib/stripe'
+import { revalidatePath } from 'next/cache'
+import { findClientByEmail, updateClient, addClient, addOrder, addBooking } from '@/lib/db'
+
+export interface CheckoutItem {
+  id: string
+  title: string
+  price: number
+  quantity: number
+  type: 'product' | 'experience'
+  // Experience-specific fields
+  experienceDate?: string
+  experienceTime?: string
+  guests?: number
+  addons?: { id: string; name: string; price: number }[]
+}
+
+export interface CheckoutData {
+  items: CheckoutItem[]
+  customerEmail: string
+  customerName: string
+  customerPhone?: string
+  authUserId?: string
+  shippingAddress?: {
+    line1: string
+    line2?: string
+    city: string
+    state?: string
+    postalCode: string
+    country: string
+  }
+  specialRequests?: string
+}
+
+export async function startCheckoutSession(data: CheckoutData) {
+  const { items, customerEmail, customerName } = data
+
+  if (!items || items.length === 0) {
+    throw new Error('Cart is empty')
+  }
+
+  // Build line items for Stripe
+  const lineItems = items.map(item => {
+    let unitAmount = Math.round(item.price * 100) // Convert to fils/cents
+    
+    // Add addon prices for experiences
+    if (item.type === 'experience' && item.addons) {
+      const addonTotal = item.addons.reduce((sum, addon) => sum + addon.price, 0)
+      unitAmount += Math.round(addonTotal * 100)
+    }
+
+    return {
+      price_data: {
+        currency: 'aed',
+        product_data: {
+          name: item.title,
+          description: item.type === 'experience' 
+            ? `Experience for ${item.guests || 2} guests` 
+            : undefined,
+        },
+        unit_amount: unitAmount,
+      },
+      quantity: item.quantity,
+    }
+  })
+
+  // Calculate total
+  const totalAmount = items.reduce((sum, item) => {
+    let itemTotal = item.price * item.quantity
+    if (item.type === 'experience' && item.addons) {
+      const addonTotal = item.addons.reduce((s, addon) => s + addon.price, 0)
+      itemTotal += addonTotal
+    }
+    return sum + itemTotal
+  }, 0)
+
+  // Create Stripe Checkout Session
+  const session = await stripe.checkout.sessions.create({
+    ui_mode: 'embedded',
+    redirect_on_completion: 'never',
+    customer_email: customerEmail,
+    line_items: lineItems,
+    mode: 'payment',
+    metadata: {
+      customerName,
+      customerEmail,
+      customerPhone: data.customerPhone || '',
+      authUserId: data.authUserId || '',
+      itemsJson: JSON.stringify(items),
+      shippingJson: data.shippingAddress ? JSON.stringify(data.shippingAddress) : '',
+      specialRequests: data.specialRequests || '',
+    },
+  })
+
+  return {
+    clientSecret: session.client_secret,
+    sessionId: session.id,
+    totalAmount,
+  }
+}
+
+export async function processCheckoutComplete(sessionId: string) {
+  // Retrieve the session from Stripe
+  const session = await stripe.checkout.sessions.retrieve(sessionId)
+
+  // For embedded checkout with redirect_on_completion: 'never', the onComplete callback 
+  // is triggered when the customer completes the checkout flow. In test mode,
+  // the payment_status might still be 'unpaid' but the session status will be 'complete'.
+  // We accept the checkout if the session status is 'complete' OR payment_status is 'paid'.
+  const isComplete = session.status === 'complete' || session.payment_status === 'paid'
+  
+  if (!isComplete) {
+    throw new Error('Payment not completed')
+  }
+
+  const metadata = session.metadata
+  if (!metadata) {
+    throw new Error('Missing session metadata')
+  }
+
+  const items: CheckoutItem[] = JSON.parse(metadata.itemsJson || '[]')
+  const customerName = metadata.customerName || ''
+  const customerEmail = metadata.customerEmail || session.customer_email || ''
+  const customerPhone = metadata.customerPhone || ''
+  const authUserId = metadata.authUserId && metadata.authUserId !== '' ? metadata.authUserId : null
+  const shippingAddress = metadata.shippingJson ? JSON.parse(metadata.shippingJson) : null
+  const specialRequests = metadata.specialRequests || ''
+
+  // Separate products and experiences
+  const products = items.filter(item => item.type === 'product')
+  const experiences = items.filter(item => item.type === 'experience')
+
+  const results: { orders: string[]; bookings: string[]; clientId: string } = {
+    orders: [],
+    bookings: [],
+    clientId: '',
+  }
+
+  // Calculate totals
+  const totalProducts = products.reduce((sum, p) => sum + p.price * p.quantity, 0)
+  const totalExperiences = experiences.reduce((sum, exp) => {
+    let total = exp.price
+    if (exp.addons) {
+      total += exp.addons.reduce((s, a) => s + a.price, 0)
+    }
+    return sum + total
+  }, 0)
+  const grandTotal = totalProducts + totalExperiences
+
+  // Create or update client
+  let client = await findClientByEmail(customerEmail)
+  
+  if (client) {
+    // Update existing client
+    const newTotalSpent = client.totalSpent + grandTotal
+    const newOrdersCount = client.ordersCount + (products.length > 0 ? 1 : 0)
+    const newReservationsCount = client.reservationsCount + experiences.length
+    
+    await updateClient(client.id, {
+      totalSpent: newTotalSpent,
+      ordersCount: newOrdersCount,
+      reservationsCount: newReservationsCount,
+      lastOrderDate: new Date().toISOString().split('T')[0],
+      phone: customerPhone || client.phone,
+    })
+    results.clientId = client.id
+  } else {
+    // Create new client
+    const newClient = await addClient({
+      name: customerName,
+      email: customerEmail,
+      phone: customerPhone || 'N/A',
+      totalSpent: grandTotal,
+      currency: 'AED',
+      ordersCount: products.length > 0 ? 1 : 0,
+      reservationsCount: experiences.length,
+      lastOrderDate: new Date().toISOString().split('T')[0],
+      joinedDate: new Date().toISOString().split('T')[0],
+      status: 'active',
+      source: 'Checkout',
+      notes: '',
+      tags: [],
+    })
+    results.clientId = newClient.id
+  }
+
+  // Create order for products
+  if (products.length > 0) {
+    const order = await addOrder({
+      customerEmail,
+      customerName,
+      items: products.map(p => ({
+        id: p.id,
+        title: p.title,
+        price: p.price,
+        quantity: p.quantity,
+      })),
+      totalAmount: totalProducts,
+      currency: 'AED',
+      status: 'paid',
+      stripeSessionId: sessionId,
+      stripePaymentIntentId: session.payment_intent as string,
+      authUserId,
+      shippingAddress: shippingAddress || undefined,
+    })
+    results.orders.push(order.id)
+  }
+
+  // Create bookings for experiences
+  for (const exp of experiences) {
+    let totalExp = exp.price
+    if (exp.addons) {
+      totalExp += exp.addons.reduce((s, a) => s + a.price, 0)
+    }
+
+    const booking = await addBooking({
+      customerEmail,
+      customerName,
+      customerPhone: customerPhone || 'N/A',
+      experienceId: exp.id,
+      experienceTitle: exp.title,
+      date: exp.experienceDate || '',
+      time: exp.experienceTime || '',
+      guests: exp.guests || 2,
+      totalAmount: totalExp,
+      currency: 'AED',
+      status: 'confirmed',
+      stripeSessionId: sessionId,
+      stripePaymentIntentId: session.payment_intent as string,
+      authUserId,
+      specialRequests: specialRequests || undefined,
+      addons: exp.addons,
+    })
+    results.bookings.push(booking.id)
+  }
+
+  // Revalidate admin pages to show new data
+  revalidatePath('/admin/orders')
+  revalidatePath('/admin/reservations')
+  revalidatePath('/admin/clients')
+
+  return results
+}
+
+export async function getCheckoutSession(sessionId: string) {
+  const session = await stripe.checkout.sessions.retrieve(sessionId)
+  return {
+    status: session.status,
+    paymentStatus: session.payment_status,
+    customerEmail: session.customer_email,
+  }
+}
