@@ -3,9 +3,34 @@ import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url)
+    const source = searchParams.get('source')
     const supabase = await createClient()
+
+    // If source=reservations, query the reservations table
+    if (source === 'reservations') {
+      const { data: reservations, error } = await supabase
+        .from('reservations')
+        .select('*')
+        .order('date', { ascending: true })
+
+      if (error) throw error
+
+      const mapped = (reservations || []).map(r => ({
+        id: r.id,
+        customer_name: r.customer_name,
+        customer_email: r.customer_email,
+        experience_id: r.experience_id,
+        experience_title: r.experience_title,
+        date: r.date,
+        time: r.time,
+        guests: r.guests,
+        status: r.status,
+      }))
+      return NextResponse.json(mapped)
+    }
     
     const { data: bookings, error } = await supabase
       .from('bookings')
@@ -20,23 +45,23 @@ export async function GET() {
     // Map database columns to API format
     const mappedBookings = (bookings || []).map(booking => ({
       id: booking.id,
-      customerEmail: booking.customer_email,
-      customerName: booking.customer_name,
-      customerPhone: booking.customer_phone,
-      experienceId: booking.experience_id,
-      experienceTitle: booking.experience_title,
+      customer_email: booking.customer_email,
+      customer_name: booking.customer_name,
+      customer_phone: booking.customer_phone,
+      experience_id: booking.experience_id,
+      experience_title: booking.experience_title,
       date: booking.date,
       time: booking.time,
       guests: booking.guests,
-      totalAmount: booking.total_amount,
+      total_amount: booking.total_amount,
       currency: booking.currency,
       status: booking.status,
-      stripeSessionId: booking.stripe_session_id,
-      stripePaymentIntentId: booking.stripe_payment_intent_id,
-      specialRequests: booking.special_requests,
+      stripe_session_id: booking.stripe_session_id,
+      stripe_payment_intent_id: booking.stripe_payment_intent_id,
+      special_requests: booking.special_requests,
       addons: booking.addons,
-      createdAt: booking.created_at,
-      updatedAt: booking.updated_at,
+      created_at: booking.created_at,
+      updated_at: booking.updated_at,
     }))
 
     return NextResponse.json(mappedBookings)
