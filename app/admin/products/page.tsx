@@ -339,7 +339,7 @@ export default function ProductsAdmin() {
       {/* Products Grid/List */}
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => {
+          {filteredProducts.map((product, index) => {
             const CategoryIcon = getCategoryIcon(product.category)
             return (
               <Card
@@ -352,6 +352,7 @@ export default function ProductsAdmin() {
                     alt={product.title}
                     fill
                     className="object-cover"
+                    {...(index < 4 ? { priority: true } : { loading: "lazy" as const })}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute top-3 left-3 flex gap-2">
