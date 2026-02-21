@@ -248,7 +248,7 @@ function DescriptionSection({ experience }: { experience: Experience }) {
             <h2 className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-8 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               {experience.title}
             </h2>
-  <div className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+  <div className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
   {experience.long_description ? (
     <div
       className="whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-[#1E1E1E]"
@@ -350,8 +350,6 @@ function GallerySection({ experience }: { experience: Experience }) {
     return null
   }
 
-  const aspects = ["aspect-[3/4]", "aspect-square", "aspect-[3/4]", "aspect-square", "aspect-[4/3]"]
-
   return (
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -364,11 +362,11 @@ function GallerySection({ experience }: { experience: Experience }) {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {experience.images.slice(0, 5).map((img, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {experience.images.slice(0, 9).map((img, index) => (
             <div
               key={index}
-              className={`relative ${aspects[index % aspects.length]} overflow-hidden transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+              className={`relative aspect-[3/4] overflow-hidden transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
               style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
               <Image src={img || "/placeholder.svg"} alt={`${experience.title} gallery ${index + 1}`} fill className="object-cover hover:scale-105 transition-transform duration-700" />
