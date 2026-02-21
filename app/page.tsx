@@ -161,17 +161,12 @@ function IntroSection() {
         </h2>
 
         <p
-          className={`text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-4xl mx-auto transition-all duration-1000 delay-400 ${
+          className={`text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-5xl mx-auto transition-all duration-1000 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          <span className="block">
-            Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently.
-          </span>
-          <span className="block">
-            Each unfolds as a story you can step into:
-          </span>
-          <strong className="block font-semibold text-[#1E1E1E]">intentional, personal, and designed for two.</strong>
+          Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently. Each unfolds as a story you can step into:
+          {" "}<strong className="block font-semibold text-[#1E1E1E]">intentional, personal, and designed for two.</strong>
         </p>
       </div>
     </section>
