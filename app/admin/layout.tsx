@@ -83,6 +83,7 @@ export default function AdminLayout({
                   width={100}
                   height={30}
                   className="h-8 w-auto"
+                  priority
                 />
               </Link>
               <button
