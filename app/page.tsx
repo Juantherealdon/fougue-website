@@ -270,7 +270,12 @@ function ExperiencesPreview() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className={`grid grid-cols-1 gap-6 lg:gap-8 ${
+          isLoading ? "md:grid-cols-3" :
+          experiences.length === 1 ? "md:grid-cols-1 max-w-3xl mx-auto" :
+          experiences.length === 2 ? "md:grid-cols-2" :
+          "md:grid-cols-3"
+        }`}>
           {isLoading ? (
             // Loading skeleton
             Array.from({ length: 3 }).map((_, index) => (
