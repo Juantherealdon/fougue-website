@@ -487,6 +487,7 @@ function ProductCard({
           className={`object-cover transition-transform duration-700 ${
             isHovered ? "scale-105" : "scale-100"
           }`}
+          {...(index < 4 ? { priority: true } : { loading: "lazy" as const })}
         />
 
         {/* Quick View Overlay */}
