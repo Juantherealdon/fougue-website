@@ -516,7 +516,7 @@ function ProductCard({
           {product.title}
         </h3>
         <p className="text-[#800913] text-sm">
-          {product.currency} {product.price.toLocaleString()}
+          {product.currency} {product.price.toLocaleString("en-US")}
         </p>
       </div>
     </div>
