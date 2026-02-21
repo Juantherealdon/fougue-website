@@ -165,7 +165,8 @@ function IntroSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently. Each unfolds as a story you can step into:
+          Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently.<br />
+          Each unfolds as a story you can step into:
           {" "}<strong className="block font-semibold text-[#1E1E1E]">intentional, personal, and designed for two.</strong>
         </p>
       </div>
