@@ -290,6 +290,10 @@ function ExperiencesPreview() {
               const count = experiences.length
               const aspectClass = count === 1 ? "aspect-[16/7]" : count === 2 ? "aspect-[4/5]" : "aspect-[3/4]"
               
+              const titleSize = count === 1 ? "text-3xl md:text-4xl lg:text-5xl" : count === 2 ? "text-2xl md:text-3xl lg:text-4xl" : "text-2xl lg:text-3xl"
+              const descSize = count === 1 ? "text-base md:text-lg max-w-2xl" : count === 2 ? "text-sm md:text-base max-w-md" : "text-sm"
+              const padClass = count === 1 ? "p-8 lg:p-12" : "p-6 lg:p-8"
+              
               const cardContent = (
                 <>
                   <Image
@@ -298,20 +302,21 @@ function ExperiencesPreview() {
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
                   {isAlmostAvailable && (
-                    <div className="absolute top-4 right-4 bg-[#1E1E1E]/90 text-white text-xs tracking-[0.15em] uppercase px-3 py-1.5">
+                    <div className="absolute top-4 right-4 bg-[#1E1E1E]/90 text-white text-xs tracking-[0.15em] uppercase px-3 py-1.5 backdrop-blur-sm border border-white/10">
                       Coming Soon
                     </div>
                   )}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
-                    <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2">
+                  <div className={`absolute bottom-0 left-0 right-0 ${padClass}`}>
+                    <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-3 font-medium">
                       {exp.subtitle}
                     </p>
-                    <h3 className="text-white text-2xl lg:text-3xl font-light mb-2">
+                    <h3 className={`text-white ${titleSize} font-light mb-3 leading-tight`}>
                       {exp.title}
                     </h3>
-                    <p className="text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-10 h-px bg-[#800913] mb-4 transition-all duration-500 group-hover:w-16" />
+                    <p className={`text-white/70 ${descSize} leading-relaxed`}>
                       {exp.description}
                     </p>
                   </div>
