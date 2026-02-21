@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { ArrowRight, ChevronDown } from "lucide-react"
+import { ArrowRight, ChevronDown, Sparkles } from "lucide-react"
 import { NewsletterForm } from "@/components/newsletter-form"
 import { WaitlistModal } from "@/components/waitlist-modal"
 
