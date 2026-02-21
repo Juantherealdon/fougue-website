@@ -229,10 +229,31 @@ export default function ProductsAdmin() {
     setDeleteModal(null)
   }
 
-  const toggleActive = (id: string) => {
+  const toggleActive = async (id: string) => {
+    const product = products.find((p) => p.id === id)
+    if (!product) return
+    const newActive = !product.active
+    // Optimistic update
     setProducts(
-      products.map((p) => (p.id === id ? { ...p, active: !p.active } : p))
+      products.map((p) => (p.id === id ? { ...p, active: newActive } : p))
     )
+    try {
+      const response = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ available: newActive, name: product.title, price: product.price, currency: product.currency, category: product.category, description: product.description, stock: product.stock, images: product.images, badges: product.details }),
+      })
+      if (!response.ok) {
+        // Revert on error
+        setProducts(
+          products.map((p) => (p.id === id ? { ...p, active: !newActive } : p))
+        )
+      }
+    } catch {
+      setProducts(
+        products.map((p) => (p.id === id ? { ...p, active: !newActive } : p))
+      )
+    }
   }
 
   const getCategoryIcon = (categoryId: string) => {
