@@ -844,14 +844,17 @@ export default function AvailabilityPage() {
         <CardContent className="p-4">
           <div className="flex items-center gap-4 overflow-x-auto pb-2">
             {calendars.map((cal) => (
-              <button
+              <div
                 key={cal.id}
-                onClick={() => setSelectedCalendar(cal.id)}
-                className={`flex items-center gap-3 px-4 py-2 rounded-lg border transition-all whitespace-nowrap ${
+                className={`flex items-center gap-3 px-4 py-2 rounded-lg border transition-all whitespace-nowrap cursor-pointer ${
                   selectedCalendar === cal.id
                     ? "border-[#800913] bg-[#800913]/5"
                     : "border-[#1E1E1E]/10 hover:border-[#1E1E1E]/30"
                 }`}
+                onClick={() => setSelectedCalendar(cal.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedCalendar(cal.id) }}
               >
                 <div
                   className="w-3 h-3 rounded-full"
@@ -877,7 +880,7 @@ export default function AvailabilityPage() {
                 >
                   <Settings size={14} className="text-[#1E1E1E]/50" />
                 </button>
-              </button>
+              </div>
             ))}
           </div>
         </CardContent>
