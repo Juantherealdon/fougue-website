@@ -434,7 +434,7 @@ function DifferenceSection() {
               }`}
               style={{ transitionDelay: `${400 + index * 150}ms` }}
             >
-              <div className="w-px h-10 bg-[#800913]/30 mx-auto mb-6" />
+              <Sparkles size={16} className="text-[#800913] mx-auto mb-6" />
               <h3 className="text-[#1E1E1E] text-lg font-medium leading-snug mb-3 text-balance">
                 {pillar.title}
               </h3>
