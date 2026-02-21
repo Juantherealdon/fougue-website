@@ -272,7 +272,7 @@ function ExperiencesPreview() {
 
         <div className={`grid grid-cols-1 gap-6 lg:gap-8 ${
           isLoading ? "md:grid-cols-3" :
-          experiences.length === 1 ? "md:grid-cols-1 max-w-3xl mx-auto" :
+          experiences.length === 1 ? "md:grid-cols-1" :
           experiences.length === 2 ? "md:grid-cols-2" :
           "md:grid-cols-3"
         }`}>
@@ -287,6 +287,8 @@ function ExperiencesPreview() {
           ) : (
             experiences.map((exp, index) => {
               const isAlmostAvailable = exp.status === 'almost_available'
+              const count = experiences.length
+              const aspectClass = count === 1 ? "aspect-[16/7]" : count === 2 ? "aspect-[4/5]" : "aspect-[3/4]"
               
               const cardContent = (
                 <>
@@ -324,7 +326,7 @@ function ExperiencesPreview() {
                       setSelectedExperience(exp.title)
                       setShowWaitlist(true)
                     }}
-                    className={`group relative overflow-hidden aspect-[3/4] transition-all duration-700 text-left ${
+                    className={`group relative overflow-hidden ${aspectClass} transition-all duration-700 text-left ${
                       isVisible
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-16"
@@ -340,7 +342,7 @@ function ExperiencesPreview() {
                 <Link
                   key={exp.id}
                   href={`/experiences/${exp.id}`}
-                  className={`group relative overflow-hidden aspect-[3/4] transition-all duration-700 ${
+                  className={`group relative overflow-hidden ${aspectClass} transition-all duration-700 ${
                     isVisible
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-16"
