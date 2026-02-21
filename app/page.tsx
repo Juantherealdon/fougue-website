@@ -57,7 +57,7 @@ function HeroSection() {
           }`}
         >
           <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
-            Dubai&apos;s Personalised Experiences
+            Dubai&apos;s Curated Romantic Experiences
           </p>
         </div>
 
@@ -76,7 +76,7 @@ function HeroSection() {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Crafted with intension. Composed with precision. Shaped by emotion.
+          Crafted with intention. Composed with precision. Shaped by emotion.
         </p>
 
         <div
@@ -157,15 +157,15 @@ function IntroSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Love deserves more than routine.
+          Love deserves intention.
         </h2>
 
         <p
-          className={`text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed transition-all duration-1000 delay-400 ${
+          className={`text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto transition-all duration-1000 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Fougue. re-inchant the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently. Each unfolds as a story you can step into - intentional, personal, and designed for two.
+          Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently. Each unfolds as a story you can step into - intentional, personal, and designed for two.
         </p>
       </div>
     </section>
@@ -395,22 +395,22 @@ function DifferenceSection() {
   const pillars = [
     {
       title: "Personalised to your story",
-      description: "Each experience is shaped around you.",
+      description: "We compose experiences shaped around your story, love language, and memories.",
     },
     {
-      title: "Storytelling from beginning to final note",
+      title: "Narrative by Design",
       description:
-        "From the first invitation to the closing moment, every detail follows a narrative.",
+        "From the first invitation to the final note, every detail unfolds with intention and emotional coherence.",
     },
     {
       title: "True immersion",
       description:
-        "Cultural elements, sensory cues, and intentional prompts designed to create connection.",
+        "Beyond aesthetics, we layer culture, sensory cues and thoughtful prompts to create atmosphere with meaning, and spark genuine connection.",
     },
     {
       title: "Effortless booking",
       description:
-        "Transparent pricing and seamless reservation — simplicity without compromise.",
+        "Transparent pricing, seamless reservation process and refined coordination - simplicity without compromise.",
     },
   ]
 
@@ -529,7 +529,7 @@ function GiftsSection() {
                   : "opacity-0 translate-y-8"
               }`}
             >
-              A curated selection of symbolic pieces designed to carry the memory beyond the moment.
+              A curated selection of meaningful and symbolic pieces journals, designed to deepen connection, mark a moment, or carry the memory long after it unfolds.
             </p>
             <Link
               href="/gifts"
@@ -596,7 +596,7 @@ function QuoteSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          &ldquo;Every Fougue. moment is a story you can step into&rdquo;
+          Every Fougue. moment is a story you can step into
         </blockquote>
         <div
           className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${
@@ -637,15 +637,14 @@ function CTASection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Ready to Create
-          <span className="italic text-[#800913]"> Your Story?</span>
+          Your <span className="italic text-[#800913]">Chapter</span> Awaits.
         </h2>
         <p
           className={`text-[#1E1E1E]/70 text-lg mb-10 transition-all duration-700 delay-100 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Let us craft an unforgettable moment for you and your partner.
+          {"We'll take care of every detail."}
         </p>
         <div
           className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-200 ${
