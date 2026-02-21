@@ -20,6 +20,7 @@ import {
   Download,
   Plus,
   RefreshCw,
+  Trash2,
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
@@ -226,6 +227,8 @@ export default function ReservationsAdmin() {
   const [error, setError] = useState<string | null>(null)
   const [sortColumn, setSortColumn] = useState<string>("createdAt")
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
+  const [deleteTarget, setDeleteTarget] = useState<Reservation | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
@@ -352,12 +355,57 @@ export default function ReservationsAdmin() {
     }
   ) : []
 
-  const updateReservationStatus = (id: string, status: Reservation["status"]) => {
+  const updateReservationStatus = async (id: string, status: Reservation["status"]) => {
+    // Persist status change to database
+    try {
+      await fetch('/api/admin/bookings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status, source: 'reservations' }),
+      })
+      // Also try bookings table
+      await fetch('/api/admin/bookings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      })
+    } catch {
+      // Continue updating UI even if API fails
+    }
     setReservations(
       reservations.map((r) => (r.id === id ? { ...r, status } : r))
     )
     if (selectedReservation?.id === id) {
       setSelectedReservation((prev) => prev && { ...prev, status })
+    }
+  }
+
+  const deleteReservation = async (reservation: Reservation) => {
+    setIsDeleting(true)
+    try {
+      // Try deleting from both tables
+      const [res1, res2] = await Promise.all([
+        fetch('/api/admin/bookings', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: reservation.id, source: 'reservations' }),
+        }),
+        fetch('/api/admin/bookings', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: reservation.id }),
+        }),
+      ])
+      if (res1.ok || res2.ok) {
+        setReservations(reservations.filter(r => r.id !== reservation.id))
+        setDeleteTarget(null)
+      } else {
+        alert('Erreur lors de la suppression de la reservation')
+      }
+    } catch {
+      alert('Erreur lors de la suppression de la reservation')
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -682,6 +730,13 @@ export default function ReservationsAdmin() {
                             >
                               Annuler
                             </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => setDeleteTarget(reservation)}
+                              className="text-red-600"
+                            >
+                              <Trash2 size={14} className="mr-2" />
+                              Supprimer
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </td>
@@ -693,6 +748,31 @@ export default function ReservationsAdmin() {
         </div>
       </Card>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Supprimer la reservation</DialogTitle>
+            <DialogDescription>
+              {"Voulez-vous vraiment supprimer la reservation"} <strong>{deleteTarget?.id}</strong> ?
+              Cette action est irréversible et le créneaux sera libéré dans le calendrier.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
+              Annuler
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={() => deleteTarget && deleteReservation(deleteTarget)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Suppression..." : "Supprimer"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Reservation Details Modal */}
       <Dialog

@@ -3,6 +3,46 @@ import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
+export async function DELETE(request: Request) {
+  try {
+    const { id, source } = await request.json()
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+    }
+    const supabase = await createClient()
+    const table = source === 'reservations' ? 'reservations' : 'bookings'
+    const { error } = await supabase.from(table).delete().eq('id', id)
+    if (error) {
+      console.error(`[v0] Error deleting from ${table}:`, error)
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('[v0] Error in DELETE booking:', error)
+    return NextResponse.json({ error: 'Failed to delete booking' }, { status: 500 })
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const { id, status, source } = await request.json()
+    if (!id || !status) {
+      return NextResponse.json({ error: 'ID and status are required' }, { status: 400 })
+    }
+    const supabase = await createClient()
+    const table = source === 'reservations' ? 'reservations' : 'bookings'
+    const { error } = await supabase.from(table).update({ status }).eq('id', id)
+    if (error) {
+      console.error(`[v0] Error updating ${table}:`, error)
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('[v0] Error in PATCH booking:', error)
+    return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 })
+  }
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)

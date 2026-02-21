@@ -17,6 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
+  Trash2,
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
@@ -231,6 +232,8 @@ export default function OrdersAdmin() {
   const [error, setError] = useState<string | null>(null)
   const [sortColumn, setSortColumn] = useState<string>("createdAt")
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
+  const [deleteTarget, setDeleteTarget] = useState<Order | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
   const ordersPerPage = 10
 
   const handleSort = (column: string) => {
@@ -331,6 +334,27 @@ export default function OrdersAdmin() {
     (currentPage - 1) * ordersPerPage,
     currentPage * ordersPerPage
   )
+
+  const deleteOrder = async (order: Order) => {
+    setIsDeleting(true)
+    try {
+      const response = await fetch('/api/admin/orders', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: order.id }),
+      })
+      if (response.ok) {
+        setOrders(orders.filter(o => o.id !== order.id))
+        setDeleteTarget(null)
+      } else {
+        alert('Erreur lors de la suppression de la commande')
+      }
+    } catch {
+      alert('Erreur lors de la suppression de la commande')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
 
   const updateOrderStatus = (orderId: string, status: Order["status"]) => {
     setOrders(
@@ -601,6 +625,13 @@ export default function OrdersAdmin() {
                           >
                             Annuler
                           </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => setDeleteTarget(order)}
+                            className="text-red-600"
+                          >
+                            <Trash2 size={14} className="mr-2" />
+                            Supprimer
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </td>
@@ -645,6 +676,31 @@ export default function OrdersAdmin() {
           </div>
         )}
       </Card>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Supprimer la commande</DialogTitle>
+            <DialogDescription>
+              {"Voulez-vous vraiment supprimer la commande"} <strong>{deleteTarget?.id}</strong> ?
+              Cette action est irréversible.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
+              Annuler
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={() => deleteTarget && deleteOrder(deleteTarget)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Suppression..." : "Supprimer"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Order Details Modal */}
       <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>

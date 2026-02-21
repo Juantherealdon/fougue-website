@@ -187,6 +187,8 @@ export default function ClientsAdmin() {
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Client | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
   const clientsPerPage = 10
 
   // Fetch clients from API
@@ -299,6 +301,27 @@ export default function ClientsAdmin() {
       .map((n) => n[0])
       .join("")
       .toUpperCase()
+  }
+
+  const deleteClient = async (client: Client) => {
+    setIsDeleting(true)
+    try {
+      const response = await fetch('/api/admin/clients', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: client.id }),
+      })
+      if (response.ok) {
+        setClients(clients.filter(c => c.id !== client.id))
+        setDeleteTarget(null)
+      } else {
+        alert('Erreur lors de la suppression du client')
+      }
+    } catch {
+      alert('Erreur lors de la suppression du client')
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   const updateClientStatus = (id: string, status: Client["status"]) => {
@@ -549,6 +572,13 @@ export default function ClientsAdmin() {
                         >
                           Désactiver
                         </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => setDeleteTarget(client)}
+                          className="text-red-600"
+                        >
+                          <Trash2 size={14} className="mr-2" />
+                          Supprimer
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </td>
@@ -593,6 +623,31 @@ export default function ClientsAdmin() {
         )}
       </Card>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Supprimer le client</DialogTitle>
+            <DialogDescription>
+              {"Voulez-vous vraiment supprimer le client"} <strong>{deleteTarget?.name}</strong> ?
+              Cette action est irréversible.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
+              Annuler
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={() => deleteTarget && deleteClient(deleteTarget)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Suppression..." : "Supprimer"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Client Details Modal */}
       <Dialog open={!!selectedClient} onOpenChange={() => setSelectedClient(null)}>
