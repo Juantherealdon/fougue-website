@@ -597,6 +597,30 @@ export default function ExperiencesPage() {
 
       <ComingSoonSection comingSoonExperiences={comingSoonExperiences} />
       <ExclusiveAccessSection />
+
+      {/* Need Help Section */}
+      <section className="py-24 lg:py-32 bg-[#FBF5EF]">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+          <p className="text-[#800913] text-sm tracking-[0.3em] uppercase mb-4">
+            Need Help Choosing?
+          </p>
+          <h2 className="text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6">
+            Our <span className="italic text-[#800913]">Experience Curator</span> is Here
+          </h2>
+          <p className="text-[#1E1E1E]/60 text-lg mb-10 max-w-2xl mx-auto">
+            Not sure which experience is perfect? Our dedicated team will help you select
+            the ideal moment for your loved one.
+          </p>
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors duration-300"
+          >
+            Contact Us
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </section>
+
       <Footer />
 
       <WaitlistModal
