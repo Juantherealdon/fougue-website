@@ -1,5 +1,7 @@
 import { stripe } from '@/lib/stripe'
 import { buildOrderConfirmationEmail } from './order-confirmation'
+import { buildAdminOrderNotificationEmail } from './admin-order-notification'
+import { createOrderNotification, createBookingNotification } from '@/lib/notifications'
 
 interface CheckoutItem {
   id: string
@@ -106,5 +108,68 @@ export async function sendOrderConfirmationEmail(params: SendConfirmationParams)
     }
   } catch (err) {
     console.error('[email] Error sending order confirmation:', err)
+  }
+
+  // Send admin notification email to hello@fougue.ae
+  try {
+    const adminHtml = buildAdminOrderNotificationEmail({
+      customerName,
+      customerEmail,
+      orderId,
+      bookingIds,
+      items,
+      totalAmount,
+      currency,
+      hasExperiences,
+      receiptUrl,
+    })
+
+    const adminResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Fougue <no-reply@mail.fougue.ae>',
+        to: 'hello@fougue.ae',
+        subject: `Nouvelle commande${orderId ? ` #${orderId}` : ''} \u2014 ${customerName} \u2014 ${currency} ${totalAmount.toLocaleString('en-US')}`,
+        html: adminHtml,
+      }),
+    })
+
+    if (adminResponse.ok) {
+      const result = await adminResponse.json()
+      console.log('[email] Admin order notification sent:', result.id)
+    } else {
+      const errorText = await adminResponse.text()
+      console.error('[email] Failed to send admin notification:', errorText)
+    }
+  } catch (err) {
+    console.error('[email] Error sending admin notification:', err)
+  }
+
+  // Create in-app notification
+  await createOrderNotification({
+    customerName,
+    customerEmail,
+    totalAmount,
+    currency,
+    items: items.map(i => ({ name: i.title, quantity: i.quantity })),
+    orderId,
+  })
+
+  // Also create booking notifications for experiences
+  for (const item of items) {
+    if (item.type === 'experience' && item.experienceDate) {
+      await createBookingNotification({
+        customerName,
+        customerEmail,
+        experienceName: item.title,
+        date: item.experienceDate,
+        time: item.experienceTime,
+        guests: item.guests,
+      })
+    }
   }
 }

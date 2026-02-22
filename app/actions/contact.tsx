@@ -2,6 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js"
 import { buildContactNotificationEmail, buildContactClientEmail } from "@/lib/emails/contact-confirmation"
+import { createContactNotification } from "@/lib/notifications"
 
 export async function sendContactEmail(formData: {
   name: string
@@ -124,6 +125,14 @@ export async function sendContactEmail(formData: {
     } else {
       console.log("[v0] RESEND_API_KEY not configured - emails not sent")
     }
+
+    // Create admin notification
+    await createContactNotification({
+      customerName: formData.name,
+      customerEmail: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+    })
 
     return {
       success: true,

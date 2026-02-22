@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useCallback } from "react"
 
 import { useState } from "react"
 import Link from "next/link"
@@ -55,6 +55,48 @@ export default function AdminLayout({
 }) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [notifications, setNotifications] = useState<Array<{id: string; type: string; title: string; message: string; read: boolean; created_at: string; data: Record<string, unknown>}>>([])
+  const [unreadCount, setUnreadCount] = useState(0)
+  const [showNotifications, setShowNotifications] = useState(false)
+
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/notifications?limit=10")
+      if (res.ok) {
+        const data = await res.json()
+        setNotifications(data.notifications || [])
+        setUnreadCount(data.unreadCount || 0)
+      }
+    } catch { /* silent */ }
+  }, [])
+
+  useEffect(() => {
+    fetchNotifications()
+    const interval = setInterval(fetchNotifications, 30000)
+    return () => clearInterval(interval)
+  }, [fetchNotifications])
+
+  const markAllRead = async () => {
+    try {
+      await fetch("/api/admin/notifications", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ markAllRead: true }),
+      })
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+      setUnreadCount(0)
+    } catch { /* silent */ }
+  }
+
+  const getTimeAgo = (dateStr: string) => {
+    const diff = Date.now() - new Date(dateStr).getTime()
+    const mins = Math.floor(diff / 60000)
+    if (mins < 60) return `Il y a ${mins}min`
+    const hours = Math.floor(mins / 60)
+    if (hours < 24) return `Il y a ${hours}h`
+    const days = Math.floor(hours / 24)
+    return `Il y a ${days}j`
+  }
 
   return (
     <AdminGuard>
@@ -161,10 +203,66 @@ export default function AdminLayout({
               {/* Right side */}
               <div className="flex items-center gap-4">
                 {/* Notifications */}
-                <button className="relative p-2 text-[#1E1E1E]/60 hover:text-[#1E1E1E] transition-colors">
-                  <Bell size={20} />
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-[#800913] rounded-full" />
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setShowNotifications(!showNotifications)}
+                    className="relative p-2 text-[#1E1E1E]/60 hover:text-[#1E1E1E] transition-colors"
+                  >
+                    <Bell size={20} />
+                    {unreadCount > 0 && (
+                      <span className="absolute top-1 right-1 min-w-[16px] h-4 bg-[#800913] rounded-full flex items-center justify-center text-white text-[10px] font-medium px-1">
+                        {unreadCount > 9 ? "9+" : unreadCount}
+                      </span>
+                    )}
+                  </button>
+
+                  {showNotifications && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setShowNotifications(false)} />
+                      <div className="absolute right-0 top-full mt-2 w-96 bg-white shadow-xl border border-[#1E1E1E]/10 z-50 max-h-[480px] flex flex-col">
+                        <div className="flex items-center justify-between px-4 py-3 border-b border-[#1E1E1E]/10">
+                          <h3 className="text-sm font-medium text-[#1E1E1E]">Notifications</h3>
+                          {unreadCount > 0 && (
+                            <button
+                              onClick={markAllRead}
+                              className="text-xs text-[#800913] hover:underline"
+                            >
+                              Tout marquer lu
+                            </button>
+                          )}
+                        </div>
+                        <div className="overflow-y-auto flex-1">
+                          {notifications.length === 0 ? (
+                            <div className="py-12 text-center">
+                              <Bell size={24} className="mx-auto text-[#1E1E1E]/20 mb-3" />
+                              <p className="text-sm text-[#1E1E1E]/40">Aucune notification</p>
+                            </div>
+                          ) : (
+                            notifications.map((notif) => (
+                              <div
+                                key={notif.id}
+                                className={`px-4 py-3 border-b border-[#1E1E1E]/5 last:border-0 hover:bg-[#FBF5EF]/50 transition-colors ${
+                                  !notif.read ? "bg-[#800913]/3" : ""
+                                }`}
+                              >
+                                <div className="flex items-start gap-3">
+                                  <div className={`mt-0.5 w-2 h-2 rounded-full flex-shrink-0 ${
+                                    !notif.read ? "bg-[#800913]" : "bg-transparent"
+                                  }`} />
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-[#1E1E1E] truncate">{notif.title}</p>
+                                    <p className="text-xs text-[#1E1E1E]/60 mt-0.5 line-clamp-2">{notif.message}</p>
+                                    <p className="text-xs text-[#1E1E1E]/40 mt-1">{getTimeAgo(notif.created_at)}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
 
                 {/* User menu */}
                 <DropdownMenu>
