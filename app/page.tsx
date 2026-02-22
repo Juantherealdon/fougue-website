@@ -596,8 +596,8 @@ function QuoteSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Every Fougue. moment is a story<br />
-          you can step into.
+          Every Fougue. Moment is<br />
+          a story you can step into
         </blockquote>
         <div
           className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${
