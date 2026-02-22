@@ -59,7 +59,7 @@ export function buildContactNotificationEmail(data: ContactEmailData): string {
               <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="center">
-                    <img src="${baseUrl}/images/fougue-logo-red-transparent.png" alt="Fougue." width="140" style="display: block; height: auto;" />
+                    <img src="${baseUrl}/images/fougue-logo-white-transparent.png" alt="Fougue." width="140" style="display: block; height: auto;" />
                   </td>
                 </tr>
                 <tr>
@@ -215,7 +215,7 @@ export function buildContactClientEmail(data: ContactEmailData): string {
               <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="center">
-                    <img src="${baseUrl}/images/fougue-logo-red-transparent.png" alt="Fougue." width="140" style="display: block; height: auto;" />
+                    <img src="${baseUrl}/images/fougue-logo-white-transparent.png" alt="Fougue." width="140" style="display: block; height: auto;" />
                   </td>
                 </tr>
                 <tr>
