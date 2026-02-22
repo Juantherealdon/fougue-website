@@ -147,7 +147,7 @@ function HowItWorksSection() {
         >
           {activeStep !== null && (
             <div className="bg-white p-6 md:p-8 text-center max-w-3xl mx-auto">
-              <p className="text-[#1E1E1E]/70 text-base leading-relaxed">
+              <p className="text-[#1E1E1E]/70 text-base leading-relaxed whitespace-pre-line">
                 {howItWorksSteps[activeStep].description}
               </p>
             </div>
@@ -162,7 +162,6 @@ function HowItWorksSection() {
         >
           <p className="text-[#1E1E1E]/60 text-base leading-relaxed max-w-3xl mx-auto">
             For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.<br />
-            <br />
             For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
           </p>
         </div>
