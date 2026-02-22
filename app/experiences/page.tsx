@@ -59,7 +59,7 @@ const howItWorksSteps = [
   {
     number: "04",
     title: "We tailor everything to you",
-    description: "After booking, you'll receive a short personalization form to help us design a moment that feels true to you.\n\nOur team stays in touch via email or WhatsApp to refine the final details with care.",
+    description: "After booking, you'll receive a short personalization form to help us design a moment that feels true to you.\nOur team stays in touch via email or WhatsApp to refine the final details with care.",
   },
   {
     number: "05",
