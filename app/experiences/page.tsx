@@ -59,7 +59,7 @@ const howItWorksSteps = [
   {
     number: "04",
     title: "We tailor everything to you",
-    description: "After booking, you'll receive a short personalization form to help us design a moment that feels true to you. Our team stays in touch via email or WhatsApp to refine the final details with care.",
+    description: "After booking, you'll receive a short personalization form to help us design a moment that feels true to you.\n\nOur team stays in touch via email or WhatsApp to refine the final details with care.",
   },
   {
     number: "05",
@@ -161,7 +161,8 @@ function HowItWorksSection() {
           }`}
         >
           <p className="text-[#1E1E1E]/60 text-base leading-relaxed max-w-3xl mx-auto">
-            For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday. 
+            For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.<br />
+            <br />
             For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
           </p>
         </div>
