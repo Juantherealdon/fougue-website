@@ -1,7 +1,7 @@
 "use server"
 
 import { createClient } from "@supabase/supabase-js"
-import resend from "resend" // Declare the resend variable
+import { buildContactNotificationEmail, buildContactClientEmail } from "@/lib/emails/contact-confirmation"
 
 export async function sendContactEmail(formData: {
   name: string
@@ -50,57 +50,79 @@ export async function sendContactEmail(formData: {
       recipientEmail = "press@fougue.ae"
     }
 
-    // Send email via Resend API
+    // Send emails via Resend API
     if (process.env.RESEND_API_KEY) {
+      const emailData = {
+        customerName: formData.name,
+        customerEmail: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        selectedExperiences: formData.selectedExperiences,
+      }
+
+      const subjectMap: Record<string, string> = {
+        "Book an Experience": "Experience Inquiry",
+        "Gift Inquiry": "Gift Inquiry",
+        "Collaboration": "Partnership Inquiry",
+        "Press": "Press Inquiry",
+        "Other": "General Inquiry",
+      }
+      const emailSubjectLabel = subjectMap[formData.subject] || "New Inquiry"
+
       try {
-        const emailResponse = await fetch("https://api.resend.com/emails", {
+        // 1. Send notification to Fougue team
+        const notificationHtml = buildContactNotificationEmail(emailData)
+        const notifResponse = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            from: "Fougué <no-reply@mail.fougue.ae>",
+            from: "Fougue <no-reply@mail.fougue.ae>",
             to: recipientEmail,
             reply_to: formData.email,
-            subject: `${formData.subject} - ${formData.name}`,
-            html: `
-              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <h2 style="color: #800913;">New Contact Form Submission</h2>
-                <div style="background: #f5f5f5; padding: 15px; margin: 20px 0; border-left: 4px solid #800913;">
-                  <p style="margin: 5px 0;"><strong>From:</strong> ${formData.name}</p>
-                  <p style="margin: 5px 0;"><strong>Email:</strong> ${formData.email}</p>
-                  <p style="margin: 5px 0;"><strong>Subject:</strong> ${formData.subject}</p>
-                </div>
-                ${formData.selectedExperiences && formData.selectedExperiences.length > 0 ? `
-                <div style="background: #fff8f0; padding: 15px; margin: 20px 0; border-left: 4px solid #800913;">
-                  <p style="margin: 0 0 10px 0;"><strong>Interested in Experience(s):</strong></p>
-                  <ul style="margin: 0; padding-left: 20px;">
-                    ${formData.selectedExperiences.map(exp => `<li style="margin: 5px 0;">${exp}</li>`).join('')}
-                  </ul>
-                </div>
-                ` : ''}
-                <div style="background: white; padding: 20px; border: 1px solid #ddd;">
-                  <h3 style="margin-top: 0;">Message:</h3>
-                  <p style="white-space: pre-wrap;">${formData.message}</p>
-                </div>
-              </div>
-            `,
+            subject: `${emailSubjectLabel} \u2014 ${formData.name}`,
+            html: notificationHtml,
           }),
         })
 
-        if (emailResponse.ok) {
-          const result = await emailResponse.json()
-          console.log("[v0] Email sent successfully:", result.id)
+        if (notifResponse.ok) {
+          const result = await notifResponse.json()
+          console.log("[v0] Team notification email sent:", result.id)
         } else {
-          const errorText = await emailResponse.text()
-          console.error("[v0] Email send failed:", errorText)
+          const errorText = await notifResponse.text()
+          console.error("[v0] Team email send failed:", errorText)
+        }
+
+        // 2. Send confirmation to client
+        const clientHtml = buildContactClientEmail(emailData)
+        const clientResponse = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "Fougue <no-reply@mail.fougue.ae>",
+            to: formData.email,
+            subject: `Fougue \u2014 We\u2019ve received your message`,
+            html: clientHtml,
+          }),
+        })
+
+        if (clientResponse.ok) {
+          const result = await clientResponse.json()
+          console.log("[v0] Client confirmation email sent:", result.id)
+        } else {
+          const errorText = await clientResponse.text()
+          console.error("[v0] Client email send failed:", errorText)
         }
       } catch (emailError) {
-        console.error("[v0] Error sending email:", emailError)
+        console.error("[v0] Error sending emails:", emailError)
       }
     } else {
-      console.log("[v0] RESEND_API_KEY not configured - email not sent")
+      console.log("[v0] RESEND_API_KEY not configured - emails not sent")
     }
 
     return {

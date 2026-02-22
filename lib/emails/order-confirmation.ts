@@ -20,6 +20,7 @@ interface OrderConfirmationData {
   currency: string
   receiptUrl?: string
   hasExperiences: boolean
+  baseUrl?: string
 }
 
 export function buildOrderConfirmationEmail(data: OrderConfirmationData): string {
@@ -32,6 +33,7 @@ export function buildOrderConfirmationEmail(data: OrderConfirmationData): string
     currency,
     receiptUrl,
     hasExperiences,
+    baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fougue.ae',
   } = data
 
   const firstName = customerName.split(' ')[0] || customerName
@@ -151,8 +153,8 @@ export function buildOrderConfirmationEmail(data: OrderConfirmationData): string
             <td align="center" style="padding: 48px 40px 32px 40px; background-color: #1E1E1E;">
               <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td align="center" style="font-family: 'Georgia', 'Times New Roman', serif; font-size: 28px; color: #ffffff; letter-spacing: 0.05em;">
-                    Fougue.
+                  <td align="center">
+                    <img src="${baseUrl}/images/fougue-logo-red-transparent.png" alt="Fougue." width="140" style="display: block; height: auto;" />
                   </td>
                 </tr>
                 <tr>
