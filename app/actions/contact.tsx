@@ -43,9 +43,11 @@ export async function sendContactEmail(formData: {
     }
 
     // Determine recipient email based on subject
-    let recipientEmail = "love@fougue.ae"
+    let recipientEmail = "hello@fougue.ae"
     if (formData.subject.toLowerCase().includes("collaboration")) {
-      recipientEmail = "collaborations@fougue.ae"
+      recipientEmail = "partners@fougue.ae"
+    } else if (formData.subject.toLowerCase().includes("press")) {
+      recipientEmail = "press@fougue.ae"
     }
 
     // Send email via Resend API

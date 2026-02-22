@@ -177,8 +177,8 @@ function ContactSection() {
     {
       icon: Mail,
       label: "Email",
-      value: "love@fougue.ae",
-      href: "mailto:love@fougue.ae",
+      value: "hello@fougue.ae",
+      href: "mailto:hello@fougue.ae",
       color: "#800913",
     },
     {
@@ -201,6 +201,7 @@ function ContactSection() {
     "Book an Experience",
     "Gift Inquiry",
     "Collaboration",
+    "Press",
     "Other",
   ]
 
@@ -272,21 +273,34 @@ function ContactSection() {
               ))}
             </div>
 
-            {/* Collaboration Note */}
+            {/* Collaboration & Press Notes */}
             <div
-              className={`p-5 bg-white/50 border border-[#1E1E1E]/5 transition-all duration-700 delay-500 ${
+              className={`space-y-3 transition-all duration-700 delay-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              <p className="text-[#1E1E1E]/50 text-sm mb-1">
-                For collaboration inquiries:
-              </p>
-              <a
-                href="mailto:collaborations@fougue.ae"
-                className="text-[#800913] text-lg font-light hover:underline"
-              >
-                collaborations@fougue.ae
-              </a>
+              <div className="p-5 bg-white/50 border border-[#1E1E1E]/5">
+                <p className="text-[#1E1E1E]/50 text-sm mb-1">
+                  For collaboration inquiries:
+                </p>
+                <a
+                  href="mailto:partners@fougue.ae"
+                  className="text-[#800913] text-lg font-light hover:underline"
+                >
+                  partners@fougue.ae
+                </a>
+              </div>
+              <div className="p-5 bg-white/50 border border-[#1E1E1E]/5">
+                <p className="text-[#1E1E1E]/50 text-sm mb-1">
+                  For press inquiries:
+                </p>
+                <a
+                  href="mailto:press@fougue.ae"
+                  className="text-[#800913] text-lg font-light hover:underline"
+                >
+                  press@fougue.ae
+                </a>
+              </div>
             </div>
 
             {/* Quote */}

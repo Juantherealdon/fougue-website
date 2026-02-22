@@ -118,13 +118,13 @@ export function buildOrderConfirmationEmail(data: OrderConfirmationData): string
         Questions about your experience?<br/>
         <a href="https://wa.me/971523157273" style="color: #800913; text-decoration: none;">WhatsApp</a>
         &nbsp;&middot;&nbsp;
-        <a href="mailto:love@fougue.ae" style="color: #800913; text-decoration: none;">love@fougue.ae</a>
+        <a href="mailto:hello@fougue.ae" style="color: #800913; text-decoration: none;">hello@fougue.ae</a>
       </td>
     `
     : `
       <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; color: #1E1E1E; opacity: 0.55; line-height: 1.8; text-align: center;">
         Questions about your order?<br/>
-        <a href="mailto:love@fougue.ae" style="color: #800913; text-decoration: none;">love@fougue.ae</a>
+        <a href="mailto:hello@fougue.ae" style="color: #800913; text-decoration: none;">hello@fougue.ae</a>
       </td>
     `
 

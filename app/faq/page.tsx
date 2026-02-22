@@ -62,7 +62,7 @@ Rescheduling is not available for last-minute cancellations or no-shows.`
   },
   {
     question: "How can I contact you?",
-    answer: `You can reach us anytime via our contact page, email love@fougue.ae, via WhatsApp +971 52 315 7273 or via Instagram @lovewithfougue.
+    answer: `You can reach us anytime via our contact page, email hello@fougue.ae, via WhatsApp +971 52 315 7273 or via Instagram @lovewithfougue.
 
 We will respond as soon as possible to assist you.`
   }

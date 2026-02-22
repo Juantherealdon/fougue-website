@@ -179,8 +179,8 @@ export default function TermsPage() {
             <Section title="18. Contact Us">
               <p>
                 If you have any questions about these Terms & Conditions, you may contact us at:{" "}
-                <a href="mailto:love@fougue.ae" className="text-[#800913] hover:underline">
-                  love@fougue.ae
+                <a href="mailto:hello@fougue.ae" className="text-[#800913] hover:underline">
+                  hello@fougue.ae
                 </a>
               </p>
             </Section>
