@@ -90,6 +90,19 @@ interface Experience {
   duration_hours: number
 }
 
+interface BookingEntry {
+  id: string
+  date: string
+  time: string
+  experienceTitle: string
+  experienceId: string
+  customerName: string
+  customerEmail: string
+  guests: number
+  status: string
+  source: 'reservation' | 'booking'
+}
+
 // Sample data
 const initialCalendars: CalendarConfig[] = [
   {
@@ -170,6 +183,7 @@ export default function AvailabilityPage() {
   const [experiences, setExperiences] = useState<Experience[]>([])
   const [recurringRules, setRecurringRules] = useState<RecurringRule[]>([])
   const [specificDates, setSpecificDates] = useState<SpecificDateSlot[]>([])
+  const [bookings, setBookings] = useState<BookingEntry[]>([])
   const [selectedCalendar, setSelectedCalendar] = useState<string>("cal-main")
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
@@ -254,6 +268,56 @@ export default function AvailabilityPage() {
 
         // Load availability rules
         await loadAvailabilityRules()
+
+        // Load bookings (reservations + bookings) to show on calendar
+        const [resResponse, bookResponse] = await Promise.all([
+          fetch('/api/admin/bookings?source=reservations'),
+          fetch('/api/admin/bookings?source=bookings'),
+        ])
+
+        const allBookingEntries: BookingEntry[] = []
+
+        if (resResponse.ok) {
+          const resData = await resResponse.json()
+          for (const r of resData) {
+            if (r.date && r.status !== 'cancelled') {
+              allBookingEntries.push({
+                id: r.id,
+                date: r.date,
+                time: r.time || '',
+                experienceTitle: r.experience_title || r.experience_id || '',
+                experienceId: r.experience_id || '',
+                customerName: r.customer_name || '',
+                customerEmail: r.customer_email || '',
+                guests: r.guests || 1,
+                status: r.status || 'confirmed',
+                source: 'reservation',
+              })
+            }
+          }
+        }
+
+        if (bookResponse.ok) {
+          const bookData = await bookResponse.json()
+          for (const b of bookData) {
+            if (b.date && b.status !== 'cancelled') {
+              allBookingEntries.push({
+                id: b.id,
+                date: b.date,
+                time: b.time || '',
+                experienceTitle: b.experience_title || b.experience_id || '',
+                experienceId: b.experience_id || '',
+                customerName: b.customer_name || '',
+                customerEmail: b.customer_email || '',
+                guests: b.guests || 1,
+                status: b.status || 'confirmed',
+                source: 'booking',
+              })
+            }
+          }
+        }
+
+        setBookings(allBookingEntries)
       } catch (error) {
         console.error('Error loading data:', error)
       }
@@ -353,9 +417,21 @@ export default function AvailabilityPage() {
     return date.getDay()
   }
 
+  // Get bookings for a specific date
+  const getBookingsForDate = (dateStr: string): BookingEntry[] => {
+    return bookings.filter((b) => b.date === dateStr)
+  }
+
   // Check if a date has specific slots or is blocked
   const getDateStatus = (day: number) => {
     const dateStr = getDateString(day)
+
+    // Check if the date has confirmed bookings
+    const dayBookings = getBookingsForDate(dateStr)
+    if (dayBookings.length > 0) {
+      return "booked"
+    }
+
     const specific = specificDates.find(
       (s) => s.date === dateStr && s.calendarId === selectedCalendar
     )
@@ -768,14 +844,17 @@ export default function AvailabilityPage() {
         <CardContent className="p-4">
           <div className="flex items-center gap-4 overflow-x-auto pb-2">
             {calendars.map((cal) => (
-              <button
+              <div
                 key={cal.id}
-                onClick={() => setSelectedCalendar(cal.id)}
-                className={`flex items-center gap-3 px-4 py-2 rounded-lg border transition-all whitespace-nowrap ${
+                className={`flex items-center gap-3 px-4 py-2 rounded-lg border transition-all whitespace-nowrap cursor-pointer ${
                   selectedCalendar === cal.id
                     ? "border-[#800913] bg-[#800913]/5"
                     : "border-[#1E1E1E]/10 hover:border-[#1E1E1E]/30"
                 }`}
+                onClick={() => setSelectedCalendar(cal.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setSelectedCalendar(cal.id) }}
               >
                 <div
                   className="w-3 h-3 rounded-full"
@@ -801,7 +880,7 @@ export default function AvailabilityPage() {
                 >
                   <Settings size={14} className="text-[#1E1E1E]/50" />
                 </button>
-              </button>
+              </div>
             ))}
           </div>
         </CardContent>
@@ -906,21 +985,25 @@ export default function AvailabilityPage() {
                               ? "ring-2 ring-[#800913]"
                               : "hover:bg-[#1E1E1E]/5"
                         } ${
-                          status === "blocked"
-                            ? "bg-red-50"
-                            : status === "custom"
-                              ? "bg-amber-50"
-                              : status === "recurring"
-                                ? "bg-green-50"
-                                : ""
+                          status === "booked"
+                            ? "bg-[#800913]/10"
+                            : status === "blocked"
+                              ? "bg-red-50"
+                              : status === "custom"
+                                ? "bg-amber-50"
+                                : status === "recurring"
+                                  ? "bg-green-50"
+                                  : ""
                         }`}
                         disabled={isPast}
                       >
                         <span
-                          className={`text-sm ${
-                            status === "blocked"
-                              ? "text-red-600"
-                              : "text-[#1E1E1E]"
+                          className={`text-sm font-medium ${
+                            status === "booked"
+                              ? "text-[#800913]"
+                              : status === "blocked"
+                                ? "text-red-600"
+                                : "text-[#1E1E1E]"
                           }`}
                         >
                           {day}
@@ -929,6 +1012,8 @@ export default function AvailabilityPage() {
                           <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-0.5">
                             {status === "blocked" ? (
                               <X size={10} className="text-red-500" />
+                            ) : status === "booked" ? (
+                              <div className="w-1.5 h-1.5 rounded-full bg-[#800913]" />
                             ) : (
                               <div
                                 className={`w-1.5 h-1.5 rounded-full ${
@@ -951,7 +1036,11 @@ export default function AvailabilityPage() {
                 </div>
 
                 {/* Legend */}
-                <div className="flex items-center gap-6 mt-6 pt-4 border-t border-[#1E1E1E]/10">
+                <div className="flex items-center gap-6 mt-6 pt-4 border-t border-[#1E1E1E]/10 flex-wrap">
+                  <div className="flex items-center gap-2 text-sm text-[#1E1E1E]/60">
+                    <div className="w-3 h-3 rounded-full bg-[#800913]" />
+                    Reserve
+                  </div>
                   <div className="flex items-center gap-2 text-sm text-[#1E1E1E]/60">
                     <div className="w-3 h-3 rounded-full bg-green-500" />
                     Recurrent
@@ -993,6 +1082,51 @@ export default function AvailabilityPage() {
                           s.date === selectedDate &&
                           s.calendarId === selectedCalendar
                       )
+
+                      if (status === "booked") {
+                        const dayBookings = getBookingsForDate(selectedDate)
+                        return (
+                          <div className="space-y-4">
+                            <Badge className="bg-[#800913]">
+                              Reserve
+                            </Badge>
+                            {dayBookings.map((booking) => (
+                              <div
+                                key={booking.id}
+                                className="p-4 rounded-lg bg-[#800913]/5 border border-[#800913]/15 space-y-2"
+                              >
+                                <p className="font-medium text-[#1E1E1E]">
+                                  {booking.experienceTitle}
+                                </p>
+                                {booking.time && (
+                                  <div className="flex items-center gap-2 text-sm text-[#1E1E1E]/70">
+                                    <Clock size={14} className="text-[#800913]" />
+                                    {booking.time}
+                                  </div>
+                                )}
+                                <div className="flex items-center gap-2 text-sm text-[#1E1E1E]/70">
+                                  <Users size={14} className="text-[#800913]" />
+                                  {booking.guests} guest{booking.guests > 1 ? 's' : ''}
+                                </div>
+                                <div className="pt-2 border-t border-[#1E1E1E]/10">
+                                  <p className="text-sm text-[#1E1E1E]/70">
+                                    {booking.customerName}
+                                  </p>
+                                  <p className="text-xs text-[#1E1E1E]/50">
+                                    {booking.customerEmail}
+                                  </p>
+                                </div>
+                                <Badge
+                                  variant="secondary"
+                                  className="text-xs capitalize"
+                                >
+                                  {booking.status}
+                                </Badge>
+                              </div>
+                            ))}
+                          </div>
+                        )
+                      }
 
                       if (status === "blocked") {
                         return (

@@ -20,6 +20,10 @@ import {
   Download,
   Plus,
   RefreshCw,
+  Trash2,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -221,47 +225,77 @@ export default function ReservationsAdmin() {
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list")
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [sortColumn, setSortColumn] = useState<string>("createdAt")
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
+  const [deleteTarget, setDeleteTarget] = useState<Reservation | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
-  // Fetch bookings from API
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+    } else {
+      setSortColumn(column)
+      setSortDirection("desc")
+    }
+  }
+
+  const SortIcon = ({ column }: { column: string }) => {
+    if (sortColumn !== column) return <ArrowUpDown size={12} className="ml-1 text-[#1E1E1E]/30" />
+    return sortDirection === "asc"
+      ? <ArrowUp size={12} className="ml-1 text-[#800913]" />
+      : <ArrowDown size={12} className="ml-1 text-[#800913]" />
+  }
+
+  // Fetch bookings from both bookings and reservations tables
   const fetchBookings = async () => {
     setIsLoading(true)
     setError(null)
     try {
-      const response = await fetch('/api/admin/bookings', { cache: 'no-store' })
-      if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des réservations')
-      }
-      const data = await response.json()
-      
-      if (!data || !Array.isArray(data)) {
-        console.error('[v0] Invalid data format:', data)
-        setReservations([])
-        return
+      const [bookingsRes, reservationsRes] = await Promise.all([
+        fetch('/api/admin/bookings', { cache: 'no-store' }),
+        fetch('/api/admin/bookings?source=reservations', { cache: 'no-store' }),
+      ])
+
+      const allEntries: any[] = []
+
+      if (bookingsRes.ok) {
+        const bookingsData = await bookingsRes.json()
+        if (Array.isArray(bookingsData)) allEntries.push(...bookingsData)
       }
 
-      // Create safe copy to avoid serialization issues
-      const safeData = JSON.parse(JSON.stringify(data))
+      if (reservationsRes.ok) {
+        const reservationsData = await reservationsRes.json()
+        if (Array.isArray(reservationsData)) allEntries.push(...reservationsData)
+      }
 
-      // Map API data to component format with proper date serialization
-      const mappedReservations: Reservation[] = safeData.map((booking: any) => ({
+      // Deduplicate by id
+      const seen = new Set<string>()
+      const deduped = allEntries.filter(entry => {
+        if (seen.has(entry.id)) return false
+        seen.add(entry.id)
+        return true
+      })
+
+      // Map API data to component format (handle both camelCase and snake_case)
+      const mappedReservations: Reservation[] = deduped.map((booking: any) => ({
         id: booking.id || '',
         customer: {
-          name: booking.customerName || 'N/A',
-          email: booking.customerEmail || 'N/A',
-          phone: booking.customerPhone || 'N/A',
+          name: booking.customer_name || booking.customerName || 'N/A',
+          email: booking.customer_email || booking.customerEmail || 'N/A',
+          phone: booking.customer_phone || booking.customerPhone || 'N/A',
         },
         experience: {
-          id: booking.experienceId || '',
-          name: booking.experienceTitle || 'Expérience',
+          id: booking.experience_id || booking.experienceId || '',
+          name: booking.experience_title || booking.experienceTitle || 'Experience',
         },
         date: typeof booking.date === 'string' ? booking.date : new Date(booking.date).toISOString().split('T')[0],
         time: booking.time || '00:00',
         guests: booking.guests || 1,
         status: booking.status || 'confirmed',
-        specialRequests: booking.specialRequests || '',
+        specialRequests: booking.special_requests || booking.specialRequests || '',
         location: 'To be determined',
-        createdAt: typeof booking.createdAt === 'string' ? booking.createdAt : new Date(booking.createdAt).toISOString(),
-        totalPaid: booking.totalAmount || 0,
+        createdAt: typeof (booking.created_at || booking.createdAt) === 'string' ? (booking.created_at || booking.createdAt) : new Date(booking.created_at || booking.createdAt).toISOString(),
+        totalPaid: booking.total_amount || booking.totalAmount || 0,
         currency: booking.currency || 'AED',
       }))
       
@@ -293,6 +327,18 @@ export default function ReservationsAdmin() {
     const matchesExperience =
       experienceFilter === "all" || res.experience.id === experienceFilter
     return matchesSearch && matchesStatus && matchesExperience
+  }).sort((a, b) => {
+    const dir = sortDirection === "asc" ? 1 : -1
+    switch (sortColumn) {
+      case "id": return dir * a.id.localeCompare(b.id)
+      case "customer": return dir * a.customer.name.localeCompare(b.customer.name)
+      case "experience": return dir * a.experience.name.localeCompare(b.experience.name)
+      case "date": return dir * (new Date(a.date).getTime() - new Date(b.date).getTime())
+      case "guests": return dir * (a.guests - b.guests)
+      case "status": return dir * a.status.localeCompare(b.status)
+      case "createdAt": return dir * (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      default: return 0
+    }
   }) : []
 
   const upcomingReservations = filteredReservations && filteredReservations.length > 0 ? filteredReservations.filter(
@@ -309,12 +355,57 @@ export default function ReservationsAdmin() {
     }
   ) : []
 
-  const updateReservationStatus = (id: string, status: Reservation["status"]) => {
+  const updateReservationStatus = async (id: string, status: Reservation["status"]) => {
+    // Persist status change to database
+    try {
+      await fetch('/api/admin/bookings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status, source: 'reservations' }),
+      })
+      // Also try bookings table
+      await fetch('/api/admin/bookings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      })
+    } catch {
+      // Continue updating UI even if API fails
+    }
     setReservations(
       reservations.map((r) => (r.id === id ? { ...r, status } : r))
     )
     if (selectedReservation?.id === id) {
       setSelectedReservation((prev) => prev && { ...prev, status })
+    }
+  }
+
+  const deleteReservation = async (reservation: Reservation) => {
+    setIsDeleting(true)
+    try {
+      // Try deleting from both tables
+      const [res1, res2] = await Promise.all([
+        fetch('/api/admin/bookings', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: reservation.id, source: 'reservations' }),
+        }),
+        fetch('/api/admin/bookings', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: reservation.id }),
+        }),
+      ])
+      if (res1.ok || res2.ok) {
+        setReservations(reservations.filter(r => r.id !== reservation.id))
+        setDeleteTarget(null)
+      } else {
+        alert('Erreur lors de la suppression de la reservation')
+      }
+    } catch {
+      alert('Erreur lors de la suppression de la reservation')
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -344,6 +435,24 @@ export default function ReservationsAdmin() {
       return new Intl.DateTimeFormat("fr-FR", {
         day: "2-digit",
         month: "short",
+      }).format(date)
+    } catch {
+      return 'N/A'
+    }
+  }
+
+  const formatPaymentDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString)
+      if (isNaN(date.getTime())) {
+        return 'N/A'
+      }
+      return new Intl.DateTimeFormat("fr-FR", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       }).format(date)
     } catch {
       return 'N/A'
@@ -503,23 +612,26 @@ export default function ReservationsAdmin() {
             <table className="w-full">
               <thead className="bg-[#F8F8F8] border-b border-[#1E1E1E]/10">
                 <tr>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Réservation
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("id")}>
+                    <span className="inline-flex items-center">Reservation <SortIcon column="id" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Client
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("customer")}>
+                    <span className="inline-flex items-center">Client <SortIcon column="customer" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Expérience
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("experience")}>
+                    <span className="inline-flex items-center">Experience <SortIcon column="experience" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Date & Heure
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("date")}>
+                    <span className="inline-flex items-center">{"Date & Heure"} <SortIcon column="date" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Invités
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("guests")}>
+                    <span className="inline-flex items-center">{"Invites"} <SortIcon column="guests" /></span>
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
-                    Statut
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("status")}>
+                    <span className="inline-flex items-center">Statut <SortIcon column="status" /></span>
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider cursor-pointer select-none hover:text-[#1E1E1E]" onClick={() => handleSort("createdAt")}>
+                    <span className="inline-flex items-center">Date de paiement <SortIcon column="createdAt" /></span>
                   </th>
                   <th className="text-right px-4 py-3 text-xs font-medium text-[#1E1E1E]/60 uppercase tracking-wider">
                     Actions
@@ -568,6 +680,11 @@ export default function ReservationsAdmin() {
                           {statusConfig[reservation.status].label}
                         </span>
                       </td>
+                      <td className="px-4 py-4">
+                        <p className="text-sm text-[#1E1E1E]/60">
+                          {formatPaymentDate(reservation.createdAt)}
+                        </p>
+                      </td>
                       <td className="px-4 py-4 text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -613,6 +730,13 @@ export default function ReservationsAdmin() {
                             >
                               Annuler
                             </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => setDeleteTarget(reservation)}
+                              className="text-red-600"
+                            >
+                              <Trash2 size={14} className="mr-2" />
+                              Supprimer
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </td>
@@ -624,6 +748,31 @@ export default function ReservationsAdmin() {
         </div>
       </Card>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Supprimer la reservation</DialogTitle>
+            <DialogDescription>
+              {"Voulez-vous vraiment supprimer la reservation"} <strong>{deleteTarget?.id}</strong> ?
+              Cette action est irréversible et le créneaux sera libéré dans le calendrier.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
+              Annuler
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={() => deleteTarget && deleteReservation(deleteTarget)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Suppression..." : "Supprimer"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Reservation Details Modal */}
       <Dialog

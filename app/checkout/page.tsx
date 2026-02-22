@@ -114,9 +114,10 @@ export default function CheckoutPage() {
       setSessionId(result.sessionId)
       sessionIdRef.current = result.sessionId
       setStep("payment")
-    } catch (error) {
+    } catch (error: any) {
       console.error("[v0] Error starting checkout:", error)
-      alert("An error occurred. Please try again.")
+      const msg = error?.message || "An error occurred. Please try again."
+      alert(`Checkout error: ${msg}`)
     } finally {
       setIsLoading(false)
     }

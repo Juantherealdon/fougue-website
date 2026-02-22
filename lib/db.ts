@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 // Order types
 export interface OrderInput {
@@ -77,24 +77,24 @@ export interface Client extends ClientInput {
 }
 
 // Generate unique IDs
-async function generateOrderId(supabase: Awaited<ReturnType<typeof createClient>>): Promise<string> {
+async function generateOrderId(supabase: ReturnType<typeof createAdminClient>): Promise<string> {
   const { count } = await supabase.from('orders').select('*', { count: 'exact', head: true })
   return `ORD-${String((count || 0) + 1).padStart(3, '0')}`
 }
 
-async function generateBookingId(supabase: Awaited<ReturnType<typeof createClient>>): Promise<string> {
+async function generateBookingId(supabase: ReturnType<typeof createAdminClient>): Promise<string> {
   const { count } = await supabase.from('bookings').select('*', { count: 'exact', head: true })
   return `BKG-${String((count || 0) + 1).padStart(3, '0')}`
 }
 
-async function generateClientId(supabase: Awaited<ReturnType<typeof createClient>>): Promise<string> {
+async function generateClientId(supabase: ReturnType<typeof createAdminClient>): Promise<string> {
   const { count } = await supabase.from('clients').select('*', { count: 'exact', head: true })
   return `CLI-${String((count || 0) + 1).padStart(3, '0')}`
 }
 
 // Order functions
 export async function addOrder(order: OrderInput): Promise<Order> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const id = await generateOrderId(supabase)
   
   const { data, error } = await supabase
@@ -140,7 +140,7 @@ export async function addOrder(order: OrderInput): Promise<Order> {
 
 // Booking functions
 export async function addBooking(booking: BookingInput): Promise<Booking> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const id = await generateBookingId(supabase)
   
   const { data, error } = await supabase
@@ -198,7 +198,7 @@ export async function addBooking(booking: BookingInput): Promise<Booking> {
 
 // Client functions
 export async function addClient(client: ClientInput): Promise<Client> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const id = await generateClientId(supabase)
   
   const { data, error } = await supabase
@@ -250,7 +250,7 @@ export async function addClient(client: ClientInput): Promise<Client> {
 }
 
 export async function findClientByEmail(email: string): Promise<Client | null> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   
   const { data, error } = await supabase
     .from('clients')
@@ -286,7 +286,7 @@ export async function findClientByEmail(email: string): Promise<Client | null> {
 }
 
 export async function updateClient(clientId: string, updates: Partial<ClientInput>): Promise<Client | null> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   
   const dbUpdates: Record<string, any> = {}
   if (updates.totalSpent !== undefined) dbUpdates.total_spent = updates.totalSpent

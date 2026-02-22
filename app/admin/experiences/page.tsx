@@ -451,6 +451,7 @@ export default function ExperiencesAdmin() {
                   src={experience.image || "/placeholder.svg"}
                   alt={experience.title}
                   fill
+                  priority={index === 0}
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

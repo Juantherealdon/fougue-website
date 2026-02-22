@@ -103,24 +103,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [supabaseUser?.id])
 
   // Save cart to localStorage and sync to Supabase on change
-  const syncCart = useCallback((cartItems: CartItem[]) => {
-    localStorage.setItem("fougue-cart", JSON.stringify(cartItems))
+  useEffect(() => {
+    console.log("[v0] Cart sync triggered, items:", items.length)
+    localStorage.setItem("fougue-cart", JSON.stringify(items))
     
-    if (isLoggedIn && !isSyncing.current) {
+    if (isLoggedIn && !isSyncing.current && items.length >= 0) {
       isSyncing.current = true
       fetch('/api/user/cart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cartItems }),
+        body: JSON.stringify({ items }),
       }).finally(() => {
         isSyncing.current = false
       })
     }
-  }, [isLoggedIn])
-
-  useEffect(() => {
-    syncCart(items)
-  }, [items, syncCart])
+  }, [items, isLoggedIn])
 
   const addItem = (item: Omit<CartItem, "quantity">, quantity = 1) => {
     setItems((prev) => {

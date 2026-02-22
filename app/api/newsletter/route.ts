@@ -1,6 +1,25 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const { id } = await request.json()
+    if (!id) {
+      return NextResponse.json({ error: "ID is required" }, { status: 400 })
+    }
+    const supabase = await createClient()
+    const { error } = await supabase.from("newsletter_subscribers").delete().eq("id", id)
+    if (error) {
+      console.error("[v0] Error deleting subscriber:", error)
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error("[v0] Error in DELETE subscriber:", error)
+    return NextResponse.json({ error: "Failed to delete subscriber" }, { status: 500 })
+  }
+}
+
 export async function GET() {
   try {
     const supabase = await createClient()

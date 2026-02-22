@@ -59,7 +59,7 @@ const howItWorksSteps = [
   {
     number: "04",
     title: "We tailor everything to you",
-    description: "After booking, you'll receive a short personalization form to help us design a moment that feels true to you. Our team stays in touch via email or WhatsApp to refine the final details with care.",
+    description: "After booking, you'll receive a short personalization form to help us design a moment that feels true to you.\nOur team stays in touch via email or WhatsApp to refine the final details with care.",
   },
   {
     number: "05",
@@ -147,7 +147,7 @@ function HowItWorksSection() {
         >
           {activeStep !== null && (
             <div className="bg-white p-6 md:p-8 text-center max-w-3xl mx-auto">
-              <p className="text-[#1E1E1E]/70 text-base leading-relaxed">
+              <p className="text-[#1E1E1E]/70 text-base leading-relaxed whitespace-pre-line">
                 {howItWorksSteps[activeStep].description}
               </p>
             </div>
@@ -161,7 +161,7 @@ function HowItWorksSection() {
           }`}
         >
           <p className="text-[#1E1E1E]/60 text-base leading-relaxed max-w-3xl mx-auto">
-            For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday. 
+            For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.<br />
             For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
           </p>
         </div>
@@ -441,9 +441,10 @@ function ComingSoonSection({ comingSoonExperiences }: { comingSoonExperiences: E
   )
 }
 
-function BespokeSection() {
+function ExclusiveAccessSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const [showWaitlist, setShowWaitlist] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -463,59 +464,55 @@ function BespokeSection() {
   }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative py-32 lg:py-48 overflow-hidden"
-    >
-      <div className="absolute inset-0">
-        <Image
-          src="/images/surprise-hands.jpg"
-          alt="Surprise moment"
-          fill
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/70" />
-      </div>
+    <>
+      <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <div
+            className={`w-16 h-16 rounded-full bg-[#800913]/20 flex items-center justify-center mx-auto mb-8 transition-all duration-700 ${
+              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+            }`}
+          >
+            <Bell size={28} className="text-[#800913]" />
+          </div>
+          <p
+            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            Exclusive Access
+          </p>
+          <h2
+            className={`text-white text-3xl md:text-4xl lg:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            New Experiences <span className="italic text-[#800913]">Coming Soon</span>
+          </h2>
+          <p
+            className={`text-white/60 text-lg leading-relaxed mb-10 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            Be among the first to discover new themed experiences,
+            seasonal events, and privileges reserved for our inner circle.
+          </p>
+          <button
+            onClick={() => setShowWaitlist(true)}
+            className={`group inline-flex items-center gap-3 bg-white text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/90 transition-all duration-700 delay-300 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            Join the Waitlist
+            <ArrowRight
+              size={16}
+              className="group-hover:translate-x-1 transition-transform"
+            />
+          </button>
+        </div>
+      </section>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <p
-          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          Custom Experiences
-        </p>
-        <h2
-          className={`text-white text-4xl md:text-5xl lg:text-6xl font-light mb-6 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          Bespoke <span className="italic text-[#800913]">Creations</span>
-        </h2>
-        <p
-          className={`text-white/70 text-lg md:text-xl leading-relaxed mb-10 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          Have a special vision in mind? We create entirely custom experiences
-          tailored to your story, preferences, and dreams. From surprise
-          proposals to anniversary celebrations, we bring your imagination to
-          life.
-        </p>
-        <Link
-          href="/contact"
-          className={`group inline-flex items-center gap-3 bg-white text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/90 transition-all duration-700 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          Design Your Experience
-          <ArrowRight
-            size={16}
-            className="group-hover:translate-x-1 transition-transform"
-          />
-        </Link>
-      </div>
-    </section>
+      <WaitlistModal isOpen={showWaitlist} onClose={() => setShowWaitlist(false)} />
+    </>
   )
 }
 
@@ -599,7 +596,31 @@ export default function ExperiencesPage() {
       </section>
 
       <ComingSoonSection comingSoonExperiences={comingSoonExperiences} />
-      <BespokeSection />
+      <ExclusiveAccessSection />
+
+      {/* Need Help Section */}
+      <section className="py-24 lg:py-32 bg-[#FBF5EF]">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+          <p className="text-[#800913] text-sm tracking-[0.3em] uppercase mb-4">
+            Need Help Choosing?
+          </p>
+          <h2 className="text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6">
+            Our <span className="italic text-[#800913]">Experience Curator</span> is Here
+          </h2>
+          <p className="text-[#1E1E1E]/60 text-lg mb-10 max-w-2xl mx-auto">
+            Not sure which experience is perfect? Our dedicated team will help you select
+            the ideal moment for your loved one.
+          </p>
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors duration-300"
+          >
+            Contact Us
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </section>
+
       <Footer />
 
       <WaitlistModal

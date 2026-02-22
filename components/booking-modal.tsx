@@ -227,20 +227,25 @@ export function BookingModal({
 
   const isDateSelectable = (day: number) => {
     const date = new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth(),
-      day
+    currentMonth.getFullYear(),
+    currentMonth.getMonth(),
+    day
     )
     const today = new Date()
     today.setHours(0, 0, 0, 0)
     
     // Check if date is in the past
     if (date < today) return false
+
+    // Minimum 5 days lead time
+    const minDate = new Date(today)
+    minDate.setDate(minDate.getDate() + 5)
+    if (date < minDate) return false
     
     // Check if date has available slots
     const dateStr = date.toISOString().split('T')[0]
     return availableDates.includes(dateStr)
-  }
+    }
 
   const formatMonth = (date: Date) => {
     return date.toLocaleDateString("en-US", { month: "long", year: "numeric" })
@@ -271,14 +276,7 @@ export function BookingModal({
     if (step === 1) return true
     if (step === 2) return selectedDate !== null && selectedTime !== null
     if (step === 3) {
-      return (
-        formData.firstName &&
-        formData.lastName &&
-        formData.email &&
-        formData.phone &&
-        formData.occasion &&
-        formData.forWhom
-      )
+      return true
     }
     return false
   }
@@ -598,140 +596,32 @@ export function BookingModal({
             </div>
           )}
 
-          {/* Step 3: Personal Details */}
+          {/* Step 3: Curation & Personalisation */}
           {step === 3 && (
-            <div className="space-y-6">
-              <div className="text-center mb-8">
-                <h3 className="text-[#1E1E1E] text-2xl font-light mb-2">
-                  Tell Us About You
-                </h3>
-                <p className="text-[#1E1E1E]/60">
-                  Help us personalize your experience
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    First Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, firstName: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="Your first name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    Last Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, lastName: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="Your last name"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#1E1E1E] text-sm mb-2">
-                    Phone *
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors"
-                    placeholder="+971 XX XXX XXXX"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[#1E1E1E] text-sm mb-2">
-                  What is the occasion? *
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {occasions.map((occasion) => (
-                    <button
-                      key={occasion}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, occasion })}
-                      className={`py-2 px-3 text-sm transition-all ${
-                        formData.occasion === occasion
-                          ? "bg-[#800913] text-white"
-                          : "border border-[#1E1E1E]/20 text-[#1E1E1E] hover:border-[#800913]"
-                      }`}
-                    >
-                      {occasion}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[#1E1E1E] text-sm mb-2">
-                  Who is this experience for? *
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {["For Her", "For Him", "For Us"].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() =>
-                        setFormData({ ...formData, forWhom: option })
-                      }
-                      className={`py-3 text-sm transition-all ${
-                        formData.forWhom === option
-                          ? "bg-[#800913] text-white"
-                          : "border border-[#1E1E1E]/20 text-[#1E1E1E] hover:border-[#800913]"
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[#1E1E1E] text-sm mb-2">
-                  Special Requests or Notes
-                </label>
-                <textarea
-                  value={formData.specialRequests}
-                  onChange={(e) =>
-                    setFormData({ ...formData, specialRequests: e.target.value })
-                  }
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white border border-[#1E1E1E]/20 focus:border-[#800913] outline-none transition-colors resize-none"
-                  placeholder="Allergies, preferences, or anything we should know to make this perfect..."
-                />
-              </div>
+            <div className="flex flex-col items-center justify-center py-8 px-6">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#800913"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mb-6"
+              >
+                <path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z" />
+                <path d="M5 3v4" />
+                <path d="M3 5h4" />
+                <path d="M19 17v4" />
+                <path d="M17 19h4" />
+              </svg>
+              <h3 className="text-[#1E1E1E] text-2xl font-light mb-5 text-balance text-center">
+                Let Us Curate <span className="italic font-serif text-[#800913]">Your</span> Moment
+              </h3>
+              <p className="text-[#1E1E1E]/50 text-sm leading-relaxed max-w-md text-center">
+                Once your experience is confirmed, we will personally connect with you to refine the intimate details: from dietary preferences, to subtle touches and the little things that only you would know — so the moment feels unmistakably yours.
+              </p>
             </div>
           )}
         </div>

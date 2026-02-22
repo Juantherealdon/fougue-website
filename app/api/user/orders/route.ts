@@ -10,40 +10,71 @@ export async function GET() {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
   }
 
-  // Get orders for this user
-  const { data: orders, error: ordersError } = await supabase
+  const userEmail = user.email
+
+  // Get orders by auth_user_id OR customer_email
+  const { data: ordersByAuth } = await supabase
     .from('orders')
     .select('*')
     .eq('auth_user_id', user.id)
     .order('created_at', { ascending: false })
 
-  if (ordersError) {
-    console.error('Error fetching orders:', ordersError)
-    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 })
-  }
+  const { data: ordersByEmail } = userEmail ? await supabase
+    .from('orders')
+    .select('*')
+    .eq('customer_email', userEmail)
+    .order('created_at', { ascending: false }) : { data: [] }
 
-  // Get bookings for this user (from checkout)
-  const { data: bookings, error: bookingsError } = await supabase
+  // Merge and deduplicate by id
+  const allOrdersMap = new Map<string, any>()
+  for (const o of [...(ordersByAuth || []), ...(ordersByEmail || [])]) {
+    allOrdersMap.set(o.id, o)
+  }
+  const orders = Array.from(allOrdersMap.values()).sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  )
+
+  // Get bookings by auth_user_id OR customer_email
+  const { data: bookingsByAuth } = await supabase
     .from('bookings')
     .select('*')
     .eq('auth_user_id', user.id)
     .order('created_at', { ascending: false })
 
-  if (bookingsError) {
-    console.error('Error fetching bookings:', bookingsError)
-  }
+  const { data: bookingsByEmail } = userEmail ? await supabase
+    .from('bookings')
+    .select('*')
+    .eq('customer_email', userEmail)
+    .order('created_at', { ascending: false }) : { data: [] }
 
-  // Also get reservations for this user (from experience booking)
-  const { data: reservations, error: reservationsError } = await supabase
+  const allBookingsMap = new Map<string, any>()
+  for (const b of [...(bookingsByAuth || []), ...(bookingsByEmail || [])]) {
+    allBookingsMap.set(b.id, b)
+  }
+  const bookings = Array.from(allBookingsMap.values()).sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  )
+
+  // Get reservations by auth_user_id OR customer_email
+  const { data: resByAuth } = await supabase
     .from('reservations')
     .select('*')
     .eq('auth_user_id', user.id)
     .order('created_at', { ascending: false })
 
-  if (reservationsError) {
-    console.error('Error fetching reservations:', reservationsError)
-  }
+  const { data: resByEmail } = userEmail ? await supabase
+    .from('reservations')
+    .select('*')
+    .eq('customer_email', userEmail)
+    .order('created_at', { ascending: false }) : { data: [] }
 
+  const allResMap = new Map<string, any>()
+  for (const r of [...(resByAuth || []), ...(resByEmail || [])]) {
+    allResMap.set(r.id, r)
+  }
+  const reservations = Array.from(allResMap.values()).sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  )
   // Merge bookings and reservations into a single list
   const allBookings = [
     ...(bookings || []),

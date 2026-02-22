@@ -33,15 +33,15 @@ function HeroSection() {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Our Philosophy
+          The Brand
         </p>
         <h1
           className={`text-white text-5xl md:text-6xl lg:text-7xl font-light mb-8 transition-all duration-700 delay-200 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Love deserves more than{" "}
-          <span className="italic text-[#800913]">ordinary.</span>
+          A Maison devoted to{" "}
+          <span className="italic text-[#800913]">modern romance.</span>
         </h1>
         <p
           className={`text-white/70 text-lg md:text-xl max-w-2xl leading-relaxed transition-all duration-700 delay-400 ${
@@ -86,11 +86,46 @@ function PhilosophySection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
+    <section ref={sectionRef} className="py-28 lg:py-40 bg-[#FBF5EF]">
       <div className="mx-auto max-w-4xl px-6 lg:px-8">
         <div className="text-center">
           <p
-            className={`text-[#800913] text-2xl md:text-3xl italic mb-12 transition-all duration-700 ${
+            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            Our Philosophy
+          </p>
+
+          <h2
+            className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-10 transition-all duration-700 delay-100 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            Love deserves more than{" "}
+            <span className="italic text-[#800913]">ordinary.</span>
+          </h2>
+
+          <div className={`w-16 h-px bg-[#800913] mx-auto mb-12 transition-all duration-700 delay-150 ${
+            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+          }`} />
+
+          <p
+            className={`text-[#1E1E1E]/60 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10 transition-all duration-700 delay-200 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
+            In a city of endless options, romance can begin to feel polished, yet impersonal.
+          </p>
+
+          <p
+            className={`text-[#800913] text-2xl md:text-3xl italic mb-12 transition-all duration-700 delay-250 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -99,42 +134,26 @@ function PhilosophySection() {
             Fougue is our quiet antidote.
           </p>
 
-          <h2
-            className={`text-[#1E1E1E] text-3xl md:text-4xl font-light leading-relaxed mb-8 transition-all duration-700 delay-100 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            A Maison devoted to{" "}
-            <span className="italic text-[#800913]">modern romance.</span>
-          </h2>
-
           <div
-            className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed max-w-3xl mx-auto transition-all duration-700 delay-200 ${
+            className={`space-y-6 text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto transition-all duration-700 delay-300 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
             }`}
           >
             <p>
-              We believe romance lives in the feeling. In presence rather than
-              performance. In emotion, attention, and authenticity.
+              In a city of abundance, we design intimacy.
             </p>
             <p>
-              We design original, themed romantic experiences, thoughtfully
-              curated and shaped as stories to share. Experiences that invite
-              couples to step out of the ordinary and experience something
-              different together.
+              We believe romance lives in the feeling — in presence rather than performance, in attention, emotion, and authenticity.
             </p>
             <p>
-              Each Fougue. experience is crafted with intention: immersive,
-              intimate, and personal by design, where moments become memories.
+              We compose immersive romantic experiences, thoughtfully curated and shaped as stories to share. Each Fougue. Moment is intentional: <strong className="font-semibold text-[#1E1E1E]">intimate, immersive and personal by design,</strong> where moments become memories.
             </p>
           </div>
 
           <div
-            className={`mt-16 transition-all duration-700 delay-300 ${
+            className={`mt-20 transition-all duration-700 delay-400 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -287,7 +306,7 @@ function DNASection() {
               Mission
             </h3>
             <p className="text-white/70 text-lg leading-relaxed">
-              To help couples in Dubai reconnect, celebrate, and feel deeply turning ordinary date nights into immersive, personal and effortless moments to remember.
+              To redefine modern romance in Dubai — crafting immersive, intentional experiences that bring couples closer together.
             </p>
           </div>
         </div>
@@ -362,7 +381,7 @@ function FounderSection() {
             </h2>
 
             <div
-              className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed transition-all duration-700 delay-200 ${
+              className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"

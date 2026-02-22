@@ -487,6 +487,7 @@ function ProductCard({
           className={`object-cover transition-transform duration-700 ${
             isHovered ? "scale-105" : "scale-100"
           }`}
+          {...(index < 4 ? { priority: true } : { loading: "lazy" as const })}
         />
 
         {/* Quick View Overlay */}
@@ -516,7 +517,7 @@ function ProductCard({
           {product.title}
         </h3>
         <p className="text-[#800913] text-sm">
-          {product.currency} {product.price.toLocaleString()}
+          {product.currency} {product.price.toLocaleString("en-US")}
         </p>
       </div>
     </div>
@@ -607,6 +608,127 @@ function WhyGiftSection() {
   )
 }
 
+function ComingSoonSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+  const [email, setEmail] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
+      { threshold: 0.2 }
+    )
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email || isSubmitting) return
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (response.ok) {
+        setIsSubmitted(true)
+        setEmail("")
+      }
+    } catch {
+      // Silently fail
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <section ref={sectionRef} className="py-32 lg:py-48 bg-[#FBF5EF]">
+      <div className="mx-auto max-w-2xl px-6 text-center">
+        <div
+          className={`mb-8 transition-all duration-700 ${
+            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+          }`}
+        >
+          <Sparkles size={32} className="text-[#800913] mx-auto" />
+        </div>
+
+        <p
+          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          The Collection
+        </p>
+
+        <h2
+          className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light mb-8 transition-all duration-700 delay-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          Coming <span className="italic text-[#800913]">Soon</span>
+        </h2>
+
+        <p
+          className={`text-[#1E1E1E]/60 text-lg md:text-xl leading-relaxed mb-6 transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          Our collection is quietly taking form.
+        </p>
+
+        <p
+          className={`text-[#1E1E1E]/50 text-base md:text-lg leading-relaxed mb-14 max-w-xl mx-auto transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          A series of symbolic keepsakes and intimate rituals designed to extend the art of romance beyond the moment.
+        </p>
+
+        <div
+          className={`transition-all duration-700 delay-[400ms] ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <p className="text-[#1E1E1E]/70 text-sm tracking-[0.15em] uppercase mb-6">
+            {"Join Fougue inner circle for early access"}
+          </p>
+
+          {isSubmitted ? (
+            <div className="flex items-center justify-center gap-3 py-4">
+              <Heart size={18} className="text-[#800913]" />
+              <p className="text-[#1E1E1E]/70 text-sm">
+                {"You're on the list. We'll be in touch."}
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="flex-1 px-5 py-3.5 bg-white border border-[#1E1E1E]/10 text-[#1E1E1E] text-sm placeholder:text-[#1E1E1E]/40 focus:outline-none focus:border-[#800913]/40 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-8 py-3.5 bg-[#800913] text-white text-sm tracking-[0.15em] uppercase hover:bg-[#600910] transition-colors disabled:opacity-50 whitespace-nowrap"
+              >
+                {isSubmitting ? "..." : "Join"}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 interface ProductWithSubcategory extends Product {
   subcategory?: string
 }
@@ -618,7 +740,9 @@ export default function GiftsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
-  const [products, setProducts] = useState<ProductWithSubcategory[]>(fallbackProducts)
+  const [products, setProducts] = useState<ProductWithSubcategory[]>([])
+  const [hasLoadedFromDb, setHasLoadedFromDb] = useState(false)
+  const [dbHasProducts, setDbHasProducts] = useState(true)
   const [subcategories, setSubcategories] = useState<{ id: string; name: string }[]>([])
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000])
 
@@ -644,12 +768,22 @@ export default function GiftsPage() {
             includes: [],
           }))
           
+          setHasLoadedFromDb(true)
           if (mappedProducts.length > 0) {
             setProducts(mappedProducts)
+            setDbHasProducts(true)
+          } else {
+            setProducts([])
+            setDbHasProducts(false)
           }
+        } else {
+          setHasLoadedFromDb(true)
+          setProducts(fallbackProducts)
         }
       } catch (error) {
         console.error("Error loading products:", error)
+        setHasLoadedFromDb(true)
+        setProducts(fallbackProducts)
       }
     }
     
@@ -699,100 +833,83 @@ export default function GiftsPage() {
     <main>
       <Navigation />
       <HeroSection />
-      <CategoryFilter activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+      {hasLoadedFromDb && !dbHasProducts ? (
+        <ComingSoonSection />
+      ) : (
+        <>
+          <CategoryFilter activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
 
-      {/* Products Section */}
-      <section className="py-16 lg:py-24 bg-[#FBF5EF]">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          {/* Mobile Filter Button */}
-          <div className="flex items-center justify-between mb-8 lg:hidden">
-            <p className="text-[#1E1E1E]/60 text-sm">
-              {filteredProducts.length} products
-            </p>
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="flex items-center gap-2 text-[#1E1E1E] text-sm"
-            >
-              <SlidersHorizontal size={16} />
-              Filter & Sort
-            </button>
-          </div>
-
-          <div className="flex gap-12">
-            {/* Sidebar */}
-            <FilterSidebar
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-              selectedSubcategory={selectedSubcategory}
-              onSubcategoryChange={setSelectedSubcategory}
-              subcategories={subcategories}
-              isOpen={sidebarOpen}
-              onClose={() => setSidebarOpen(false)}
-            />
-
-            {/* Products Grid */}
-            <div className="flex-1">
-              {/* Desktop Header */}
-              <div className="hidden lg:flex items-center justify-between mb-8">
+          {/* Products Section */}
+          <section className="py-16 lg:py-24 bg-[#FBF5EF]">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              {/* Mobile Filter Button */}
+              <div className="flex items-center justify-between mb-8 lg:hidden">
                 <p className="text-[#1E1E1E]/60 text-sm">
-                  Showing {filteredProducts.length} products
+                  {filteredProducts.length} products
                 </p>
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="flex items-center gap-2 text-[#1E1E1E] text-sm"
+                >
+                  <SlidersHorizontal size={16} />
+                  Filter & Sort
+                </button>
               </div>
 
-              {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
-                  {filteredProducts.map((product, index) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      index={index}
-                      onClick={() => handleProductClick(product)}
-                    />
-                  ))}
+              <div className="flex gap-12">
+                {/* Sidebar */}
+                <FilterSidebar
+                  sortBy={sortBy}
+                  onSortChange={setSortBy}
+                  selectedSubcategory={selectedSubcategory}
+                  onSubcategoryChange={setSelectedSubcategory}
+                  subcategories={subcategories}
+                  isOpen={sidebarOpen}
+                  onClose={() => setSidebarOpen(false)}
+                />
+
+                {/* Products Grid */}
+                <div className="flex-1">
+                  {/* Desktop Header */}
+                  <div className="hidden lg:flex items-center justify-between mb-8">
+                    <p className="text-[#1E1E1E]/60 text-sm">
+                      Showing {filteredProducts.length} products
+                    </p>
+                  </div>
+
+                  {filteredProducts.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
+                      {filteredProducts.map((product, index) => (
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          index={index}
+                          onClick={() => handleProductClick(product)}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-16">
+                      <p className="text-[#1E1E1E]/60 text-lg mb-4">No products found</p>
+                      <button
+                        onClick={() => {
+                          setActiveCategory("all")
+                          setSelectedSubcategory("all")
+                        }}
+                        className="text-[#800913] text-sm underline hover:no-underline"
+                      >
+                        Clear all filters
+                      </button>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="text-center py-16">
-                  <p className="text-[#1E1E1E]/60 text-lg mb-4">No products found</p>
-                  <button
-                    onClick={() => {
-                      setActiveCategory("all")
-                      setSelectedSubcategory("all")
-                    }}
-                    className="text-[#800913] text-sm underline hover:no-underline"
-                  >
-                    Clear all filters
-                  </button>
-                </div>
-              )}
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <WhyGiftSection />
-
-      {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-[#FBF5EF]">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
-          <p className="text-[#800913] text-sm tracking-[0.3em] uppercase mb-4">
-            Need Help Choosing?
-          </p>
-          <h2 className="text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6">
-            Our <span className="italic text-[#800913]">Concierge</span> Is Here
-          </h2>
-          <p className="text-[#1E1E1E]/60 text-lg mb-10 max-w-2xl mx-auto">
-            Not sure which gift is perfect? Our dedicated team will help you select
-            the ideal present for your loved one.
-          </p>
-          <Link
-            href="/contact"
-            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors duration-300"
-          >
-            Contact Concierge
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
+          <WhyGiftSection />
+        </>
+      )}
 
       <Footer />
 

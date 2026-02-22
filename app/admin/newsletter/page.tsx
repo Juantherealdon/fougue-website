@@ -12,7 +12,8 @@ import {
   MoreHorizontal,
   Send,
   FileText,
-  Plus
+  Plus,
+  Trash2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -45,6 +46,14 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 
 interface Subscriber {
@@ -76,6 +85,8 @@ export default function NewsletterPage() {
   const [filterSource, setFilterSource] = useState<string>("all")
   const [filterType, setFilterType] = useState<string>("all")
   const [selectedSubscriber, setSelectedSubscriber] = useState<Subscriber | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Subscriber | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     fetchSubscribers()
@@ -94,6 +105,27 @@ export default function NewsletterPage() {
       console.error('Error fetching subscribers:', error)
     }
     setIsLoading(false)
+  }
+
+  const deleteSubscriber = async (subscriber: Subscriber) => {
+    setIsDeleting(true)
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: subscriber.id }),
+      })
+      if (response.ok) {
+        setSubscribers(subscribers.filter(s => s.id !== subscriber.id))
+        setDeleteTarget(null)
+      } else {
+        alert('Erreur lors de la suppression')
+      }
+    } catch {
+      alert('Erreur lors de la suppression')
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   const filteredSubscribers = subscribers.filter(sub => {
@@ -274,6 +306,7 @@ export default function NewsletterPage() {
                         <TableHead className="font-medium">Source</TableHead>
                         <TableHead className="font-medium">Type</TableHead>
                         <TableHead className="font-medium">Statut</TableHead>
+                        <TableHead className="font-medium text-right">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -347,9 +380,20 @@ export default function NewsletterPage() {
                                 </span>
                               ) : (
                                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
-                                  Désabonné
+                                  {"Désabonné"}
                                 </span>
                               )}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setDeleteTarget(subscriber)
+                                }}
+                                className="p-2 hover:bg-red-50 text-[#1E1E1E]/40 hover:text-red-600 transition-colors rounded"
+                              >
+                                <Trash2 size={14} />
+                              </button>
                             </TableCell>
                           </TableRow>
                         )
@@ -397,6 +441,30 @@ export default function NewsletterPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{"Supprimer l'abonné"}</DialogTitle>
+            <DialogDescription>
+              {"Voulez-vous vraiment supprimer"} <strong>{deleteTarget?.email}</strong> {"de la newsletter ?"} Cette action est irréversible.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)} disabled={isDeleting}>
+              Annuler
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={() => deleteTarget && deleteSubscriber(deleteTarget)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Suppression..." : "Supprimer"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Subscriber Detail Sheet */}
       <Sheet open={!!selectedSubscriber} onOpenChange={(open) => !open && setSelectedSubscriber(null)}>
