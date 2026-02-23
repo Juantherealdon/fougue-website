@@ -55,7 +55,11 @@ export async function GET(request: NextRequest) {
     }
 
     console.log("[v0] Experiences found:", data?.length || 0, slug ? `for slug: ${slug}` : '')
-    return NextResponse.json(data)
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+      },
+    })
   } catch (error) {
     console.error("[v0] Error in experiences API:", error)
     return NextResponse.json(

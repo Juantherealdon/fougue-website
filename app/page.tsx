@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer"
 import { ArrowRight, ChevronDown, Sparkles } from "lucide-react"
 import { NewsletterForm } from "@/components/newsletter-form"
 import { WaitlistModal } from "@/components/waitlist-modal"
+import { useInView } from "@/hooks/use-in-view"
 
 type ExperienceStatus = 'available' | 'almost_available' | 'coming_soon' | 'unavailable'
 
@@ -41,6 +42,7 @@ function HeroSection() {
           src="/images/hero-surprise.jpg"
           alt="Romantic surprise moment"
           fill
+          sizes="100vw"
           className={`object-cover object-top transition-transform duration-[2s] ${
             isLoaded ? "scale-100" : "scale-110"
           }`}
@@ -112,25 +114,7 @@ function HeroSection() {
 }
 
 function IntroSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.2 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.2)
 
   return (
     <section
@@ -173,29 +157,11 @@ function IntroSection() {
 }
 
 function ExperiencesPreview() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
+  const { ref: sectionRef, isVisible } = useInView(0.1)
   const [experiences, setExperiences] = useState<Experience[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [showWaitlist, setShowWaitlist] = useState(false)
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   useEffect(() => {
     async function fetchExperiences() {
@@ -300,6 +266,7 @@ function ExperiencesPreview() {
                     src={exp.image || "/placeholder.svg"}
                     alt={exp.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
@@ -372,25 +339,7 @@ function ExperiencesPreview() {
 }
 
 function DifferenceSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.15 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.15)
 
   const pillars = [
     {
@@ -465,25 +414,7 @@ function DifferenceSection() {
 }
 
 function GiftsSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.2 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.2)
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-0 lg:h-screen">
@@ -494,6 +425,7 @@ function GiftsSection() {
             src="/images/gift-door.jpg"
             alt="Luxury gift presentation"
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className={`object-cover transition-all duration-1000 ${
               isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
             }`}
@@ -553,25 +485,7 @@ function GiftsSection() {
 }
 
 function QuoteSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.3 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.3)
 
   return (
     <section
@@ -580,11 +494,12 @@ function QuoteSection() {
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <Image
-          src="/images/couple-dancing.jpg"
-          alt="Couple dancing in the street"
-          fill
-          className="object-cover"
+            <Image
+              src="/images/couple-dancing.jpg"
+              alt="Couple dancing in the street"
+              fill
+              sizes="100vw"
+              className="object-cover"
         />
         <div className="absolute inset-0 bg-black/60" />
       </div>

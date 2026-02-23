@@ -102,6 +102,7 @@ export function ImageCarousel({
               src={image.src || "/placeholder.svg"}
               alt={image.alt}
               fill
+              sizes="100vw"
               className="object-cover"
               priority={index === 0}
             />

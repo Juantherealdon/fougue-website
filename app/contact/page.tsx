@@ -41,6 +41,7 @@ function HeroSection() {
           src="/images/letter-seal.jpg"
           alt="Fougue sealed letter"
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />

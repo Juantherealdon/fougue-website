@@ -15,7 +15,11 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json(data)
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
+      },
+    })
   } catch (error) {
     console.error("[v0] Error in categories API:", error)
     return NextResponse.json(
