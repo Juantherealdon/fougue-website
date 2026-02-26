@@ -441,7 +441,7 @@ export default function ExperiencesAdmin() {
       {/* Experiences Grid/List */}
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredExperiences.map((experience) => (
+          {filteredExperiences.map((experience, index) => (
             <Card
               key={experience.id}
               className="border-none shadow-sm overflow-hidden group"
