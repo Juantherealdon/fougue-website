@@ -527,7 +527,7 @@ function QuoteSection() {
 function CTASection() {
   const { ref: sectionRef, isVisible } = useInView(0.3)
 
-  return (
+  return ( // CTA section
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <h2
