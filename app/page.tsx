@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
@@ -166,23 +166,22 @@ function ExperiencesPreview() {
         const response = await fetch('/api/experiences')
         
         if (!response.ok) {
-          console.error('[v0] Error fetching experiences:', response.statusText)
           return
         }
 
         const data = await response.json()
         
         const filteredExperiences = data
-          .filter((exp: any) => exp.status === 'available' || exp.status === 'almost_available')
+          .filter((exp: Experience) => exp.status === 'available' || exp.status === 'almost_available')
           .slice(0, 3)
-          .map((exp: any) => ({
+          .map((exp: Experience) => ({
             ...exp,
             status: exp.status || (exp.available ? 'available' : 'coming_soon'),
           }))
         
         setExperiences(filteredExperiences)
-      } catch (error) {
-        console.error('[v0] Error fetching experiences:', error)
+      } catch {
+        // silent
       } finally {
         setIsLoading(false)
       }
@@ -539,9 +538,9 @@ function CTASection() {
         >
           <Link
             href="/contact"
-            className="group inline-flex items-center justify-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
+            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
           >
-            Start Your Story
+            Get in Touch
             <ArrowRight
               size={16}
               className="group-hover:translate-x-1 transition-transform"
@@ -549,7 +548,7 @@ function CTASection() {
           </Link>
           <Link
             href="/experiences"
-            className="inline-flex items-center justify-center gap-3 border border-[#1E1E1E]/20 text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#1E1E1E]/5 transition-all duration-300"
+            className="inline-flex items-center gap-3 border border-[#1E1E1E]/20 text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#1E1E1E]/5 transition-all duration-300"
           >
             Explore Experiences
           </Link>
@@ -570,21 +569,21 @@ function NewsletterSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Join the <span className="italic text-[#800913]">Inner Circle</span>
+          Stay Inspired
         </h2>
         <p
           className={`text-white/60 mb-8 transition-all duration-700 delay-100 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Be the first to discover new experiences and exclusive offerings.
+          Receive curated stories, exclusive previews, and inspiration for your next chapter.
         </p>
         <div
           className={`transition-all duration-700 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          <NewsletterForm />
+          <NewsletterForm variant="dark" />
         </div>
       </div>
     </section>
@@ -593,7 +592,7 @@ function NewsletterSection() {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main className="bg-white">
       <Navigation />
       <HeroSection />
       <IntroSection />
