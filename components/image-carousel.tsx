@@ -1,9 +1,6 @@
 "use client"
 
-/**
- * Image Carousel Component
- * Displays images with auto-play, touch support, and keyboard navigation
- */
+// Image Carousel - Rebuilt to force cache sync
 import React from "react"
 
 import { useState, useEffect, useCallback } from "react"
