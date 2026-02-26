@@ -1,6 +1,9 @@
 "use client"
 
-// Image carousel component with auto-play
+/**
+ * Image Carousel Component
+ * Displays images with auto-play, touch support, and keyboard navigation
+ */
 import React from "react"
 
 import { useState, useEffect, useCallback } from "react"
