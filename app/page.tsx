@@ -1,6 +1,9 @@
 "use client"
 
-// Homepage component
+/* 
+ * Homepage - Fougue Experiences
+ * Updated: Performance optimizations applied
+ */
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
