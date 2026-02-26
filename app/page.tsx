@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
@@ -8,26 +8,20 @@ import { Footer } from "@/components/footer"
 import { ArrowRight, ChevronDown, Sparkles } from "lucide-react"
 import { NewsletterForm } from "@/components/newsletter-form"
 import { WaitlistModal } from "@/components/waitlist-modal"
-import { useInView } from "@/hooks/use-in-view"
-
-type ExperienceStatus = 'available' | 'almost_available' | 'coming_soon' | 'unavailable'
 
 interface Experience {
   id: string
   title: string
-  subtitle: string
-  slug?: string
-  description: string
-  image: string
-  price: number
-  duration_hours: number
-  guests: string
-  highlight: string
-  available: boolean
-  status: ExperienceStatus
+  tagline?: string
+  description?: string
+  price?: number
+  duration?: string
+  image?: string
+  status?: string
+  available?: boolean
 }
 
-function HeroSection() {
+export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -35,7 +29,24 @@ function HeroSection() {
   }, [])
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <main className="min-h-screen bg-[#FBF5EF]">
+      <Navigation />
+      <HeroSection isLoaded={isLoaded} />
+      <IntroSection />
+      <ExperiencesPreview />
+      <DifferenceSection />
+      <GiftsSection />
+      <QuoteSection />
+      <CTASection />
+      <NewsletterSection />
+      <Footer />
+    </main>
+  )
+}
+
+function HeroSection({ isLoaded }: { isLoaded: boolean }) {
+  return (
+    <section className="relative h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src="/images/hero-surprise.jpg"
@@ -47,106 +58,103 @@ function HeroSection() {
           }`}
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-24">
-        <div
-          className={`transition-all duration-1000 delay-300 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
-            Dubai&apos;s Curated Romantic Experiences
-          </p>
-        </div>
-
+      <div className="relative z-10 text-center px-6 max-w-4xl">
         <h1
-          className={`text-white text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] mb-6 transition-all duration-1000 delay-500 ${
+          className={`font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 transition-all duration-1000 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <span className="block text-balance">
-            The Art of <span className="text-[#800913]">Romance</span>
-          </span>
+          Love, Crafted
         </h1>
-
         <p
-          className={`text-white/70 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed transition-all duration-1000 delay-700 ${
+          className={`text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 transition-all duration-1000 delay-300 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Crafted with intention. Composed with precision. Shaped by emotion.
+          Bespoke romantic experiences for those who believe love deserves to be
+          celebrated with intention
         </p>
-
         <div
-          className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-900 ${
+          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-500 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <Link
             href="/experiences"
-            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 bg-white text-[#1E1E1E] px-8 py-4 text-sm tracking-wider hover:bg-white/90 transition-colors"
           >
-            Discover Experiences
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
-            />
+            DISCOVER EXPERIENCES
+            <ArrowRight size={16} />
           </Link>
           <Link
             href="/gifts"
-            className="inline-flex items-center gap-3 border border-white/30 text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 border border-white text-white px-8 py-4 text-sm tracking-wider hover:bg-white/10 transition-colors"
           >
-            Gifts Collection
+            EXPLORE GIFTS
           </Link>
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <ChevronDown className="text-white/60 animate-bounce" size={32} />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <ChevronDown className="text-white/60" size={32} />
       </div>
     </section>
   )
 }
 
 function IntroSection() {
-  const { ref: sectionRef, isVisible } = useInView(0.2)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.2 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section
       ref={sectionRef}
-      className="py-24 lg:py-32 px-6 bg-[#FBF5EF]"
+      className="py-24 md:py-32 px-6 bg-[#FBF5EF]"
     >
-      <div className="mx-auto max-w-4xl text-center">
-        <div
-          className={`transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          <Image
-            src="/images/fougue-logo-red-transparent.png"
-            alt="Fougue."
-            width={200}
-            height={80}
-            className="h-16 w-auto mx-auto mb-12"
-          />
-        </div>
-
-        <h2
-          className={`text-[#1E1E1E] text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed mb-8 transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          Love deserves intention.
-        </h2>
-
+      <div className="max-w-4xl mx-auto text-center">
         <p
-          className={`text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto text-balance transition-all duration-1000 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          className={`text-sm tracking-[0.3em] text-[#800913] mb-6 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently. Each unfolds as a story you can step into: <strong className="font-semibold text-[#1E1E1E]">intentional, personal, and designed for two.</strong>
+          THE FOUGUE PHILOSOPHY
+        </p>
+        <h2
+          className={`font-serif text-3xl md:text-5xl text-[#1E1E1E] mb-8 leading-tight transition-all duration-700 delay-150 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          We believe that the most meaningful moments in love are the ones we
+          intentionally create
+        </h2>
+        <p
+          className={`text-lg text-[#1E1E1E]/70 max-w-2xl mx-auto transition-all duration-700 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          Each Fougue experience is designed to transform ordinary evenings into
+          extraordinary memories, weaving together atmosphere, sensation, and
+          emotion into something unforgettable.
         </p>
       </div>
     </section>
@@ -154,108 +162,92 @@ function IntroSection() {
 }
 
 function ExperiencesPreview() {
-  const { ref: sectionRef, isVisible } = useInView(0.1)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
   const [experiences, setExperiences] = useState<Experience[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [showWaitlist, setShowWaitlist] = useState(false)
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>()
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
     async function fetchExperiences() {
       try {
-        const response = await fetch('/api/experiences')
-        
-        if (!response.ok) {
-          return
+        const response = await fetch("/api/experiences")
+        if (response.ok) {
+          const data = await response.json()
+          const available = data.filter((exp: Experience) => exp.status === "available" || exp.available)
+          setExperiences(available.slice(0, 3))
         }
-
-        const data = await response.json()
-        
-        const filteredExperiences = data
-          .filter((exp: Experience) => exp.status === 'available' || exp.status === 'almost_available')
-          .slice(0, 3)
-          .map((exp: Experience) => ({
-            ...exp,
-            status: exp.status || (exp.available ? 'available' : 'coming_soon'),
-          }))
-        
-        setExperiences(filteredExperiences)
-      } catch {
-        // silent
+      } catch (error) {
+        console.error("Error fetching experiences:", error)
       } finally {
         setIsLoading(false)
       }
     }
-
     fetchExperiences()
   }, [])
 
+  const handleWaitlistClick = (experienceTitle: string) => {
+    setSelectedExperience(experienceTitle)
+    setShowWaitlist(true)
+  }
+
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16">
-          <div>
-            <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
-              Signature Experiences
-            </p>
-            <h2
-              className={`text-white text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
-              Stories You Can
-              <span className="italic text-[#800913]"> Step Into</span>
-            </h2>
-          </div>
-          <Link
-            href="/experiences"
-            className={`group inline-flex items-center gap-2 text-white/60 hover:text-white mt-6 lg:mt-0 text-sm tracking-[0.2em] uppercase transition-all duration-700 delay-200 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            View All Experiences
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
-            />
-          </Link>
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 bg-white">
+      <div className="max-w-7xl mx-auto">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <p className="text-sm tracking-[0.3em] text-[#800913] mb-4">
+            SIGNATURE EXPERIENCES
+          </p>
+          <h2 className="font-serif text-3xl md:text-5xl text-[#1E1E1E]">
+            Evenings Designed for Two
+          </h2>
         </div>
 
-        <div className={`grid grid-cols-1 gap-6 lg:gap-8 ${
-          isLoading ? "md:grid-cols-3" :
-          experiences.length === 1 ? "md:grid-cols-1" :
-          experiences.length === 2 ? "md:grid-cols-2" :
-          "md:grid-cols-3"
-        }`}>
-          {isLoading ? (
-            Array.from({ length: 3 }).map((_, index) => (
-              <div
-                key={index}
-                className="relative overflow-hidden aspect-[3/4] bg-[#2A2A2A] animate-pulse"
-              />
-            ))
-          ) : (
-            experiences.map((exp, index) => {
-              const isAlmostAvailable = exp.status === 'almost_available'
-              const count = experiences.length
-              const aspectClass = count === 1 ? "aspect-[16/7]" : count === 2 ? "aspect-[4/5]" : "aspect-[3/4]"
-              
-              const titleSize = count === 1 ? "text-3xl md:text-4xl lg:text-5xl" : count === 2 ? "text-2xl md:text-3xl lg:text-4xl" : "text-2xl lg:text-3xl"
-              const descSize = count === 1 ? "text-base md:text-lg max-w-2xl" : count === 2 ? "text-sm md:text-base max-w-md" : "text-sm"
-              const padClass = count === 1 ? "p-8 lg:p-12" : "p-6 lg:p-8"
-              
-              const cardContent = (
-                <>
+        {isLoading ? (
+          <div className="grid md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="aspect-[3/4] bg-[#1E1E1E]/10 mb-6" />
+                <div className="h-6 bg-[#1E1E1E]/10 mb-2 w-3/4" />
+                <div className="h-4 bg-[#1E1E1E]/10 w-1/2" />
+              </div>
+            ))}
+          </div>
+        ) : experiences.length > 0 ? (
+          <div className="grid md:grid-cols-3 gap-8">
+            {experiences.map((exp, index) => (
+              <Link
+                key={exp.id}
+                href={`/experiences/${exp.id}`}
+                className={`group transition-all duration-700 delay-${index * 150} ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-12"
+                }`}
+              >
+                <div className="relative aspect-[3/4] mb-6 overflow-hidden">
                   <Image
                     src={exp.image || "/placeholder.svg"}
                     alt={exp.title}
@@ -263,66 +255,45 @@ function ExperiencesPreview() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
-                  {isAlmostAvailable && (
-                    <div className="absolute top-4 right-4 bg-[#1E1E1E]/90 text-white text-xs tracking-[0.15em] uppercase px-3 py-1.5 backdrop-blur-sm border border-white/10">
-                      Coming Soon
-                    </div>
-                  )}
-                  <div className={`absolute bottom-0 left-0 right-0 ${padClass}`}>
-                    <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-3 font-medium">
-                      {exp.subtitle}
-                    </p>
-                    <h3 className={`text-white ${titleSize} font-light mb-3 leading-tight`}>
-                      {exp.title}
-                    </h3>
-                    <div className="w-10 h-px bg-[#800913] mb-4 transition-all duration-500 group-hover:w-16" />
-                    <p className={`text-white/70 ${descSize} leading-relaxed`}>
-                      {exp.description}
-                    </p>
-                  </div>
-                </>
-              )
-              
-              if (isAlmostAvailable) {
-                return (
-                  <button
-                    key={exp.id}
-                    onClick={() => {
-                      setSelectedExperience(exp.title)
-                      setShowWaitlist(true)
-                    }}
-                    className={`group relative overflow-hidden ${aspectClass} transition-all duration-700 text-left ${
-                      isVisible
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-16"
-                    }`}
-                    style={{ transitionDelay: `${300 + index * 150}ms` }}
-                  >
-                    {cardContent}
-                  </button>
-                )
-              }
-              
-              return (
-                <Link
-                  key={exp.id}
-                  href={`/experiences/${exp.id}`}
-                  className={`group relative overflow-hidden ${aspectClass} transition-all duration-700 ${
-                    isVisible
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-16"
-                  }`}
-                  style={{ transitionDelay: `${300 + index * 150}ms` }}
-                >
-                  {cardContent}
-                </Link>
-              )
-            })
-          )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
+                <h3 className="font-serif text-2xl text-[#1E1E1E] mb-2 group-hover:text-[#800913] transition-colors">
+                  {exp.title}
+                </h3>
+                <p className="text-[#1E1E1E]/60 text-sm">{exp.tagline}</p>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-[#1E1E1E]/60 mb-6">
+              Our experiences are coming soon.
+            </p>
+            <button
+              onClick={() => handleWaitlistClick("Upcoming Experiences")}
+              className="inline-flex items-center gap-2 text-[#800913] hover:text-[#800913]/80 transition-colors"
+            >
+              <Sparkles size={16} />
+              Join the waitlist
+            </button>
+          </div>
+        )}
+
+        <div
+          className={`text-center mt-12 transition-all duration-700 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <Link
+            href="/experiences"
+            className="inline-flex items-center gap-2 text-[#1E1E1E] hover:text-[#800913] transition-colors text-sm tracking-wider"
+          >
+            VIEW ALL EXPERIENCES
+            <ArrowRight size={16} />
+          </Link>
         </div>
       </div>
-      
+
       <WaitlistModal
         isOpen={showWaitlist}
         onClose={() => setShowWaitlist(false)}
@@ -333,138 +304,150 @@ function ExperiencesPreview() {
 }
 
 function DifferenceSection() {
-  const { ref: sectionRef, isVisible } = useInView(0.15)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
 
-  const pillars = [
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.15 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  const features = [
     {
-      title: "Personalised to your story",
-      description: "We compose experiences shaped around your story, love language, and memories.",
+      title: "Thoughtfully Curated",
+      description:
+        "Every element is selected to create a cohesive sensory journey",
     },
     {
-      title: "Narrative by Design",
+      title: "Effortlessly Elegant",
       description:
-        "From the first invitation to the final note, every detail unfolds with intention and emotional coherence.",
+        "Sophisticated experiences that feel natural, never forced",
     },
     {
-      title: "True immersion",
-      description:
-        "Beyond aesthetics, we layer culture, sensory cues and thoughtful prompts to create atmosphere with meaning, and spark genuine connection.",
-    },
-    {
-      title: "Effortless booking",
-      description:
-        "Transparent pricing, seamless reservation process and refined coordination - simplicity without compromise.",
+      title: "Intimately Personal",
+      description: "Designed for two, focused on connection and presence",
     },
   ]
 
   return (
-    <section
-      ref={sectionRef}
-      className="py-28 lg:py-36 bg-white relative"
-    >
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="text-center mb-20">
-          <h2
-            className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light transition-all duration-700 delay-150 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            The <span className="italic font-serif text-[#800913]">Fougue.</span> Difference
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 bg-[#1E1E1E]">
+      <div className="max-w-6xl mx-auto">
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <p className="text-sm tracking-[0.3em] text-[#800913] mb-4">
+            THE FOUGUE DIFFERENCE
+          </p>
+          <h2 className="font-serif text-3xl md:text-5xl text-white">
+            Beyond the Ordinary
           </h2>
-          <div
-            className={`mt-6 w-12 h-px bg-[#800913] mx-auto transition-all duration-700 delay-300 ${
-              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
-            }`}
-          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-          {pillars.map((pillar, index) => (
+        <div className="grid md:grid-cols-3 gap-12">
+          {features.map((feature, index) => (
             <div
-              key={pillar.title}
-              className={`relative text-center px-4 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+              key={feature.title}
+              className={`text-center transition-all duration-700 delay-${
+                index * 150
+              } ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
-              style={{ transitionDelay: `${400 + index * 150}ms` }}
             >
-              <Sparkles size={16} className="text-[#800913] mx-auto mb-6" />
-              <h3 className="text-[#1E1E1E] text-lg font-medium leading-snug mb-3 text-balance">
-                {pillar.title}
+              <div className="w-px h-12 bg-[#800913] mx-auto mb-8" />
+              <h3 className="font-serif text-xl text-white mb-4">
+                {feature.title}
               </h3>
-              <p className="text-[#1E1E1E]/55 text-sm leading-relaxed">
-                {pillar.description}
-              </p>
+              <p className="text-white/60">{feature.description}</p>
             </div>
           ))}
         </div>
       </div>
-      
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#800913]/20 to-transparent" />
     </section>
   )
 }
 
 function GiftsSection() {
-  const { ref: sectionRef, isVisible } = useInView(0.2)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.2 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section ref={sectionRef} className="relative py-24 lg:py-0 lg:h-screen">
-      <div className="lg:grid lg:grid-cols-2 lg:h-full">
-        <div className="relative h-[50vh] lg:h-full">
-          <Image
-            src="/images/gift-door.jpg"
-            alt="Luxury gift presentation"
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className={`object-cover transition-all duration-1000 ${
-              isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 bg-[#FBF5EF]">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div
+            className={`relative aspect-[4/5] transition-all duration-1000 ${
+              isVisible
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 -translate-x-12"
             }`}
-          />
-        </div>
+          >
+            <Image
+              src="/images/gift-door.jpg"
+              alt="Luxury gift presentation"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className={`object-cover transition-all duration-1000 ${
+                isVisible ? "scale-100" : "scale-105"
+              }`}
+            />
+          </div>
 
-        <div className="flex items-center bg-[#FBF5EF] px-6 lg:px-16 py-16 lg:py-0">
-          <div className="max-w-lg">
-            <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
-              Gifts Collection
+          <div
+            className={`transition-all duration-1000 delay-300 ${
+              isVisible
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 translate-x-12"
+            }`}
+          >
+            <p className="text-sm tracking-[0.3em] text-[#800913] mb-4">
+              THOUGHTFUL GIFTS
             </p>
-            <h2
-              className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
-              Love, Made
-              <span className="italic text-[#800913]"> Tangible</span>
+            <h2 className="font-serif text-3xl md:text-5xl text-[#1E1E1E] mb-6">
+              For Moments That Matter
             </h2>
-            <p
-              className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-8 transition-all duration-700 delay-200 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-            >
-              A curated selection of meaningful and symbolic pieces journals, designed to deepen connection, mark a moment, or carry the memory long after it unfolds.
+            <p className="text-[#1E1E1E]/70 mb-8 text-lg">
+              Discover our collection of carefully selected gifts, each chosen
+              to complement your romantic moments and create lasting memories.
             </p>
             <Link
               href="/gifts"
-              className={`group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-700 delay-300 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className="inline-flex items-center gap-2 bg-[#1E1E1E] text-white px-8 py-4 text-sm tracking-wider hover:bg-[#1E1E1E]/90 transition-colors"
             >
-              Explore the Collection
-              <ArrowRight
-                size={16}
-                className="group-hover:translate-x-1 transition-transform"
-              />
+              EXPLORE COLLECTION
+              <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -474,13 +457,28 @@ function GiftsSection() {
 }
 
 function QuoteSection() {
-  const { ref: sectionRef, isVisible } = useInView(0.3)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative py-32 lg:py-48 overflow-hidden"
-    >
+    <section ref={sectionRef} className="relative py-32 md:py-48 px-6">
       <div className="absolute inset-0">
         <Image
           src="/images/couple-dancing.jpg"
@@ -489,68 +487,78 @@ function QuoteSection() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+      <div className="relative z-10 max-w-4xl mx-auto text-center">
         <blockquote
-          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          className={`font-serif text-3xl md:text-5xl text-white italic leading-relaxed transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Every Fougue. Moment is<br />
-          a story you can step into
+          &ldquo;The greatest thing you&apos;ll ever learn is just to love and be
+          loved in return.&rdquo;
         </blockquote>
-        <div
-          className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+        <p
+          className={`mt-8 text-white/80 tracking-wider transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
-        />
+        >
+          — EDEN AHBEZ
+        </p>
       </div>
     </section>
   )
 }
 
 function CTASection() {
-  const { ref: sectionRef, isVisible } = useInView(0.3)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
-      <div className="mx-auto max-w-4xl px-6 text-center">
-        <h2
-          className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          Your <span className="italic text-[#800913]">Chapter</span> Awaits.
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 bg-white">
+      <div
+        className={`max-w-4xl mx-auto text-center transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        <h2 className="font-serif text-3xl md:text-5xl text-[#1E1E1E] mb-6">
+          Ready to Create Something Beautiful?
         </h2>
-        <p
-          className={`text-[#1E1E1E]/70 text-lg mb-10 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          {"We'll take care of every detail."}
+        <p className="text-lg text-[#1E1E1E]/70 mb-10 max-w-2xl mx-auto">
+          Whether you&apos;re planning a special evening or searching for the
+          perfect gift, we&apos;re here to help you celebrate love with intention.
         </p>
-        <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          <Link
-            href="/contact"
-            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
-          >
-            Get in Touch
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
-            />
-          </Link>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/experiences"
-            className="inline-flex items-center gap-3 border border-[#1E1E1E]/20 text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#1E1E1E]/5 transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 bg-[#800913] text-white px-8 py-4 text-sm tracking-wider hover:bg-[#800913]/90 transition-colors"
           >
-            Explore Experiences
+            EXPLORE EXPERIENCES
+            <ArrowRight size={16} />
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center gap-2 border border-[#1E1E1E] text-[#1E1E1E] px-8 py-4 text-sm tracking-wider hover:bg-[#1E1E1E] hover:text-white transition-colors"
+          >
+            GET IN TOUCH
           </Link>
         </div>
       </div>
@@ -559,50 +567,45 @@ function CTASection() {
 }
 
 function NewsletterSection() {
-  const { ref: sectionRef, isVisible } = useInView(0.3)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.3 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
-      <div className="mx-auto max-w-2xl px-6 text-center">
-        <h2
-          className={`text-white text-3xl md:text-4xl font-light mb-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          Stay Inspired
-        </h2>
-        <p
-          className={`text-white/60 mb-8 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          Receive curated stories, exclusive previews, and inspiration for your next chapter.
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 bg-[#1E1E1E]">
+      <div
+        className={`max-w-xl mx-auto text-center transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        <p className="text-sm tracking-[0.3em] text-[#800913] mb-4">
+          STAY INSPIRED
         </p>
-        <div
-          className={`transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          <NewsletterForm variant="dark" />
-        </div>
+        <h2 className="font-serif text-3xl md:text-4xl text-white mb-6">
+          Join Our Circle
+        </h2>
+        <p className="text-white/70 mb-8">
+          Receive curated inspiration, early access to new experiences, and
+          exclusive offers designed for lovers of intentional romance.
+        </p>
+        <NewsletterForm variant="dark" />
       </div>
     </section>
-  )
-}
-
-export default function HomePage() {
-  return (
-    <main className="bg-white">
-      <Navigation />
-      <HeroSection />
-      <IntroSection />
-      <ExperiencesPreview />
-      <DifferenceSection />
-      <GiftsSection />
-      <QuoteSection />
-      <CTASection />
-      <NewsletterSection />
-      <Footer />
-    </main>
   )
 }
