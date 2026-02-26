@@ -451,6 +451,7 @@ export default function ExperiencesAdmin() {
                   src={experience.image || "/placeholder.svg"}
                   alt={experience.title}
                   fill
+                  sizes="(max-width: 768px) 50vw, 33vw"
                   priority={index === 0}
                   className="object-cover"
                 />
@@ -579,6 +580,7 @@ export default function ExperiencesAdmin() {
                                 src={experience.image || "/placeholder.svg"}
                                 alt={experience.title}
                                 fill
+                                sizes="64px"
                                 className="object-cover"
                               />
                             </div>

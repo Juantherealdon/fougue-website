@@ -372,6 +372,7 @@ export default function ProductsAdmin() {
                     src={product.images[0] || "/placeholder.svg"}
                     alt={product.title}
                     fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     className="object-cover"
                     {...(index < 4 ? { priority: true } : { loading: "lazy" as const })}
                   />
@@ -500,6 +501,7 @@ export default function ProductsAdmin() {
                             src={product.images[0] || "/placeholder.svg"}
                             alt={product.title}
                             fill
+                            sizes="48px"
                             className="object-cover"
                           />
                         </div>
