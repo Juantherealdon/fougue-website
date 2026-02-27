@@ -6,7 +6,7 @@ import AccountStep from "@/components/AccountStep" // Import AccountStep compone
 import { useState, useCallback, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ShoppingBag, Check, Loader2 } from "lucide-react"
+import { ArrowLeft, ShoppingBag, Check, Loader2, X } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 import {
   EmbeddedCheckout,
@@ -21,7 +21,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 type CheckoutStep = "account" | "details" | "payment" | "confirmation"
 
 export default function CheckoutPage() {
-  const { items, totalPrice, clearCart } = useCart()
+  const { items, totalPrice, clearCart, removeItem } = useCart()
   const { user, supabaseUser, login, register } = useAuth()
   const [step, setStep] = useState<CheckoutStep>("account")
   const [isLoading, setIsLoading] = useState(false)
@@ -516,7 +516,7 @@ export default function CheckoutPage() {
                 
                 <div className="space-y-4 mb-6">
                   {items.map((item) => (
-                    <div key={item.id} className="flex gap-4">
+                    <div key={item.id} className="flex gap-4 relative group">
                       <div className="relative w-20 h-20 bg-white flex-shrink-0">
                         <Image
                           src={item.image || "/placeholder.svg"}
@@ -531,7 +531,18 @@ export default function CheckoutPage() {
                         )}
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-sm font-medium text-[#1E1E1E]">{item.title}</h3>
+                        <div className="flex items-start justify-between">
+                          <h3 className="text-sm font-medium text-[#1E1E1E]">{item.title}</h3>
+                          {step === "details" && (
+                            <button
+                              onClick={() => removeItem(item.id)}
+                              className="ml-2 p-1 text-[#1E1E1E]/40 hover:text-[#800913] transition-colors"
+                              title="Remove item"
+                            >
+                              <X size={16} />
+                            </button>
+                          )}
+                        </div>
                         
                         {item.type === 'experience' ? (
                           <div className="text-xs text-[#1E1E1E]/60 mt-1 space-y-0.5">
