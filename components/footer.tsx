@@ -34,9 +34,8 @@ export function Footer() {
               height={60}
               className="h-12 w-auto mb-6"
             />
-            <p className="text-white/60 text-lg leading-relaxed max-w-md">
-              Re-enchanting the way couples spend time together. Every moment is
-              a story you can step into.
+            <p className="text-white/60 text-lg leading-relaxed max-w-md italic">
+              The Art of Romance.
             </p>
           </div>
 
@@ -126,9 +125,7 @@ export function Footer() {
                 FAQ
               </Link>
             </div>
-            <p className="text-white/40 text-sm italic">
-              The Art of Romance. 
-            </p>
+
           </div>
         </div>
       </div>

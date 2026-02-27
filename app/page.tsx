@@ -497,7 +497,7 @@ function GiftsSection() {
                   : "opacity-0 translate-y-8"
               }`}
             >
-              A curated selection of meaningful and symbolic pieces journals, designed to deepen connection, mark a moment, or carry the memory long after it unfolds.
+              A curated selection of meaningful and symbolic pieces, designed to deepen connection, mark a moment, or carry the memory long after it unfolds.
             </p>
             <Link
               href="/gifts"
@@ -540,14 +540,14 @@ function QuoteSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <blockquote
+        <p
           className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Every Fougue. Moment is<br />
-          a story you can step into
-        </blockquote>
+          Re-enchanting the way<br />
+          couples spend time together.
+        </p>
         <div
           className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
@@ -648,7 +648,7 @@ export default function HomePage() {
       <GiftsSection />
       <QuoteSection />
       <CTASection />
-      <NewsletterSection />
+
       <Footer />
     </main>
   )
