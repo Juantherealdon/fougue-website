@@ -112,9 +112,8 @@ function HeroSection({
     setIsLoaded(true)
   }, [])
 
-  const carouselImages = experience.images && experience.images.length > 0
-    ? experience.images.map((src, i) => ({ src, alt: `${experience.title} ${i + 1}` }))
-    : [{ src: experience.image || "/images/experience-picnic.jpg", alt: experience.title }]
+  // Use main image only (not carousel)
+  const heroImage = experience.image || "/images/experience-picnic.jpg"
 
   const experienceDetails = [
     { icon: Clock, label: "Duration", value: `${experience.duration_hours} hours` },
@@ -130,8 +129,17 @@ function HeroSection({
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <div className="absolute inset-0">
-        <ImageCarousel images={carouselImages} autoPlay interval={6000} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+        <Image
+          src={heroImage}
+          alt={experience.title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        {/* Enhanced overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
@@ -257,6 +265,50 @@ function DescriptionSection({ experience }: { experience: Experience }) {
               </div>
             )}
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function IntermediateCTA({ 
+  experience, 
+  onBookClick 
+}: { 
+  experience: Experience
+  onBookClick: () => void 
+}) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
+      { threshold: 0.3 }
+    )
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <section ref={sectionRef} className="py-16 bg-[#1E1E1E]">
+      <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className={`flex flex-col md:flex-row items-center justify-center gap-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <div className="flex items-center gap-4">
+            <span className="w-12 h-px bg-white/20" />
+            <p className="text-white/60 text-sm tracking-wide">
+              Starting from <span className="text-white font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
+            </p>
+            <span className="w-12 h-px bg-white/20" />
+          </div>
+          
+          <button
+            onClick={onBookClick}
+            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-3 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-all"
+          >
+            Book This Experience
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
       </div>
     </section>
@@ -537,8 +589,9 @@ export default function ExperienceDetailPage() {
     <main>
       <Navigation />
       <HeroSection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
-      <DescriptionSection experience={experience} />
-      <IncludedSection experience={experience} />
+<DescriptionSection experience={experience} />
+  <IntermediateCTA experience={experience} onBookClick={() => setIsBookingOpen(true)} />
+  <IncludedSection experience={experience} />
       <GallerySection experience={experience} />
       <AddOnsSection experience={experience} />
 
