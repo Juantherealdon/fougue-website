@@ -111,94 +111,121 @@ function HeroSection() {
 }
 
 function IntroSection() {
-  const { ref: sectionRef, isVisible } = useInView(0.15)
+  const { ref: sectionRef, isVisible } = useInView(0.1)
 
   return (
     <section
       ref={sectionRef}
-      className="relative py-32 lg:py-40 px-6 bg-[#1E1E1E] overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Subtle decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-[#800913] rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#800913] rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      {/* Hero background image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/manifesto-bg.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Very subtle gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
       </div>
 
-      {/* Elegant border frame */}
-      <div className="absolute inset-8 lg:inset-16 border border-white/10 pointer-events-none" />
-
-      <div className="relative mx-auto max-w-5xl">
-        {/* Opening quote mark */}
-        <div
-          className={`text-center mb-12 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <span className="text-[#800913] text-8xl lg:text-9xl font-serif leading-none">{'"'}</span>
-        </div>
-
-        {/* Main headline */}
-        <h2
-          className={`text-white text-4xl md:text-5xl lg:text-6xl font-light text-center leading-tight mb-12 transition-all duration-1000 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          Love deserves intention.
-        </h2>
-
-        {/* Manifesto content */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24 lg:py-32">
+        {/* Centered manifesto layout */}
+        <div className="flex flex-col items-center text-center">
+          
+          {/* Small decorative element */}
           <div
-            className={`transition-all duration-1000 delay-200 ${
+            className={`mb-8 transition-all duration-1000 ${
+              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+            }`}
+          >
+            <div className="w-px h-16 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-auto" />
+          </div>
+
+          {/* Main headline */}
+          <h2
+            className={`text-white text-4xl md:text-5xl lg:text-7xl font-light leading-none mb-6 transition-all duration-1000 delay-100 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <p className="text-white/70 text-lg lg:text-xl leading-relaxed mb-6">
+            Love deserves intention.
+          </h2>
+
+          {/* Subtle divider */}
+          <div
+            className={`w-24 h-px bg-[#800913] mb-12 transition-all duration-1000 delay-200 ${
+              isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+            }`}
+          />
+
+          {/* Manifesto paragraphs - stacked elegantly */}
+          <div className="max-w-3xl space-y-8 mb-16">
+            <p
+              className={`text-white/80 text-lg md:text-xl lg:text-2xl font-light leading-relaxed transition-all duration-1000 delay-300 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
               In a city of endless options, romance can feel polished yet impersonal.
             </p>
-            <p className="text-white/90 text-lg lg:text-xl leading-relaxed">
-              <span className="text-[#800913] font-medium">Fougue</span> re-enchants the way couples spend time together by designing fully curated, private experiences built around your story.
+
+            <p
+              className={`text-white text-lg md:text-xl lg:text-2xl font-light leading-relaxed transition-all duration-1000 delay-400 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              <span className="text-[#C4A77D]">Fougue</span> re-enchants the way couples spend time together by designing fully curated, private experiences built around your story.
+            </p>
+
+            <p
+              className={`text-white/80 text-lg md:text-xl lg:text-2xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              Each experience unfolds as a world you step into: crafted in detail, orchestrated seamlessly, and designed for two.
             </p>
           </div>
 
+          {/* Signature statement */}
           <div
-            className={`transition-all duration-1000 delay-300 ${
+            className={`mb-12 transition-all duration-1000 delay-600 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <p className="text-white/70 text-lg lg:text-xl leading-relaxed mb-6">
-              Each experience unfolds as a world you step into: crafted in detail, orchestrated seamlessly, and designed for two.
+            <p className="text-white text-xl md:text-2xl lg:text-3xl font-light italic mb-2">
+              This is not a reservation.
             </p>
-            <p className="text-white text-lg lg:text-xl leading-relaxed font-light italic">
-              This is not a reservation. It is a moment written for you.
+            <p className="text-[#C4A77D] text-xl md:text-2xl lg:text-3xl font-light">
+              It is a moment written for you.
             </p>
           </div>
-        </div>
 
-        {/* Signature tagline */}
-        <div
-          className={`text-center transition-all duration-1000 delay-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <div className="inline-flex items-center gap-4 mb-8">
-            <span className="w-12 h-px bg-[#800913]" />
-            <span className="w-2 h-2 bg-[#800913] rotate-45" />
-            <span className="w-12 h-px bg-[#800913]" />
+          {/* Closing tagline */}
+          <div
+            className={`transition-all duration-1000 delay-700 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="w-8 h-px bg-white/30" />
+              <span className="w-1.5 h-1.5 bg-[#800913] rotate-45" />
+              <span className="w-8 h-px bg-white/30" />
+            </div>
+            <p className="text-white/50 text-xs md:text-sm tracking-[0.3em] uppercase">
+              Crafted with intention &middot; Composed with precision &middot; Shaped by emotion
+            </p>
           </div>
 
-          <p className="text-white/60 text-sm tracking-[0.25em] uppercase">
-            Crafted with intention. Composed with precision. Shaped by emotion.
-          </p>
-        </div>
-
-        {/* Closing quote mark */}
-        <div
-          className={`text-center mt-12 transition-all duration-1000 delay-600 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <span className="text-[#800913] text-8xl lg:text-9xl font-serif leading-none rotate-180 inline-block">{'"'}</span>
+          {/* Bottom decorative element */}
+          <div
+            className={`mt-12 transition-all duration-1000 delay-800 ${
+              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+            }`}
+          >
+            <div className="w-px h-16 bg-gradient-to-b from-white/40 via-white/20 to-transparent mx-auto" />
+          </div>
         </div>
       </div>
     </section>
