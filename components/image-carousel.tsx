@@ -1,6 +1,6 @@
 "use client"
 
-// Image Carousel - Rebuilt to force cache sync
+// Image carousel component with auto-play
 import React from "react"
 
 import { useState, useEffect, useCallback } from "react"
