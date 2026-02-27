@@ -29,25 +29,7 @@ export const metadata: Metadata = {
     "date ideas Dubai",
     "luxury experiences",
   ],
-  icons: {
-    icon: [
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-      {
-        url: "/icon-light-32x32.jpg",
-        media: "(prefers-color-scheme: light)",
-        sizes: "32x32",
-      },
-      {
-        url: "/icon-dark-32x32.jpg",
-        media: "(prefers-color-scheme: dark)",
-        sizes: "32x32",
-      },
-    ],
-    apple: "/apple-icon.jpg",
-  },
+
 }
 
 export default function RootLayout({
