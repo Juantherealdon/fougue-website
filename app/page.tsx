@@ -235,96 +235,102 @@ function ExperiencesPreview() {
     fetchExperiences()
   }, [])
 
+  // Format price with apostrophe separator (e.g., 4'000)
+  const formatPrice = (price: number) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'")
+  }
+
   return (
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16">
-          <div>
+      <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20">
+          <div className="mb-6 md:mb-0">
             <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+              className={`uppercase text-[10px] md:text-xs text-[#800913] tracking-[0.25em] mb-4 font-medium transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
               Signature Experiences
             </p>
             <h2
-              className={`text-white text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
+              className={`font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-tight transition-all duration-700 delay-100 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
-              Stories You Can
-              <span className="italic text-[#800913]"> Step Into</span>
+              Stories You Can <span className="text-[#800913] italic">Step Into</span>
             </h2>
           </div>
+          
           <Link
             href="/experiences"
-            className={`group inline-flex items-center gap-2 text-white/60 hover:text-white mt-6 lg:mt-0 text-sm tracking-[0.2em] uppercase transition-all duration-700 delay-200 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
+            className={`group flex items-center gap-2 pb-1 border-b border-white/20 hover:border-white transition-colors duration-300 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
+            style={{ transitionDelay: "200ms" }}
           >
-            View All Experiences
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
-            />
+            <span className="uppercase text-[10px] md:text-xs text-white/60 group-hover:text-white tracking-widest transition-colors duration-300">
+              View All Experiences
+            </span>
+            <ArrowRight size={16} className="text-white/60 group-hover:text-white transition-all duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
-
-        <div className={`grid grid-cols-1 gap-6 lg:gap-8 ${
+        
+        {/* Experience Cards */}
+        <div className={`grid grid-cols-1 gap-8 lg:gap-12 ${
           isLoading ? "md:grid-cols-3" :
-          experiences.length === 1 ? "md:grid-cols-1" :
-          experiences.length === 2 ? "md:grid-cols-2" :
+          experiences.length === 1 ? "md:grid-cols-1 max-w-md" :
+          experiences.length === 2 ? "md:grid-cols-2 max-w-4xl" :
           "md:grid-cols-3"
         }`}>
           {isLoading ? (
             Array.from({ length: 3 }).map((_, index) => (
-              <div
-                key={index}
-                className="relative overflow-hidden aspect-[3/4] bg-[#2A2A2A] animate-pulse"
-              />
+              <div key={index} className="animate-pulse">
+                <div className="aspect-[4/5] bg-[#2A2A2A] mb-6" />
+                <div className="h-3 bg-[#2A2A2A] w-20 mb-3" />
+                <div className="h-8 bg-[#2A2A2A] w-48 mb-2" />
+                <div className="h-4 bg-[#2A2A2A] w-32" />
+              </div>
             ))
           ) : (
             experiences.map((exp, index) => {
               const isAlmostAvailable = exp.status === 'almost_available'
-              const count = experiences.length
-              const aspectClass = count === 1 ? "aspect-[16/7]" : count === 2 ? "aspect-[4/5]" : "aspect-[3/4]"
-              
-              const titleSize = count === 1 ? "text-3xl md:text-4xl lg:text-5xl" : count === 2 ? "text-2xl md:text-3xl lg:text-4xl" : "text-2xl lg:text-3xl"
-              const descSize = count === 1 ? "text-base md:text-lg max-w-2xl" : count === 2 ? "text-sm md:text-base max-w-md" : "text-sm"
-              const padClass = count === 1 ? "p-8 lg:p-12" : "p-6 lg:p-8"
               
               const cardContent = (
                 <>
-                  <Image
-                    src={exp.image || "/placeholder.svg"}
-                    alt={exp.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
-                  {isAlmostAvailable && (
-                    <div className="absolute top-4 right-4 bg-[#1E1E1E]/90 text-white text-xs tracking-[0.15em] uppercase px-3 py-1.5 backdrop-blur-sm border border-white/10">
-                      Coming Soon
-                    </div>
-                  )}
-                  <div className={`absolute bottom-0 left-0 right-0 ${padClass}`}>
-                    <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-3 font-medium">
+                  {/* Image */}
+                  <div className="relative w-full aspect-[4/5] overflow-hidden mb-6 bg-stone-900">
+                    <Image
+                      src={exp.image || "/placeholder.svg"}
+                      alt={exp.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                    />
+                    {isAlmostAvailable && (
+                      <div className="absolute top-4 right-4 bg-[#1E1E1E]/90 text-white text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 backdrop-blur-sm border border-white/10">
+                        Coming Soon
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="flex flex-col">
+                    <p className="uppercase text-[10px] text-[#800913] tracking-[0.2em] mb-3 font-medium">
                       {exp.subtitle}
                     </p>
-                    <h3 className={`text-white ${titleSize} font-light mb-3 leading-tight`}>
+                    <h3 className="font-serif text-2xl md:text-3xl text-white mb-2 transition-colors group-hover:text-[#800913]">
                       {exp.title}
                     </h3>
-                    <div className="w-10 h-px bg-[#800913] mb-4 transition-all duration-500 group-hover:w-16" />
-                    <p className={`text-white/70 ${descSize} leading-relaxed`}>
-                      {exp.description}
+                    <p className="text-xs text-white/50 tracking-wide mb-5">
+                      Starting from <span className="text-white font-medium">{formatPrice(exp.basePrice || 0)} AED</span>
                     </p>
+                    <div className="flex items-center gap-2 mt-auto">
+                      <span className="text-xs text-white/50 group-hover:text-white transition-colors">
+                        {isAlmostAvailable ? "Join waitlist" : "Discover this story"}
+                      </span>
+                      <div className="w-8 h-[1px] bg-white/50 group-hover:bg-white group-hover:w-12 transition-all duration-300" />
+                    </div>
                   </div>
                 </>
               )
@@ -337,10 +343,8 @@ function ExperiencesPreview() {
                       setSelectedExperience(exp.title)
                       setShowWaitlist(true)
                     }}
-                    className={`group relative overflow-hidden ${aspectClass} transition-all duration-700 text-left ${
-                      isVisible
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-16"
+                    className={`group block cursor-pointer text-left transition-all duration-700 ${
+                      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
                     }`}
                     style={{ transitionDelay: `${300 + index * 150}ms` }}
                   >
@@ -353,10 +357,8 @@ function ExperiencesPreview() {
                 <Link
                   key={exp.id}
                   href={`/experiences/${exp.id}`}
-                  className={`group relative overflow-hidden ${aspectClass} transition-all duration-700 ${
-                    isVisible
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-16"
+                  className={`group block cursor-pointer transition-all duration-700 ${
+                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
                   }`}
                   style={{ transitionDelay: `${300 + index * 150}ms` }}
                 >
