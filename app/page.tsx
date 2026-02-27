@@ -255,8 +255,15 @@ function ExperiencesPreview() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div className="mb-6 md:mb-0">
+            <p
+              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
+              Signature Experiences
+            </p>
             <h2
-              className={`font-serif text-4xl md:text-5xl text-white leading-tight transition-all duration-700 ${
+              className={`text-white text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
@@ -266,14 +273,12 @@ function ExperiencesPreview() {
           
           <Link
             href="/experiences"
-            className={`group flex items-center gap-2 pb-1 border-b border-white/20 hover:border-white transition-colors duration-300 ${
+            className={`group inline-flex items-center gap-2 text-white/60 hover:text-white mt-6 lg:mt-0 text-sm tracking-[0.2em] uppercase transition-all duration-700 delay-200 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
-            style={{ transitionDelay: "200ms" }}
           >
-            <span className="uppercase text-[10px] md:text-xs text-white/60 group-hover:text-white tracking-widest transition-colors duration-300">
-              View All
-            </span>
+            View All Experiences
+            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
         
@@ -281,12 +286,12 @@ function ExperiencesPreview() {
         <div className={`relative overflow-hidden group transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
           {isLoading ? (
             <div className="flex flex-col md:flex-row animate-pulse">
-              <div className="w-full md:w-3/5 h-[400px] md:h-[600px] bg-[#2A2A2A]" />
-              <div className="w-full md:w-2/5 bg-[#1A1A1A] p-10 md:p-16">
-                <div className="h-4 bg-[#2A2A2A] w-24 mb-4" />
-                <div className="h-12 bg-[#2A2A2A] w-48 mb-6" />
-                <div className="h-20 bg-[#2A2A2A] w-full mb-8" />
-                <div className="h-12 bg-[#2A2A2A] w-40" />
+              <div className="w-full md:w-3/5 aspect-[4/3] md:aspect-[4/3] bg-[#2A2A2A]" />
+              <div className="w-full md:w-2/5 bg-[#1A1A1A] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+                <div className="h-3 bg-[#2A2A2A] w-24 mb-4" />
+                <div className="h-10 bg-[#2A2A2A] w-48 mb-8" />
+                <div className="h-4 bg-[#2A2A2A] w-32 mb-6" />
+                <div className="h-10 bg-[#2A2A2A] w-40" />
               </div>
             </div>
           ) : (
@@ -308,8 +313,8 @@ function ExperiencesPreview() {
                       className="flex flex-col md:flex-row"
                       style={{ width: `${100 / experiences.length}%` }}
                     >
-                      {/* Image */}
-                      <div className="relative w-full md:w-3/5 h-[400px] md:h-[600px] overflow-hidden">
+                      {/* Image - matches info panel height */}
+                      <div className="relative w-full md:w-3/5 aspect-[4/3] md:aspect-auto overflow-hidden">
                         <Image
                           src={exp.image || "/placeholder.svg"}
                           alt={exp.title}
@@ -325,20 +330,17 @@ function ExperiencesPreview() {
                       </div>
                       
                       {/* Info Panel */}
-                      <div className="w-full md:w-2/5 bg-[#1A1A1A] p-10 md:p-14 lg:p-16 flex flex-col justify-center">
-                        <p className="uppercase text-xs text-[#800913] tracking-[0.25em] mb-4 font-medium">
+                      <div className="w-full md:w-2/5 bg-[#1A1A1A] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+                        <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
                           {exp.subtitle}
                         </p>
-                        <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-6 leading-tight">
+                        <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-light mb-8 leading-tight">
                           {exp.title}
                         </h3>
-                        <p className="text-white/60 font-light leading-relaxed mb-8 text-sm md:text-base">
-                          {exp.description}
-                        </p>
                         
-                        <div className="mt-auto pt-8 border-t border-white/10 flex flex-col gap-6">
-                          <p className="text-sm text-white/50 uppercase tracking-wider">
-                            Starting from <span className="text-white font-medium text-base ml-2">{formatPrice(exp.price || 0)} AED</span>
+                        <div className="flex flex-col gap-6">
+                          <p className="text-white/50 text-sm tracking-wide">
+                            Starting from <span className="text-white font-medium">{formatPrice(exp.price || 0)} AED</span>
                           </p>
                           
                           {isAlmostAvailable ? (
@@ -347,16 +349,18 @@ function ExperiencesPreview() {
                                 setSelectedExperience(exp.title)
                                 setShowWaitlist(true)
                               }}
-                              className="inline-block bg-white text-black text-center py-4 px-8 uppercase text-xs tracking-widest font-medium hover:bg-[#800913] hover:text-white transition-colors duration-300"
+                              className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
                             >
                               Join Waitlist
+                              <ArrowRight size={14} />
                             </button>
                           ) : (
                             <Link
                               href={`/experiences/${exp.id}`}
-                              className="inline-block bg-white text-black text-center py-4 px-8 uppercase text-xs tracking-widest font-medium hover:bg-[#800913] hover:text-white transition-colors duration-300"
+                              className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
                             >
-                              Discover this story
+                              Discover This Story
+                              <ArrowRight size={14} />
                             </Link>
                           )}
                         </div>
