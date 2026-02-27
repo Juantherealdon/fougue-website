@@ -125,7 +125,13 @@ function IntroSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <span className="font-serif text-[#800913] text-2xl md:text-3xl italic">Fougue.</span>
+          <Image
+            src="/images/fougue-logo-red-transparent.png"
+            alt="Fougue."
+            width={120}
+            height={40}
+            className="h-8 w-auto mx-auto"
+          />
         </div>
 
         {/* L'Ancrage - Title */}
@@ -161,14 +167,14 @@ function IntroSection() {
         </div>
 
         {/* La Rupture - Point d'Orgue with quotes */}
-        <p
-          className={`text-[#1E1E1E] text-xl md:text-2xl italic leading-relaxed mb-8 transition-all duration-1000 delay-400 ${
+        <blockquote
+          className={`text-[#1E1E1E] text-xl md:text-2xl font-serif italic leading-relaxed mb-8 transition-all duration-1000 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <span className="text-[#800913]">{'"'}</span>This is not a reservation.<br />
-          It is a moment written for you.<span className="text-[#800913]">{'"'}</span>
-        </p>
+          {'"'}This is not a reservation.<br />
+          It is a moment written for you.{'"'}
+        </blockquote>
 
         {/* Horizontal line */}
         <div
@@ -181,7 +187,7 @@ function IntroSection() {
 
         {/* Le Rythme de fin - Signature */}
         <p
-          className={`text-stone-400 text-[11px] uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
+          className={`text-[#1E1E1E]/50 text-[11px] uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
