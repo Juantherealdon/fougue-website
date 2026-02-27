@@ -250,7 +250,7 @@ function ExperiencesPreview() {
   }
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
+    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#121212]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -287,7 +287,7 @@ function ExperiencesPreview() {
           {isLoading ? (
             <div className="flex flex-col md:flex-row animate-pulse">
               <div className="w-full md:w-3/5 aspect-[4/3] md:aspect-[4/3] bg-[#2A2A2A]" />
-              <div className="w-full md:w-2/5 bg-[#FBF5EF] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+              <div className="w-full md:w-2/5 bg-[#1A1A1A] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
                 <div className="h-3 bg-[#2A2A2A] w-24 mb-4" />
                 <div className="h-10 bg-[#2A2A2A] w-48 mb-8" />
                 <div className="h-4 bg-[#2A2A2A] w-32 mb-6" />
@@ -330,17 +330,17 @@ function ExperiencesPreview() {
                       </div>
                       
                       {/* Info Panel */}
-                      <div className="w-full md:w-2/5 bg-[#FBF5EF] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+                      <div className="w-full md:w-2/5 bg-[#1A1A1A] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
                         <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
                           {exp.subtitle}
                         </p>
-                        <h3 className="text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light mb-8 leading-tight">
+                        <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-light mb-8 leading-tight">
                           {exp.title}
                         </h3>
                         
                         <div className="flex flex-col gap-6">
-                          <p className="text-[#1E1E1E]/50 text-sm tracking-wide">
-                            Starting from <span className="text-[#1E1E1E] font-medium">{formatPrice(exp.price || 0)} AED</span>
+                          <p className="text-white/50 text-sm tracking-wide">
+                            Starting from <span className="text-white font-medium">{formatPrice(exp.price || 0)} AED</span>
                           </p>
                           
                           {isAlmostAvailable ? (
