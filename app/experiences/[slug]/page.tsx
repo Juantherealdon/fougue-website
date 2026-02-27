@@ -112,9 +112,8 @@ function HeroSection({
     setIsLoaded(true)
   }, [])
 
-  const carouselImages = experience.images && experience.images.length > 0
-    ? experience.images.map((src, i) => ({ src, alt: `${experience.title} ${i + 1}` }))
-    : [{ src: experience.image || "/images/experience-picnic.jpg", alt: experience.title }]
+  // Use main image only (not carousel)
+  const heroImage = experience.image || "/images/experience-picnic.jpg"
 
   const experienceDetails = [
     { icon: Clock, label: "Duration", value: `${experience.duration_hours} hours` },
@@ -130,8 +129,17 @@ function HeroSection({
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <div className="absolute inset-0">
-        <ImageCarousel images={carouselImages} autoPlay interval={6000} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+        <Image
+          src={heroImage}
+          alt={experience.title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        {/* Enhanced overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
@@ -206,7 +214,7 @@ function HeroSection({
   )
 }
 
-function DescriptionSection({ experience }: { experience: Experience }) {
+function DescriptionSection({ experience, onBookClick }: { experience: Experience; onBookClick: () => void }) {
   const sectionRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -232,21 +240,35 @@ function DescriptionSection({ experience }: { experience: Experience }) {
             <h2 className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-8 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               {experience.title}
             </h2>
-  <div className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-  {experience.long_description ? (
-    <div
-      className="whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-[#1E1E1E]"
-      dangerouslySetInnerHTML={{
-        __html: experience.long_description
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      }}
-    />
-  ) : (
-    <p>{experience.description}</p>
-  )}
-  </div>
+            <div className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              {experience.long_description ? (
+                <div
+                  className="whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-[#1E1E1E]"
+                  dangerouslySetInnerHTML={{
+                    __html: experience.long_description
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  }}
+                />
+              ) : (
+                <p>{experience.description}</p>
+              )}
+            </div>
+
+            {/* Integrated CTA */}
+            <div className={`mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <button
+                onClick={onBookClick}
+                className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-3.5 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-all"
+              >
+                Book This Experience
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <p className="text-[#1E1E1E]/50 text-sm">
+                Starting from <span className="text-[#1E1E1E] font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
+              </p>
+            </div>
           </div>
 
           <div className={`relative aspect-[4/5] transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
@@ -537,8 +559,8 @@ export default function ExperienceDetailPage() {
     <main>
       <Navigation />
       <HeroSection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
-      <DescriptionSection experience={experience} />
-      <IncludedSection experience={experience} />
+<DescriptionSection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
+  <IncludedSection experience={experience} />
       <GallerySection experience={experience} />
       <AddOnsSection experience={experience} />
 
