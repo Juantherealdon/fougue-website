@@ -116,37 +116,44 @@ function IntroSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-24 lg:py-32 px-6 bg-[#FBF5EF]"
+      className="py-28 lg:py-40 px-6 bg-[#FBF5EF]"
     >
-      <div className="mx-auto max-w-4xl text-center">
-        <div
-          className={`transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
-        >
-          <Image
-            src="/images/fougue-logo-red-transparent.png"
-            alt="Fougue."
-            width={200}
-            height={80}
-            className="h-16 w-auto mx-auto mb-12"
-          />
-        </div>
-
+      <div className="mx-auto max-w-2xl text-center">
+        {/* L'Ancrage - Title */}
         <h2
-          className={`text-[#1E1E1E] text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed mb-8 transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          className={`font-serif text-[#1E1E1E] text-4xl md:text-5xl font-normal leading-tight mb-16 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           Love deserves intention.
         </h2>
 
+        {/* Le Corps du texte - Narrative */}
         <p
-          className={`text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto text-balance transition-all duration-1000 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          className={`text-[#1E1E1E]/80 text-lg leading-relaxed mb-16 transition-all duration-1000 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently. Each unfolds as a story you can step into: <strong className="font-semibold text-[#1E1E1E]">intentional, personal, and designed for two.</strong>
+          In a city of endless options, romance can feel polished yet impersonal. Fougue re-enchants the way couples spend time together by designing fully curated, private experiences built around your story. Each experience unfolds as a world you step into: crafted in detail, orchestrated seamlessly, and designed for two.
+        </p>
+
+        {/* La Rupture - Point d'Orgue */}
+        <p
+          className={`text-[#800913] text-xl md:text-2xl italic leading-relaxed mb-16 transition-all duration-1000 delay-400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          This is not a reservation.<br />
+          It is a moment written for you.
+        </p>
+
+        {/* Le Rythme de fin - Signature */}
+        <p
+          className={`text-stone-500 text-[11px] uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          Crafted with intention. Composed with precision. Shaped by emotion.
         </p>
       </div>
     </section>
