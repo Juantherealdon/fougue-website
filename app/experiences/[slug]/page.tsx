@@ -214,7 +214,7 @@ function HeroSection({
   )
 }
 
-function DescriptionSection({ experience }: { experience: Experience }) {
+function DescriptionSection({ experience, onBookClick }: { experience: Experience; onBookClick: () => void }) {
   const sectionRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -240,21 +240,35 @@ function DescriptionSection({ experience }: { experience: Experience }) {
             <h2 className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-8 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               {experience.title}
             </h2>
-  <div className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-  {experience.long_description ? (
-    <div
-      className="whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-[#1E1E1E]"
-      dangerouslySetInnerHTML={{
-        __html: experience.long_description
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      }}
-    />
-  ) : (
-    <p>{experience.description}</p>
-  )}
-  </div>
+            <div className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              {experience.long_description ? (
+                <div
+                  className="whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-[#1E1E1E]"
+                  dangerouslySetInnerHTML={{
+                    __html: experience.long_description
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  }}
+                />
+              ) : (
+                <p>{experience.description}</p>
+              )}
+            </div>
+
+            {/* Integrated CTA */}
+            <div className={`mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <button
+                onClick={onBookClick}
+                className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-3.5 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-all"
+              >
+                Book This Experience
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <p className="text-[#1E1E1E]/50 text-sm">
+                Starting from <span className="text-[#1E1E1E] font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
+              </p>
+            </div>
           </div>
 
           <div className={`relative aspect-[4/5] transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
@@ -265,50 +279,6 @@ function DescriptionSection({ experience }: { experience: Experience }) {
               </div>
             )}
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function IntermediateCTA({ 
-  experience, 
-  onBookClick 
-}: { 
-  experience: Experience
-  onBookClick: () => void 
-}) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
-      { threshold: 0.3 }
-    )
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <section ref={sectionRef} className="py-16 bg-[#1E1E1E]">
-      <div className="mx-auto max-w-4xl px-6 text-center">
-        <div className={`flex flex-col md:flex-row items-center justify-center gap-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <div className="flex items-center gap-4">
-            <span className="w-12 h-px bg-white/20" />
-            <p className="text-white/60 text-sm tracking-wide">
-              Starting from <span className="text-white font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
-            </p>
-            <span className="w-12 h-px bg-white/20" />
-          </div>
-          
-          <button
-            onClick={onBookClick}
-            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-3 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-all"
-          >
-            Book This Experience
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </button>
         </div>
       </div>
     </section>
@@ -589,8 +559,7 @@ export default function ExperienceDetailPage() {
     <main>
       <Navigation />
       <HeroSection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
-<DescriptionSection experience={experience} />
-  <IntermediateCTA experience={experience} onBookClick={() => setIsBookingOpen(true)} />
+<DescriptionSection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
   <IncludedSection experience={experience} />
       <GallerySection experience={experience} />
       <AddOnsSection experience={experience} />
