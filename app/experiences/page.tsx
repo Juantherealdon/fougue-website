@@ -184,6 +184,7 @@ function HeroSection() {
           src="/images/couple-dancing.jpg"
           alt="Couple dancing"
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -266,6 +267,7 @@ function ExperienceCard({
           src={experience.image || "/placeholder.svg"}
           alt={experience.title}
           fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
           className={`object-cover transition-all duration-1000 ${
             isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
           } ${!experience.available ? "grayscale-[30%]" : ""}`}

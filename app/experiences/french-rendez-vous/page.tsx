@@ -303,6 +303,7 @@ function DescriptionSection() {
               src="/images/hero-couple-dinner.jpg"
               alt="Romantic French dinner"
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
             <div className="absolute -bottom-8 -left-8 bg-[#800913] text-white p-8 max-w-[280px]">
@@ -449,6 +450,7 @@ function GallerySection() {
               src="/images/hero-couple-dinner.jpg"
               alt="Romantic dinner"
               fill
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
@@ -463,6 +465,7 @@ function GallerySection() {
               src="/images/couple-dancing.jpg"
               alt="Couple dancing"
               fill
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
@@ -477,6 +480,7 @@ function GallerySection() {
               src="/images/surprise-hands.jpg"
               alt="Surprise moment"
               fill
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
@@ -491,6 +495,7 @@ function GallerySection() {
               src="/images/letter-seal.jpg"
               alt="Elegant details"
               fill
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
@@ -505,6 +510,7 @@ function GallerySection() {
               src="/images/gift-door.jpg"
               alt="Luxury presentation"
               fill
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
@@ -576,6 +582,7 @@ function RelatedGiftsSection() {
                   src={gift.image || "/placeholder.svg"}
                   alt={gift.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute top-4 right-4 bg-[#800913] text-white text-xs tracking-[0.15em] uppercase px-3 py-1.5">
@@ -644,6 +651,7 @@ function CTASection({ onBookClick }: { onBookClick: () => void }) {
           src="/images/couple-dancing.jpg"
           alt="Couple dancing"
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/70" />

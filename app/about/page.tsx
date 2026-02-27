@@ -21,6 +21,7 @@ function HeroSection() {
           src="/images/couple-dancing.jpg"
           alt="Couple dancing in the night"
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />

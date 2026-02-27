@@ -1,5 +1,6 @@
 "use client"
 
+// Dynamic experience detail page
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -249,7 +250,7 @@ function DescriptionSection({ experience }: { experience: Experience }) {
           </div>
 
           <div className={`relative aspect-[4/5] transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
-            <Image src={mainImage || "/placeholder.svg"} alt={experience.title} fill className="object-cover" />
+            <Image src={mainImage || "/placeholder.svg"} alt={experience.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
             {experience.highlight && (
               <div className="absolute -bottom-8 -left-8 bg-[#800913] text-white p-8 max-w-[280px]">
                 <p className="text-xl font-light mb-2">{experience.highlight}</p>
@@ -352,7 +353,7 @@ function GallerySection({ experience }: { experience: Experience }) {
               className={`relative aspect-[3/4] overflow-hidden transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
               style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
-              <Image src={img || "/placeholder.svg"} alt={`${experience.title} gallery ${index + 1}`} fill className="object-cover hover:scale-105 transition-transform duration-700" />
+              <Image src={img || "/placeholder.svg"} alt={`${experience.title} gallery ${index + 1}`} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover hover:scale-105 transition-transform duration-700" />
             </div>
           ))}
         </div>
@@ -428,7 +429,7 @@ function CTASection({ experience, onBookClick }: { experience: Experience; onBoo
   return (
     <section ref={sectionRef} className="relative py-32 lg:py-48 overflow-hidden">
       <div className="absolute inset-0">
-        <Image src={bgImage || "/placeholder.svg"} alt={experience.title} fill className="object-cover" />
+        <Image src={bgImage || "/placeholder.svg"} alt={experience.title} fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-black/70" />
       </div>
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import {
   TrendingUp,
@@ -10,14 +10,13 @@ import {
   Users,
   DollarSign,
   ArrowRight,
-  Eye,
   Package,
   Clock,
   Sparkles,
   Gift,
+  Loader2,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import {
   AreaChart,
   Area,
@@ -30,132 +29,116 @@ import {
   Bar,
 } from "recharts"
 
-const stats = [
-  {
-    name: "Chiffre d'affaires",
-    value: "AED 124,500",
-    change: "+12.5%",
-    trend: "up",
-    icon: DollarSign,
-  },
-  {
-    name: "Commandes",
-    value: "48",
-    change: "+8.2%",
-    trend: "up",
-    icon: ShoppingCart,
-  },
-  {
-    name: "Réservations",
-    value: "32",
-    change: "+15.3%",
-    trend: "up",
-    icon: Calendar,
-  },
-  {
-    name: "Nouveaux clients",
-    value: "18",
-    change: "-2.1%",
-    trend: "down",
-    icon: Users,
-  },
-]
-
-const revenueData = [
-  { month: "Jan", revenue: 45000, orders: 32 },
-  { month: "Fév", revenue: 52000, orders: 38 },
-  { month: "Mar", revenue: 48000, orders: 35 },
-  { month: "Avr", revenue: 61000, orders: 42 },
-  { month: "Mai", revenue: 55000, orders: 40 },
-  { month: "Juin", revenue: 67000, orders: 48 },
-  { month: "Juil", revenue: 72000, orders: 52 },
-]
-
-const experienceData = [
-  { name: "Parisian Interlude", bookings: 45 },
-  { name: "French Rendez-vous", bookings: 38 },
-  { name: "Sakura Hanami", bookings: 32 },
-  { name: "Love is Art", bookings: 28 },
-]
-
-const recentOrders = [
-  {
-    id: "ORD-001",
-    customer: "Sophie Martin",
-    product: "Premium Experience Voucher",
-    amount: "AED 1,000",
-    status: "completed",
-    date: "Il y a 2h",
-  },
-  {
-    id: "ORD-002",
-    customer: "Jean Dupont",
-    product: "Mystery Experience Card",
-    amount: "AED 1,500",
-    status: "processing",
-    date: "Il y a 4h",
-  },
-  {
-    id: "ORD-003",
-    customer: "Marie Claire",
-    product: "Couples Collection",
-    amount: "AED 3,500",
-    status: "pending",
-    date: "Il y a 6h",
-  },
-  {
-    id: "ORD-004",
-    customer: "Pierre Blanc",
-    product: "Experience Voucher",
-    amount: "AED 500",
-    status: "completed",
-    date: "Il y a 8h",
-  },
-]
-
-const upcomingReservations = [
-  {
-    id: "RES-001",
-    customer: "Emma Laurent",
-    experience: "The Parisian Interlude",
-    date: "25 Jan 2026",
-    time: "18:00",
-    guests: 2,
-  },
-  {
-    id: "RES-002",
-    customer: "Lucas Bernard",
-    experience: "French Rendez-vous",
-    date: "26 Jan 2026",
-    time: "19:30",
-    guests: 2,
-  },
-  {
-    id: "RES-003",
-    customer: "Chloé Petit",
-    experience: "Sakura Hanami",
-    date: "27 Jan 2026",
-    time: "17:00",
-    guests: 2,
-  },
-]
-
-const statusColors = {
+const statusColors: Record<string, string> = {
   completed: "bg-green-100 text-green-700",
   processing: "bg-blue-100 text-blue-700",
   pending: "bg-yellow-100 text-yellow-700",
   cancelled: "bg-red-100 text-red-700",
+  confirmed: "bg-green-100 text-green-700",
 }
 
-const statusLabels = {
-  completed: "Terminé",
+const statusLabels: Record<string, string> = {
+  completed: "Termine",
   processing: "En cours",
   pending: "En attente",
-  cancelled: "Annulé",
+  cancelled: "Annule",
+  confirmed: "Confirme",
+}
+
+interface DashboardData {
+  stats: {
+    revenue: { value: number; change: string; currency: string }
+    orders: { value: number; change: string }
+    bookings: { value: number; change: string }
+    customers: { value: number; change: string }
+  }
+  revenueData: Array<{ month: string; revenue: number; orders: number }>
+  experienceData: Array<{ name: string; bookings: number }>
+  recentOrders: Array<{
+    id: string
+    customer: string
+    product: string
+    amount: string
+    status: string
+    date: string
+  }>
+  upcomingBookings: Array<{
+    id: string
+    customer: string
+    experience: string
+    date: string
+    time: string
+    guests: number
+    status: string
+  }>
 }
 
 export default function AdminDashboard() {
-  const [period, setPeriod] = useState("7d")
+  const [period, setPeriod] = useState("30d")
+  const [data, setData] = useState<DashboardData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const fetchDashboard = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const res = await fetch(`/api/admin/dashboard?period=${period}`)
+      if (res.ok) {
+        const json = await res.json()
+        setData(json)
+      }
+    } catch {
+      // silent
+    } finally {
+      setIsLoading(false)
+    }
+  }, [period])
+
+  useEffect(() => {
+    fetchDashboard()
+  }, [fetchDashboard])
+
+  const getTimeAgo = (dateStr: string) => {
+    const diff = Date.now() - new Date(dateStr).getTime()
+    const mins = Math.floor(diff / 60000)
+    if (mins < 60) return `Il y a ${mins}min`
+    const hours = Math.floor(mins / 60)
+    if (hours < 24) return `Il y a ${hours}h`
+    const days = Math.floor(hours / 24)
+    return `Il y a ${days}j`
+  }
+
+  const stats = data
+    ? [
+        {
+          name: "Chiffre d'affaires",
+          value: `${data.stats.revenue.currency} ${data.stats.revenue.value.toLocaleString("en-US")}`,
+          change: `${parseFloat(data.stats.revenue.change) >= 0 ? "+" : ""}${data.stats.revenue.change}%`,
+          trend: parseFloat(data.stats.revenue.change) >= 0 ? "up" : "down",
+          icon: DollarSign,
+        },
+        {
+          name: "Commandes",
+          value: data.stats.orders.value.toString(),
+          change: `${parseFloat(data.stats.orders.change) >= 0 ? "+" : ""}${data.stats.orders.change}%`,
+          trend: parseFloat(data.stats.orders.change) >= 0 ? "up" : "down",
+          icon: ShoppingCart,
+        },
+        {
+          name: "Reservations",
+          value: data.stats.bookings.value.toString(),
+          change: `${parseFloat(data.stats.bookings.change) >= 0 ? "+" : ""}${data.stats.bookings.change}%`,
+          trend: parseFloat(data.stats.bookings.change) >= 0 ? "up" : "down",
+          icon: Calendar,
+        },
+        {
+          name: "Nouveaux clients",
+          value: data.stats.customers.value.toString(),
+          change: `${parseFloat(data.stats.customers.change) >= 0 ? "+" : ""}${data.stats.customers.change}%`,
+          trend: parseFloat(data.stats.customers.change) >= 0 ? "up" : "down",
+          icon: Users,
+        },
+      ]
+    : []
 
   return (
     <div className="space-y-8">
@@ -166,7 +149,7 @@ export default function AdminDashboard() {
             Bienvenue sur le <span className="text-[#800913]">Backoffice</span>
           </h1>
           <p className="text-[#1E1E1E]/60 mt-1">
-            Voici un aperçu de votre activité
+            {"Voici un apercu de votre activite"}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -186,280 +169,278 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <Card key={stat.name} className="border-none shadow-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 bg-[#800913]/10 flex items-center justify-center">
-                  <stat.icon className="text-[#800913]" size={20} />
-                </div>
-                <div
-                  className={`flex items-center gap-1 text-sm ${
-                    stat.trend === "up" ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {stat.trend === "up" ? (
-                    <TrendingUp size={16} />
-                  ) : (
-                    <TrendingDown size={16} />
-                  )}
-                  {stat.change}
-                </div>
-              </div>
-              <p className="text-2xl font-medium text-[#1E1E1E]">{stat.value}</p>
-              <p className="text-sm text-[#1E1E1E]/60 mt-1">{stat.name}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Revenue Chart */}
-        <Card className="border-none shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg font-medium text-[#1E1E1E]">
-              Évolution du chiffre d'affaires
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={revenueData}>
-                  <defs>
-                    <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#800913" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#800913" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#E5E5E5" />
-                  <XAxis dataKey="month" stroke="#666" fontSize={12} />
-                  <YAxis stroke="#666" fontSize={12} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      border: "1px solid #E5E5E5",
-                      borderRadius: "0",
-                    }}
-                    formatter={(value: number) => [`AED ${value.toLocaleString()}`, "Revenus"]}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="revenue"
-                    stroke="#800913"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#colorRevenue)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Experiences Chart */}
-        <Card className="border-none shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg font-medium text-[#1E1E1E]">
-              Réservations par expérience
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={experienceData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#E5E5E5" />
-                  <XAxis type="number" stroke="#666" fontSize={12} />
-                  <YAxis
-                    dataKey="name"
-                    type="category"
-                    stroke="#666"
-                    fontSize={12}
-                    width={120}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      border: "1px solid #E5E5E5",
-                      borderRadius: "0",
-                    }}
-                  />
-                  <Bar dataKey="bookings" fill="#800913" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Orders & Reservations */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Orders */}
-        <Card className="border-none shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium text-[#1E1E1E]">
-              Commandes récentes
-            </CardTitle>
-            <Link
-              href="/admin/orders"
-              className="text-sm text-[#800913] hover:underline flex items-center gap-1"
-            >
-              Voir tout <ArrowRight size={14} />
-            </Link>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentOrders.map((order) => (
-                <div
-                  key={order.id}
-                  className="flex items-center justify-between py-3 border-b border-[#1E1E1E]/5 last:border-0"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-[#FBF5EF] flex items-center justify-center">
-                      <Package size={18} className="text-[#800913]" />
+      {isLoading ? (
+        <div className="flex items-center justify-center py-24">
+          <Loader2 className="animate-spin text-[#800913]" size={32} />
+        </div>
+      ) : (
+        <>
+          {/* Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {stats.map((stat) => (
+              <Card key={stat.name} className="border-none shadow-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 bg-[#800913]/10 flex items-center justify-center">
+                      <stat.icon className="text-[#800913]" size={20} />
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-[#1E1E1E]">
-                        {order.customer}
-                      </p>
-                      <p className="text-xs text-[#1E1E1E]/60">{order.product}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium text-[#1E1E1E]">
-                      {order.amount}
-                    </p>
-                    <span
-                      className={`text-xs px-2 py-0.5 ${
-                        statusColors[order.status as keyof typeof statusColors]
+                    <div
+                      className={`flex items-center gap-1 text-sm ${
+                        stat.trend === "up" ? "text-green-600" : "text-red-600"
                       }`}
                     >
-                      {statusLabels[order.status as keyof typeof statusLabels]}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Upcoming Reservations */}
-        <Card className="border-none shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium text-[#1E1E1E]">
-              Réservations à venir
-            </CardTitle>
-            <Link
-              href="/admin/reservations"
-              className="text-sm text-[#800913] hover:underline flex items-center gap-1"
-            >
-              Voir tout <ArrowRight size={14} />
-            </Link>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {upcomingReservations.map((reservation) => (
-                <div
-                  key={reservation.id}
-                  className="flex items-center justify-between py-3 border-b border-[#1E1E1E]/5 last:border-0"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-[#FBF5EF] flex items-center justify-center">
-                      <Calendar size={18} className="text-[#800913]" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-[#1E1E1E]">
-                        {reservation.customer}
-                      </p>
-                      <p className="text-xs text-[#1E1E1E]/60">
-                        {reservation.experience}
-                      </p>
+                      {stat.trend === "up" ? (
+                        <TrendingUp size={16} />
+                      ) : (
+                        <TrendingDown size={16} />
+                      )}
+                      {stat.change}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium text-[#1E1E1E]">
-                      {reservation.date}
-                    </p>
-                    <p className="text-xs text-[#1E1E1E]/60 flex items-center justify-end gap-1">
-                      <Clock size={12} />
-                      {reservation.time} - {reservation.guests} pers.
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <Card className="border-none shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-medium text-[#1E1E1E]">
-            Actions rapides
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link
-              href="/admin/experiences/new"
-              className="flex items-center gap-3 p-4 border border-[#1E1E1E]/10 hover:border-[#800913] hover:bg-[#800913]/5 transition-all duration-200"
-            >
-              <div className="w-10 h-10 bg-[#800913]/10 flex items-center justify-center">
-                <Sparkles className="text-[#800913]" size={18} />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-[#1E1E1E]">
-                  Nouvelle expérience
-                </p>
-                <p className="text-xs text-[#1E1E1E]/60">Créer une expérience</p>
-              </div>
-            </Link>
-            <Link
-              href="/admin/products/new"
-              className="flex items-center gap-3 p-4 border border-[#1E1E1E]/10 hover:border-[#800913] hover:bg-[#800913]/5 transition-all duration-200"
-            >
-              <div className="w-10 h-10 bg-[#800913]/10 flex items-center justify-center">
-                <Gift className="text-[#800913]" size={18} />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-[#1E1E1E]">
-                  Nouveau produit
-                </p>
-                <p className="text-xs text-[#1E1E1E]/60">Ajouter un cadeau</p>
-              </div>
-            </Link>
-            <Link
-              href="/admin/reservations"
-              className="flex items-center gap-3 p-4 border border-[#1E1E1E]/10 hover:border-[#800913] hover:bg-[#800913]/5 transition-all duration-200"
-            >
-              <div className="w-10 h-10 bg-[#800913]/10 flex items-center justify-center">
-                <Calendar className="text-[#800913]" size={18} />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-[#1E1E1E]">
-                  Calendrier
-                </p>
-                <p className="text-xs text-[#1E1E1E]/60">Voir les réservations</p>
-              </div>
-            </Link>
-            <Link
-              href="/admin/clients"
-              className="flex items-center gap-3 p-4 border border-[#1E1E1E]/10 hover:border-[#800913] hover:bg-[#800913]/5 transition-all duration-200"
-            >
-              <div className="w-10 h-10 bg-[#800913]/10 flex items-center justify-center">
-                <Users className="text-[#800913]" size={18} />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-[#1E1E1E]">Clients</p>
-                <p className="text-xs text-[#1E1E1E]/60">Gérer les clients</p>
-              </div>
-            </Link>
+                  <p className="text-2xl font-medium text-[#1E1E1E]">{stat.value}</p>
+                  <p className="text-sm text-[#1E1E1E]/60 mt-1">{stat.name}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Revenue Chart */}
+            <Card className="border-none shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg font-medium text-[#1E1E1E]">
+                  {"Evolution du chiffre d'affaires"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-72">
+                  {data && data.revenueData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={data.revenueData}>
+                        <defs>
+                          <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#800913" stopOpacity={0.3} />
+                            <stop offset="95%" stopColor="#800913" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E5E5" />
+                        <XAxis dataKey="month" stroke="#666" fontSize={12} />
+                        <YAxis stroke="#666" fontSize={12} />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: "#fff",
+                            border: "1px solid #E5E5E5",
+                            borderRadius: "0",
+                          }}
+                          formatter={(value: number) => [`AED ${value.toLocaleString("en-US")}`, "Revenus"]}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="revenue"
+                          stroke="#800913"
+                          strokeWidth={2}
+                          fillOpacity={1}
+                          fill="url(#colorRevenue)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-[#1E1E1E]/40 text-sm">
+                      Aucune donnee pour cette periode
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Experiences Chart */}
+            <Card className="border-none shadow-sm">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg font-medium text-[#1E1E1E]">
+                  {"Reservations par experience"}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-72">
+                  {data && data.experienceData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={data.experienceData} layout="vertical">
+                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E5E5" />
+                        <XAxis type="number" stroke="#666" fontSize={12} />
+                        <YAxis
+                          dataKey="name"
+                          type="category"
+                          stroke="#666"
+                          fontSize={12}
+                          width={120}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: "#fff",
+                            border: "1px solid #E5E5E5",
+                            borderRadius: "0",
+                          }}
+                        />
+                        <Bar dataKey="bookings" fill="#800913" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-[#1E1E1E]/40 text-sm">
+                      Aucune reservation pour cette periode
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Recent Orders & Reservations */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Recent Orders */}
+            <Card className="border-none shadow-sm">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-lg font-medium text-[#1E1E1E]">
+                  Commandes recentes
+                </CardTitle>
+                <Link
+                  href="/admin/orders"
+                  className="text-sm text-[#800913] hover:underline flex items-center gap-1"
+                >
+                  Voir tout <ArrowRight size={14} />
+                </Link>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {data && data.recentOrders.length > 0 ? (
+                    data.recentOrders.map((order) => (
+                      <div
+                        key={order.id}
+                        className="flex items-center justify-between py-3 border-b border-[#1E1E1E]/5 last:border-0"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 bg-[#FBF5EF] flex items-center justify-center">
+                            <Package size={18} className="text-[#800913]" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-[#1E1E1E]">
+                              {order.customer}
+                            </p>
+                            <p className="text-xs text-[#1E1E1E]/60">{order.product}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm font-medium text-[#1E1E1E]">
+                            {order.amount}
+                          </p>
+                          <span
+                            className={`text-xs px-2 py-0.5 ${
+                              statusColors[order.status] || "bg-gray-100 text-gray-700"
+                            }`}
+                          >
+                            {statusLabels[order.status] || order.status}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="py-8 text-center text-[#1E1E1E]/40 text-sm">
+                      Aucune commande recente
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Upcoming Reservations */}
+            <Card className="border-none shadow-sm">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-lg font-medium text-[#1E1E1E]">
+                  {"Reservations a venir"}
+                </CardTitle>
+                <Link
+                  href="/admin/reservations"
+                  className="text-sm text-[#800913] hover:underline flex items-center gap-1"
+                >
+                  Voir tout <ArrowRight size={14} />
+                </Link>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {data && data.upcomingBookings.length > 0 ? (
+                    data.upcomingBookings.map((reservation) => (
+                      <div
+                        key={reservation.id}
+                        className="flex items-center justify-between py-3 border-b border-[#1E1E1E]/5 last:border-0"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 bg-[#FBF5EF] flex items-center justify-center">
+                            <Calendar size={18} className="text-[#800913]" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-[#1E1E1E]">
+                              {reservation.customer}
+                            </p>
+                            <p className="text-xs text-[#1E1E1E]/60">
+                              {reservation.experience}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm font-medium text-[#1E1E1E]">
+                            {reservation.date}
+                          </p>
+                          <p className="text-xs text-[#1E1E1E]/60 flex items-center justify-end gap-1">
+                            <Clock size={12} />
+                            {reservation.time} - {reservation.guests} pers.
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="py-8 text-center text-[#1E1E1E]/40 text-sm">
+                      Aucune reservation a venir
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Quick Actions */}
+          <Card className="border-none shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-lg font-medium text-[#1E1E1E]">
+                Actions rapides
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { label: "Experiences", href: "/admin/experiences", icon: Sparkles },
+                  { label: "Produits", href: "/admin/products", icon: Gift },
+                  { label: "Commandes", href: "/admin/orders", icon: ShoppingCart },
+                  { label: "Reservations", href: "/admin/reservations", icon: Calendar },
+                ].map((action) => (
+                  <Link
+                    key={action.label}
+                    href={action.href}
+                    className="flex flex-col items-center gap-3 p-6 bg-[#FBF5EF] hover:bg-[#800913]/10 transition-colors group"
+                  >
+                    <action.icon
+                      size={24}
+                      className="text-[#800913] group-hover:scale-110 transition-transform"
+                    />
+                    <span className="text-sm text-[#1E1E1E] font-medium">
+                      {action.label}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   )
 }

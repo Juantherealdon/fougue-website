@@ -24,7 +24,11 @@ export async function GET(request: NextRequest) {
   }
   
   console.log("[v0] Fetched products:", data?.length || 0)
-  return NextResponse.json(data || [])
+  return NextResponse.json(data || [], {
+    headers: {
+      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+    },
+  })
 }
 
 export async function POST(request: NextRequest) {

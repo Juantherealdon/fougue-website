@@ -98,6 +98,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                 src={product.images[currentImageIndex] || "/placeholder.svg"}
                 alt={product.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 40vw"
                 className="object-cover"
               />
 
@@ -154,6 +155,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                       src={image || "/placeholder.svg"}
                       alt={`${product.title} ${index + 1}`}
                       fill
+                      sizes="48px"
                       className="object-cover"
                     />
                   </button>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer"
 import { ArrowRight, ChevronDown, Sparkles } from "lucide-react"
 import { NewsletterForm } from "@/components/newsletter-form"
 import { WaitlistModal } from "@/components/waitlist-modal"
+import { useInView } from "@/hooks/use-in-view"
 
 type ExperienceStatus = 'available' | 'almost_available' | 'coming_soon' | 'unavailable'
 
@@ -35,12 +36,12 @@ function HeroSection() {
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* Background Image */}
       <div className="absolute inset-0">
         <Image
           src="/images/hero-surprise.jpg"
           alt="Romantic surprise moment"
           fill
+          sizes="100vw"
           className={`object-cover object-top transition-transform duration-[2s] ${
             isLoaded ? "scale-100" : "scale-110"
           }`}
@@ -49,7 +50,6 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-24">
         <div
           className={`transition-all duration-1000 delay-300 ${
@@ -103,7 +103,6 @@ function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
         <ChevronDown className="text-white/60 animate-bounce" size={32} />
       </div>
@@ -112,25 +111,7 @@ function HeroSection() {
 }
 
 function IntroSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.2 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.2)
 
   return (
     <section
@@ -173,29 +154,11 @@ function IntroSection() {
 }
 
 function ExperiencesPreview() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
+  const { ref: sectionRef, isVisible } = useInView(0.1)
   const [experiences, setExperiences] = useState<Experience[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [showWaitlist, setShowWaitlist] = useState(false)
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>()
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   useEffect(() => {
     async function fetchExperiences() {
@@ -203,24 +166,22 @@ function ExperiencesPreview() {
         const response = await fetch('/api/experiences')
         
         if (!response.ok) {
-          console.error('[v0] Error fetching experiences:', response.statusText)
           return
         }
 
         const data = await response.json()
         
-        // Filter only available and almost_available, then get first 3
         const filteredExperiences = data
-          .filter((exp: any) => exp.status === 'available' || exp.status === 'almost_available')
+          .filter((exp: Experience) => exp.status === 'available' || exp.status === 'almost_available')
           .slice(0, 3)
-          .map((exp: any) => ({
+          .map((exp: Experience) => ({
             ...exp,
             status: exp.status || (exp.available ? 'available' : 'coming_soon'),
           }))
         
         setExperiences(filteredExperiences)
-      } catch (error) {
-        console.error('[v0] Error fetching experiences:', error)
+      } catch {
+        // silent
       } finally {
         setIsLoading(false)
       }
@@ -277,7 +238,6 @@ function ExperiencesPreview() {
           "md:grid-cols-3"
         }`}>
           {isLoading ? (
-            // Loading skeleton
             Array.from({ length: 3 }).map((_, index) => (
               <div
                 key={index}
@@ -300,6 +260,7 @@ function ExperiencesPreview() {
                     src={exp.image || "/placeholder.svg"}
                     alt={exp.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
@@ -372,25 +333,7 @@ function ExperiencesPreview() {
 }
 
 function DifferenceSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.15 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.15)
 
   const pillars = [
     {
@@ -420,7 +363,6 @@ function DifferenceSection() {
       className="py-28 lg:py-36 bg-white relative"
     >
       <div className="mx-auto max-w-6xl px-6">
-        {/* Header */}
         <div className="text-center mb-20">
           <h2
             className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light transition-all duration-700 delay-150 ${
@@ -436,7 +378,6 @@ function DifferenceSection() {
           />
         </div>
 
-        {/* Pillars grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
           {pillars.map((pillar, index) => (
             <div
@@ -458,49 +399,29 @@ function DifferenceSection() {
         </div>
       </div>
       
-      {/* Subtle bottom separator */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#800913]/20 to-transparent" />
     </section>
   )
 }
 
 function GiftsSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.2 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.2)
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-0 lg:h-screen">
       <div className="lg:grid lg:grid-cols-2 lg:h-full">
-        {/* Image */}
         <div className="relative h-[50vh] lg:h-full">
           <Image
             src="/images/gift-door.jpg"
             alt="Luxury gift presentation"
             fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className={`object-cover transition-all duration-1000 ${
               isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
             }`}
           />
         </div>
 
-        {/* Content */}
         <div className="flex items-center bg-[#FBF5EF] px-6 lg:px-16 py-16 lg:py-0">
           <div className="max-w-lg">
             <p
@@ -553,43 +474,24 @@ function GiftsSection() {
 }
 
 function QuoteSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.3 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.3)
 
   return (
     <section
       ref={sectionRef}
       className="relative py-32 lg:py-48 overflow-hidden"
     >
-      {/* Background */}
       <div className="absolute inset-0">
         <Image
           src="/images/couple-dancing.jpg"
           alt="Couple dancing in the street"
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         <blockquote
           className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${
@@ -610,25 +512,7 @@ function QuoteSection() {
 }
 
 function CTASection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.3 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
+  const { ref: sectionRef, isVisible } = useInView(0.3)
 
   return (
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
@@ -654,7 +538,7 @@ function CTASection() {
         >
           <Link
             href="/contact"
-            className="group inline-flex items-center justify-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
+            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
           >
             Get in Touch
             <ArrowRight
@@ -663,11 +547,43 @@ function CTASection() {
             />
           </Link>
           <Link
-            href="/about"
-            className="inline-flex items-center justify-center gap-3 border border-[#1E1E1E]/30 text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#1E1E1E]/5 transition-all duration-300"
+            href="/experiences"
+            className="inline-flex items-center gap-3 border border-[#1E1E1E]/20 text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#1E1E1E]/5 transition-all duration-300"
           >
-            Learn About Us
+            Explore Experiences
           </Link>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function NewsletterSection() {
+  const { ref: sectionRef, isVisible } = useInView(0.3)
+
+  return (
+    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
+      <div className="mx-auto max-w-2xl px-6 text-center">
+        <h2
+          className={`text-white text-3xl md:text-4xl font-light mb-4 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          Stay Inspired
+        </h2>
+        <p
+          className={`text-white/60 mb-8 transition-all duration-700 delay-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          Receive curated stories, exclusive previews, and inspiration for your next chapter.
+        </p>
+        <div
+          className={`transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          <NewsletterForm variant="dark" />
         </div>
       </div>
     </section>
@@ -676,7 +592,7 @@ function CTASection() {
 
 export default function HomePage() {
   return (
-    <main>
+    <main className="bg-white">
       <Navigation />
       <HeroSection />
       <IntroSection />
@@ -684,8 +600,8 @@ export default function HomePage() {
       <DifferenceSection />
       <GiftsSection />
       <QuoteSection />
-
       <CTASection />
+      <NewsletterSection />
       <Footer />
     </main>
   )
