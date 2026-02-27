@@ -116,12 +116,21 @@ function IntroSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-28 lg:py-40 px-6 bg-[#FBF5EF]"
+      className="py-20 lg:py-28 px-6 bg-[#FBF5EF]"
     >
       <div className="mx-auto max-w-2xl text-center">
+        {/* Logo */}
+        <div
+          className={`mb-8 transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <span className="font-serif text-[#800913] text-2xl md:text-3xl italic">Fougue.</span>
+        </div>
+
         {/* L'Ancrage - Title */}
         <h2
-          className={`font-serif text-[#1E1E1E] text-4xl md:text-5xl font-normal leading-tight mb-16 transition-all duration-1000 ${
+          className={`font-serif text-[#1E1E1E] text-4xl md:text-5xl font-normal leading-tight mb-10 transition-all duration-1000 delay-100 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -129,27 +138,50 @@ function IntroSection() {
         </h2>
 
         {/* Le Corps du texte - Narrative */}
-        <p
-          className={`text-[#1E1E1E]/80 text-lg leading-relaxed mb-16 transition-all duration-1000 delay-200 ${
+        <div
+          className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-10 space-y-6 transition-all duration-1000 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          In a city of endless options, romance can feel polished yet impersonal. Fougue re-enchants the way couples spend time together by designing fully curated, private experiences built around your story. Each experience unfolds as a world you step into: crafted in detail, orchestrated seamlessly, and designed for two.
+          <p>
+            In a city of endless options, romance can feel polished yet impersonal. Fougue re-enchants the way couples spend time together by designing fully curated, private experiences built around your story.
+          </p>
+          <p>
+            Each experience unfolds as a world you step into: crafted in detail, orchestrated seamlessly, and designed for two.
+          </p>
+        </div>
+
+        {/* Horizontal line */}
+        <div
+          className={`flex justify-center mb-8 transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <span className="w-16 h-px bg-[#1E1E1E]/30" />
+        </div>
+
+        {/* La Rupture - Point d'Orgue with quotes */}
+        <p
+          className={`text-[#1E1E1E] text-xl md:text-2xl italic leading-relaxed mb-8 transition-all duration-1000 delay-400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <span className="text-[#800913]">{'"'}</span>This is not a reservation.<br />
+          It is a moment written for you.<span className="text-[#800913]">{'"'}</span>
         </p>
 
-        {/* La Rupture - Point d'Orgue */}
-        <p
-          className={`text-[#800913] text-xl md:text-2xl italic leading-relaxed mb-16 transition-all duration-1000 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        {/* Horizontal line */}
+        <div
+          className={`flex justify-center mb-8 transition-all duration-1000 delay-500 ${
+            isVisible ? "opacity-100" : "opacity-0"
           }`}
         >
-          This is not a reservation.<br />
-          It is a moment written for you.
-        </p>
+          <span className="w-16 h-px bg-[#1E1E1E]/30" />
+        </div>
 
         {/* Le Rythme de fin - Signature */}
         <p
-          className={`text-stone-500 text-[11px] uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
+          className={`text-stone-400 text-[11px] uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
