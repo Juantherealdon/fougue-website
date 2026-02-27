@@ -111,122 +111,43 @@ function HeroSection() {
 }
 
 function IntroSection() {
-  const { ref: sectionRef, isVisible } = useInView(0.1)
+  const { ref: sectionRef, isVisible } = useInView(0.2)
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="py-24 lg:py-32 px-6 bg-[#FBF5EF]"
     >
-      {/* Hero background image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/manifesto-bg.jpg"
-          alt=""
-          fill
-          className="object-cover"
-          priority
-        />
-        {/* Very subtle gradient overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24 lg:py-32">
-        {/* Centered manifesto layout */}
-        <div className="flex flex-col items-center text-center">
-          
-          {/* Small decorative element */}
-          <div
-            className={`mb-8 transition-all duration-1000 ${
-              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
-            }`}
-          >
-            <div className="w-px h-16 bg-gradient-to-b from-transparent via-white/40 to-transparent mx-auto" />
-          </div>
-
-          {/* Main headline */}
-          <h2
-            className={`text-white text-4xl md:text-5xl lg:text-7xl font-light leading-none mb-6 transition-all duration-1000 delay-100 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            Love deserves intention.
-          </h2>
-
-          {/* Subtle divider */}
-          <div
-            className={`w-24 h-px bg-[#800913] mb-12 transition-all duration-1000 delay-200 ${
-              isVisible ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
-            }`}
+      <div className="mx-auto max-w-4xl text-center">
+        <div
+          className={`transition-all duration-1000 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          <Image
+            src="/images/fougue-logo-red-transparent.png"
+            alt="Fougue."
+            width={200}
+            height={80}
+            className="h-16 w-auto mx-auto mb-12"
           />
-
-          {/* Manifesto paragraphs - stacked elegantly */}
-          <div className="max-w-3xl space-y-8 mb-16">
-            <p
-              className={`text-white/80 text-lg md:text-xl lg:text-2xl font-light leading-relaxed transition-all duration-1000 delay-300 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              In a city of endless options, romance can feel polished yet impersonal.
-            </p>
-
-            <p
-              className={`text-white text-lg md:text-xl lg:text-2xl font-light leading-relaxed transition-all duration-1000 delay-400 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              <span className="text-[#C4A77D]">Fougue</span> re-enchants the way couples spend time together by designing fully curated, private experiences built around your story.
-            </p>
-
-            <p
-              className={`text-white/80 text-lg md:text-xl lg:text-2xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              Each experience unfolds as a world you step into: crafted in detail, orchestrated seamlessly, and designed for two.
-            </p>
-          </div>
-
-          {/* Signature statement */}
-          <div
-            className={`mb-12 transition-all duration-1000 delay-600 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <p className="text-white text-xl md:text-2xl lg:text-3xl font-light italic mb-2">
-              This is not a reservation.
-            </p>
-            <p className="text-[#C4A77D] text-xl md:text-2xl lg:text-3xl font-light">
-              It is a moment written for you.
-            </p>
-          </div>
-
-          {/* Closing tagline */}
-          <div
-            className={`transition-all duration-1000 delay-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="w-8 h-px bg-white/30" />
-              <span className="w-1.5 h-1.5 bg-[#800913] rotate-45" />
-              <span className="w-8 h-px bg-white/30" />
-            </div>
-            <p className="text-white/50 text-xs md:text-sm tracking-[0.3em] uppercase">
-              Crafted with intention &middot; Composed with precision &middot; Shaped by emotion
-            </p>
-          </div>
-
-          {/* Bottom decorative element */}
-          <div
-            className={`mt-12 transition-all duration-1000 delay-800 ${
-              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
-            }`}
-          >
-            <div className="w-px h-16 bg-gradient-to-b from-white/40 via-white/20 to-transparent mx-auto" />
-          </div>
         </div>
+
+        <h2
+          className={`text-[#1E1E1E] text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed mb-8 transition-all duration-1000 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          Love deserves intention.
+        </h2>
+
+        <p
+          className={`text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto text-balance transition-all duration-1000 delay-400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          Fougue. re-inchants the way couple spend time together. We craft immersive, story-driven experiences for couples who want to celebrate differently. Each unfolds as a story you can step into: <strong className="font-semibold text-[#1E1E1E]">intentional, personal, and designed for two.</strong>
+        </p>
       </div>
     </section>
   )
