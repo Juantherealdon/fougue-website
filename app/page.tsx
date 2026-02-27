@@ -204,6 +204,7 @@ function ExperiencesPreview() {
   const [isLoading, setIsLoading] = useState(true)
   const [showWaitlist, setShowWaitlist] = useState(false)
   const [selectedExperience, setSelectedExperience] = useState<string | undefined>()
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     async function fetchExperiences() {
@@ -240,21 +241,22 @@ function ExperiencesPreview() {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'")
   }
 
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % experiences.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + experiences.length) % experiences.length)
+  }
+
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
-      <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
+    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#121212]">
+      <div className="mx-auto max-w-7xl px-6 lg:px-12">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div className="mb-6 md:mb-0">
-            <p
-              className={`uppercase text-[10px] md:text-xs text-[#800913] tracking-[0.25em] mb-4 font-medium transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-            >
-              Signature Experiences
-            </p>
             <h2
-              className={`font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-tight transition-all duration-700 delay-100 ${
+              className={`font-serif text-4xl md:text-5xl text-white leading-tight transition-all duration-700 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
@@ -270,102 +272,131 @@ function ExperiencesPreview() {
             style={{ transitionDelay: "200ms" }}
           >
             <span className="uppercase text-[10px] md:text-xs text-white/60 group-hover:text-white tracking-widest transition-colors duration-300">
-              View All Experiences
+              View All
             </span>
-            <ArrowRight size={16} className="text-white/60 group-hover:text-white transition-all duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
         
-        {/* Experience Cards */}
-        <div className={`grid grid-cols-1 gap-8 lg:gap-12 ${
-          isLoading ? "md:grid-cols-3" :
-          experiences.length === 1 ? "md:grid-cols-1 max-w-md" :
-          experiences.length === 2 ? "md:grid-cols-2 max-w-4xl" :
-          "md:grid-cols-3"
-        }`}>
+        {/* Carousel */}
+        <div className={`relative overflow-hidden group transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
           {isLoading ? (
-            Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="animate-pulse">
-                <div className="aspect-[4/5] bg-[#2A2A2A] mb-6" />
-                <div className="h-3 bg-[#2A2A2A] w-20 mb-3" />
-                <div className="h-8 bg-[#2A2A2A] w-48 mb-2" />
-                <div className="h-4 bg-[#2A2A2A] w-32" />
+            <div className="flex flex-col md:flex-row animate-pulse">
+              <div className="w-full md:w-3/5 h-[400px] md:h-[600px] bg-[#2A2A2A]" />
+              <div className="w-full md:w-2/5 bg-[#1A1A1A] p-10 md:p-16">
+                <div className="h-4 bg-[#2A2A2A] w-24 mb-4" />
+                <div className="h-12 bg-[#2A2A2A] w-48 mb-6" />
+                <div className="h-20 bg-[#2A2A2A] w-full mb-8" />
+                <div className="h-12 bg-[#2A2A2A] w-40" />
               </div>
-            ))
+            </div>
           ) : (
-            experiences.map((exp, index) => {
-              const isAlmostAvailable = exp.status === 'almost_available'
-              
-              const cardContent = (
-                <>
-                  {/* Image */}
-                  <div className="relative w-full aspect-[4/5] overflow-hidden mb-6 bg-stone-900">
-                    <Image
-                      src={exp.image || "/placeholder.svg"}
-                      alt={exp.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                    />
-                    {isAlmostAvailable && (
-                      <div className="absolute top-4 right-4 bg-[#1E1E1E]/90 text-white text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 backdrop-blur-sm border border-white/10">
-                        Coming Soon
-                      </div>
-                    )}
-                  </div>
+            <>
+              {/* Track */}
+              <div 
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{ 
+                  width: `${experiences.length * 100}%`,
+                  transform: `translateX(-${currentIndex * (100 / experiences.length)}%)`
+                }}
+              >
+                {experiences.map((exp) => {
+                  const isAlmostAvailable = exp.status === 'almost_available'
                   
-                  {/* Content */}
-                  <div className="flex flex-col">
-                    <p className="uppercase text-[10px] text-[#800913] tracking-[0.2em] mb-3 font-medium">
-                      {exp.subtitle}
-                    </p>
-                    <h3 className="font-serif text-2xl md:text-3xl text-white mb-2 transition-colors group-hover:text-[#800913]">
-                      {exp.title}
-                    </h3>
-                    <p className="text-xs text-white/50 tracking-wide mb-5">
-                      Starting from <span className="text-white font-medium">{formatPrice(exp.basePrice || 0)} AED</span>
-                    </p>
-                    <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-xs text-white/50 group-hover:text-white transition-colors">
-                        {isAlmostAvailable ? "Join waitlist" : "Discover this story"}
-                      </span>
-                      <div className="w-8 h-[1px] bg-white/50 group-hover:bg-white group-hover:w-12 transition-all duration-300" />
+                  return (
+                    <div 
+                      key={exp.id} 
+                      className="flex flex-col md:flex-row"
+                      style={{ width: `${100 / experiences.length}%` }}
+                    >
+                      {/* Image */}
+                      <div className="relative w-full md:w-3/5 h-[400px] md:h-[600px] overflow-hidden">
+                        <Image
+                          src={exp.image || "/placeholder.svg"}
+                          alt={exp.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 60vw"
+                          className="object-cover"
+                        />
+                        {isAlmostAvailable && (
+                          <div className="absolute top-6 left-6 bg-black/70 text-white text-[10px] tracking-[0.2em] uppercase px-4 py-2 backdrop-blur-sm">
+                            Coming Soon
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Info Panel */}
+                      <div className="w-full md:w-2/5 bg-[#1A1A1A] p-10 md:p-14 lg:p-16 flex flex-col justify-center">
+                        <p className="uppercase text-xs text-[#800913] tracking-[0.25em] mb-4 font-medium">
+                          {exp.subtitle}
+                        </p>
+                        <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-6 leading-tight">
+                          {exp.title}
+                        </h3>
+                        <p className="text-white/60 font-light leading-relaxed mb-8 text-sm md:text-base">
+                          {exp.description}
+                        </p>
+                        
+                        <div className="mt-auto pt-8 border-t border-white/10 flex flex-col gap-6">
+                          <p className="text-sm text-white/50 uppercase tracking-wider">
+                            Starting from <span className="text-white font-medium text-base ml-2">{formatPrice(exp.price || 0)} AED</span>
+                          </p>
+                          
+                          {isAlmostAvailable ? (
+                            <button
+                              onClick={() => {
+                                setSelectedExperience(exp.title)
+                                setShowWaitlist(true)
+                              }}
+                              className="inline-block bg-white text-black text-center py-4 px-8 uppercase text-xs tracking-widest font-medium hover:bg-[#800913] hover:text-white transition-colors duration-300"
+                            >
+                              Join Waitlist
+                            </button>
+                          ) : (
+                            <Link
+                              href={`/experiences/${exp.id}`}
+                              className="inline-block bg-white text-black text-center py-4 px-8 uppercase text-xs tracking-widest font-medium hover:bg-[#800913] hover:text-white transition-colors duration-300"
+                            >
+                              Discover this story
+                            </Link>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </>
-              )
-              
-              if (isAlmostAvailable) {
-                return (
-                  <button
-                    key={exp.id}
-                    onClick={() => {
-                      setSelectedExperience(exp.title)
-                      setShowWaitlist(true)
-                    }}
-                    className={`group block cursor-pointer text-left transition-all duration-700 ${
-                      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-                    }`}
-                    style={{ transitionDelay: `${300 + index * 150}ms` }}
+                  )
+                })}
+              </div>
+
+              {/* Navigation Arrows */}
+              {experiences.length > 1 && (
+                <>
+                  <button 
+                    onClick={prevSlide}
+                    className={`absolute top-1/2 left-4 md:left-8 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-[#800913] text-white flex items-center justify-center rounded-full backdrop-blur-sm transition-all duration-300 z-10 ${currentIndex === 0 ? 'opacity-0 pointer-events-none' : 'opacity-0 group-hover:opacity-100'}`}
                   >
-                    {cardContent}
+                    <ArrowRight size={20} className="rotate-180" />
                   </button>
-                )
-              }
-              
-              return (
-                <Link
-                  key={exp.id}
-                  href={`/experiences/${exp.id}`}
-                  className={`group block cursor-pointer transition-all duration-700 ${
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
-                  }`}
-                  style={{ transitionDelay: `${300 + index * 150}ms` }}
-                >
-                  {cardContent}
-                </Link>
-              )
-            })
+                  <button 
+                    onClick={nextSlide}
+                    className="absolute top-1/2 right-4 md:right-[40%] -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-[#800913] text-white flex items-center justify-center rounded-full backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 z-10"
+                  >
+                    <ArrowRight size={20} />
+                  </button>
+                </>
+              )}
+
+              {/* Dots */}
+              {experiences.length > 1 && (
+                <div className="absolute bottom-6 right-0 md:w-2/5 flex justify-center gap-3 z-10">
+                  {experiences.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentIndex(index)}
+                      className={`w-2 h-2 rounded-full bg-white transition-opacity duration-300 ${index === currentIndex ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
