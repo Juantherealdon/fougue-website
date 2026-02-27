@@ -43,6 +43,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
   const handleAddToCart = () => {
     addItem(
       {
+        type: 'product',
         id: product.id,
         title: product.title,
         price: product.price,
@@ -61,6 +62,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
   const handleBuyNow = () => {
     addItem(
       {
+        type: 'product',
         id: product.id,
         title: product.title,
         price: product.price,
