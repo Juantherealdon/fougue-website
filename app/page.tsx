@@ -57,7 +57,7 @@ function HeroSection() {
           }`}
         >
           <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
-            Dubai&apos;s Curated Romantic Experiences
+            IMMERSIVE ROMANTIC EXPERIENCES IN DUBAI
           </p>
         </div>
 
@@ -76,7 +76,7 @@ function HeroSection() {
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          Crafted with intention. Composed with precision. Shaped by emotion.
+          Private, story-driven moments, designed for couples.
         </p>
 
         <div
