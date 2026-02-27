@@ -259,7 +259,7 @@ function ExperienceCard({
     >
       {/* Image */}
       <div
-        className={`relative aspect-[4/3] lg:aspect-[4/5] overflow-hidden ${
+        className={`relative aspect-[4/3] lg:aspect-[3/4] overflow-hidden ${
           isReversed ? "lg:order-2" : ""
         }`}
       >
@@ -284,7 +284,7 @@ function ExperienceCard({
 
       {/* Content */}
       <div
-        className={`px-6 lg:px-16 py-8 lg:py-16 bg-[#FBF5EF] ${
+        className={`px-6 lg:px-16 py-8 lg:py-10 bg-[#FBF5EF] ${
           isReversed ? "lg:order-1" : ""
         }`}
       >
