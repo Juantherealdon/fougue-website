@@ -442,7 +442,7 @@ function DifferenceSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-28 lg:py-36 bg-[#FBF5EF] relative"
+      className="py-28 lg:py-36 bg-white relative"
     >
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center mb-20">
@@ -480,24 +480,19 @@ function DifferenceSection() {
           ))}
         </div>
       </div>
+      
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#800913]/20 to-transparent" />
     </section>
   )
 }
 
 function GiftsSection() {
   const { ref: sectionRef, isVisible } = useInView(0.2)
-  const [scrollY, setScrollY] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-0 lg:h-screen">
       <div className="lg:grid lg:grid-cols-2 lg:h-full">
-        <div className="relative h-[50vh] lg:h-full overflow-hidden">
+        <div className="relative h-[50vh] lg:h-full">
           <Image
             src="/images/gift-door.jpg"
             alt="Luxury gift presentation"
@@ -506,7 +501,6 @@ function GiftsSection() {
             className={`object-cover transition-all duration-1000 ${
               isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
             }`}
-            style={{ transform: `translateY(${scrollY * 0.1}px)` }}
           />
         </div>
 
