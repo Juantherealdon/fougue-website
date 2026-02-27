@@ -128,9 +128,9 @@ function IntroSection() {
           <Image
             src="/images/fougue-logo-red-transparent.png"
             alt="Fougue."
-            width={120}
-            height={40}
-            className="h-8 w-auto mx-auto"
+            width={150}
+            height={50}
+            className="h-11 w-auto mx-auto"
           />
         </div>
 
@@ -187,7 +187,7 @@ function IntroSection() {
 
         {/* Le Rythme de fin - Signature */}
         <p
-          className={`text-[#1E1E1E]/50 text-[11px] uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
+          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
