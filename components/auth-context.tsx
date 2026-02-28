@@ -134,6 +134,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Listen for auth state changes
   useEffect(() => {
+    // If supabase client failed to initialize, skip auth
+    if (!supabase) {
+      setIsLoading(false)
+      return
+    }
+
     let isMounted = true
 
     const initSession = async () => {
