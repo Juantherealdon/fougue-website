@@ -85,9 +85,8 @@ interface RegisterData {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-const supabase = createClient()
-
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const supabase = createClient()
   const [user, setUser] = useState<User | null>(null)
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
