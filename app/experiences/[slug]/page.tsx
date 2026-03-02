@@ -162,86 +162,91 @@ function SplitHeroDescription({
         </div>
       </div>
 
-      {/* Right - Scrolling Content */}
-      <div className="w-full md:w-1/2 px-6 py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 flex flex-col justify-center bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
-        <Link
-          href="/experiences"
-          className="text-[#1E1E1E]/40 text-xs tracking-[0.2em] uppercase mb-8 hover:text-[#800913] transition-colors block w-max"
-        >
-          ← Back to experiences
-        </Link>
+      {/* Right - Scrolling Content - min-h-screen to ensure CTA reaches bottom */}
+      <div className="w-full md:w-1/2 min-h-screen px-6 py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 flex flex-col justify-between bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
+        {/* Top content - fills to push CTA to bottom */}
+        <div className="flex-1 flex flex-col">
+          <Link
+            href="/experiences"
+            className="text-[#1E1E1E]/40 text-xs tracking-[0.2em] uppercase mb-6 hover:text-[#800913] transition-colors block w-max"
+          >
+            ← Back to experiences
+          </Link>
 
-        <p
-          data-reveal-index="0"
-          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-3 transition-all duration-700 ${
-            isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          {experience.subtitle}
-        </p>
+          <p
+            data-reveal-index="0"
+            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-3 transition-all duration-700 ${
+              isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            {experience.subtitle}
+          </p>
 
-        <h1
-          data-reveal-index="1"
-          className={`text-4xl md:text-5xl font-light leading-tight mb-4 transition-all duration-700 delay-100 ${
-            isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          {titleMain}{' '}
-          <span className="italic text-[#800913]">{titleAccent}</span>
-        </h1>
+          <h1
+            data-reveal-index="1"
+            className={`text-4xl md:text-5xl font-light leading-tight mb-4 transition-all duration-700 delay-100 ${
+              isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            {titleMain}{' '}
+            <span className="italic text-[#800913]">{titleAccent}</span>
+          </h1>
 
-        <p
-          data-reveal-index="2"
-          className={`text-lg text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${
-            isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          Starting from <span className="text-[#1E1E1E] font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
-        </p>
+          <p
+            data-reveal-index="2"
+            className={`text-lg text-[#1E1E1E]/50 mb-6 transition-all duration-700 delay-200 ${
+              isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            Starting from <span className="text-[#1E1E1E] font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
+          </p>
 
-        <div
-          data-reveal-index="3"
-          className={`w-full h-px bg-[#1E1E1E]/10 mb-8 transition-all duration-700 delay-300 ${
-            isRevealed(3) ? 'opacity-100' : 'opacity-0'
-          }`}
-        />
+          <div
+            data-reveal-index="3"
+            className={`w-full h-px bg-[#1E1E1E]/10 mb-6 transition-all duration-700 delay-300 ${
+              isRevealed(3) ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
 
-        {/* Metadata */}
-        <div
-          data-reveal-index="4"
-          className={`flex flex-wrap gap-6 md:gap-10 mb-10 transition-all duration-700 delay-400 ${
-            isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div>
-            <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Duration</p>
-            <p className="text-lg font-light">{experience.duration_hours} Hours</p>
-          </div>
-          <div>
-            <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Guests</p>
-            <p className="text-lg font-light">{experience.guests}</p>
-          </div>
-          {experience.location && (
+          {/* Metadata */}
+          <div
+            data-reveal-index="4"
+            className={`flex flex-wrap gap-6 md:gap-10 transition-all duration-700 delay-400 ${
+              isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
             <div>
-              <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Location</p>
-              <p className="text-lg font-light">{experience.location}</p>
+              <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Duration</p>
+              <p className="text-lg font-light">{experience.duration_hours} hours</p>
             </div>
-          )}
+            <div>
+              <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Guests</p>
+              <p className="text-lg font-light">{experience.guests}</p>
+            </div>
+            {experience.location && (
+              <div>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Location</p>
+                <p className="text-lg font-light">{experience.location}</p>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* CTA Button */}
+        {/* CTA Button - at bottom of viewport */}
         <button
           data-reveal-index="5"
           onClick={onBookClick}
-          className={`inline-flex items-center justify-center gap-2 w-full md:w-auto px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mb-12 ${
+          className={`inline-flex items-center justify-center gap-2 w-full md:w-auto px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 ${
             isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
           Book This Experience
           <ArrowRight size={14} />
         </button>
+      </div>
 
-        {/* Description */}
+      {/* Description - separate section below the fold */}
+      <div className="w-full md:w-1/2 md:ml-[50%] px-6 py-12 md:px-12 md:py-16 lg:px-16 bg-[#FBF5EF] text-[#1E1E1E]">
         <div
           data-reveal-index="6"
           className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${
