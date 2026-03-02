@@ -166,28 +166,9 @@ function IntroSection() {
           <span className="w-16 h-px bg-[#1E1E1E]/30" />
         </div>
 
-        {/* La Rupture - Point d'Orgue with quotes */}
-        <blockquote
-          className={`text-[#1E1E1E] text-xl md:text-2xl font-serif italic leading-relaxed mb-8 transition-all duration-1000 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          {'"'}This is not a reservation.<br />
-          It is a moment written for you.{'"'}
-        </blockquote>
-
-        {/* Horizontal line */}
-        <div
-          className={`flex justify-center mb-8 transition-all duration-1000 delay-500 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <span className="w-16 h-px bg-[#1E1E1E]/30" />
-        </div>
-
         {/* Le Rythme de fin - Signature */}
         <p
-          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
+          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
