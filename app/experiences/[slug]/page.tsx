@@ -99,184 +99,168 @@ const iconMap: Record<string, any> = {
   clock: Clock,
 }
 
-function HeroSection({ 
-  experience, 
-  onBookClick 
-}: { 
+function SplitHeroDescription({
+  experience,
+  onBookClick
+}: {
   experience: Experience
-  onBookClick: () => void 
+  onBookClick: () => void
 }) {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const [revealedElements, setRevealedElements] = useState<Set<number>>(new Set())
 
   useEffect(() => {
-    setIsLoaded(true)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.getAttribute('data-reveal-index') || '0')
+            setRevealedElements(prev => new Set([...prev, index]))
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    )
+
+    const revealElements = sectionRef.current?.querySelectorAll('[data-reveal-index]')
+    revealElements?.forEach(el => observer.observe(el))
+
+    // Trigger initial reveals after mount
+    setTimeout(() => {
+      setRevealedElements(new Set([0, 1, 2, 3, 4, 5, 6, 7]))
+    }, 100)
+
+    return () => observer.disconnect()
   }, [])
 
-  // Use main image only (not carousel)
   const heroImage = experience.image || "/images/experience-picnic.jpg"
-
-  const experienceDetails = [
-    { icon: Clock, label: "Duration", value: `${experience.duration_hours} hours` },
-    { icon: Users, label: "Guests", value: experience.guests },
-    ...(experience.location ? [{ icon: MapPin, label: "Location", value: experience.location }] : []),
-  ]
 
   // Split title for styling - last word in accent color
   const titleWords = experience.title.split(' ')
   const titleMain = titleWords.slice(0, -1).join(' ')
   const titleAccent = titleWords.slice(-1)[0]
 
+  const isRevealed = (index: number) => revealedElements.has(index)
+
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      <div className="absolute inset-0">
+    <section ref={sectionRef} className="flex flex-col md:flex-row w-full relative border-b border-[#1E1E1E]/10">
+      {/* Left - Sticky Image */}
+      <div className="w-full md:w-1/2 h-[50vh] md:h-screen md:sticky top-0 relative overflow-hidden bg-[#111111]">
         <Image
           src={heroImage}
           alt={experience.title}
           fill
           priority
-          sizes="100vw"
-          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover opacity-90 hover:scale-105 transition-transform duration-[3s] ease-out"
         />
-        {/* Enhanced overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute top-6 left-6 md:top-8 md:left-8">
+          <span className="px-3 py-1.5 border border-white/30 text-white text-[10px] uppercase tracking-[0.2em] backdrop-blur-sm">
+            Signature Experience
+          </span>
+        </div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
-        <Link
-          href="/experiences"
-          className={`text-white/60 text-sm tracking-[0.3em] uppercase mb-6 hover:text-white transition-colors flex items-center gap-2 ${
-            isLoaded ? "opacity-100" : "opacity-0"
-          } transition-all duration-700`}
-        >
-          <span>{"<"}</span> Back to Experiences
-        </Link>
-        <p
-          className={`text-[#800913] text-sm tracking-[0.4em] uppercase mb-4 transition-all duration-700 delay-100 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          Experience
-        </p>
-        <h1
-          className={`text-white text-5xl md:text-6xl lg:text-8xl font-light mb-4 transition-all duration-700 delay-200 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          {titleMain}{' '}
-          <span className="italic text-[#800913]">{titleAccent}</span>
-        </h1>
-        <p
-          className={`text-white/80 text-xl md:text-2xl font-light mb-8 transition-all duration-700 delay-300 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          {experience.subtitle}
-        </p>
-
-        <div
-          className={`flex flex-wrap justify-center gap-6 mb-12 transition-all duration-700 delay-400 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          {experienceDetails.map((detail) => (
-            <div key={detail.label} className="flex items-center gap-2 text-white/70">
-              <detail.icon size={18} className="text-[#800913]" />
-              <span className="text-sm">{detail.value}</span>
-            </div>
-          ))}
-        </div>
-
-        <div
-          className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 delay-500 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <button
-            onClick={onBookClick}
-            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-10 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all"
+      {/* Right - Scrolling Content */}
+      <div className="w-full md:w-1/2 bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
+        {/* First viewport - info up to CTA - uses 100dvh for mobile browser compatibility */}
+        <div className="min-h-[100dvh] px-6 pt-10 pb-0 md:px-12 md:pt-12 md:pb-0 lg:px-16 lg:pt-14 lg:pb-0 flex flex-col justify-center relative">
+          {/* Back link - positioned absolutely so it doesn't affect vertical centering */}
+          <Link
+            href="/experiences"
+            className="absolute top-10 left-6 md:top-12 md:left-12 lg:top-14 lg:left-16 text-[#1E1E1E]/40 text-xs tracking-[0.2em] uppercase hover:text-[#800913] transition-colors"
           >
-            Book This Experience
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </button>
-          <div className="text-white text-center sm:text-left">
-            <p className="text-white/60 text-xs uppercase tracking-wider">Starting from</p>
-            <p className="text-2xl font-light">{experience.currency} {experience.price.toLocaleString()}</p>
-          </div>
-        </div>
-      </div>
+            ← Back to experiences
+          </Link>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-        <span className="text-white/40 text-xs tracking-[0.2em] uppercase">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent" />
-      </div>
-    </section>
-  )
-}
-
-function DescriptionSection({ experience, onBookClick }: { experience: Experience; onBookClick: () => void }) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
-      { threshold: 0.2 }
-    )
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
-  }, [])
-
-  const mainImage = experience.image || "/images/experience-picnic.jpg"
-
-  return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <p className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              The Experience
+          {/* Main content block - centered vertically */}
+          <div className="mt-16">
+            <p
+              data-reveal-index="0"
+              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              {experience.subtitle}
             </p>
-            <h2 className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-8 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              {experience.title}
-            </h2>
-            <div className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              {experience.long_description ? (
-                <div
-                  className="whitespace-pre-line [&_strong]:font-semibold [&_strong]:text-[#1E1E1E]"
-                  dangerouslySetInnerHTML={{
-                    __html: experience.long_description
-                      .replace(/</g, '&lt;')
-                      .replace(/>/g, '&gt;')
-                      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                  }}
-                />
-              ) : (
-                <p>{experience.description}</p>
+
+            <h1
+              data-reveal-index="1"
+              className={`text-4xl md:text-5xl font-light leading-tight mb-6 transition-all duration-700 delay-100 ${isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              {titleMain}{' '}
+              <span className="italic text-[#800913]">{titleAccent}</span>
+            </h1>
+
+            <p
+              data-reveal-index="2"
+              className={`text-xl italic text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              Starting from {experience.currency} {experience.price.toLocaleString()}
+            </p>
+
+            <div
+              data-reveal-index="3"
+              className={`w-full h-px bg-[#1E1E1E]/10 mb-8 transition-all duration-700 delay-300 ${isRevealed(3) ? 'opacity-100' : 'opacity-0'
+                }`}
+            />
+
+            {/* Metadata */}
+            <div
+              data-reveal-index="4"
+              className={`flex flex-wrap gap-8 md:gap-12 transition-all duration-700 delay-400 ${isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              <div>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Duration</p>
+                <p className="text-lg font-light">{experience.duration_hours} hours</p>
+              </div>
+              <div>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Guests</p>
+                <p className="text-lg font-light">{experience.guests}</p>
+              </div>
+              {experience.location && (
+                <div>
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Location</p>
+                  <p className="text-lg font-light">{experience.location}</p>
+                </div>
               )}
             </div>
 
-            {/* Integrated CTA */}
-            <div className={`mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <button
-                onClick={onBookClick}
-                className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-3.5 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-all"
-              >
-                Book This Experience
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              <p className="text-[#1E1E1E]/50 text-sm">
-                Starting from <span className="text-[#1E1E1E] font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
-              </p>
-            </div>
+            {/* CTA Button - fixed spacing from metadata, mb-8 for bottom breathing room */}
+            <button
+              data-reveal-index="5"
+              onClick={onBookClick}
+              className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-16 mb-8 ${isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              Book This Experience
+              <ArrowRight size={14} />
+            </button>
           </div>
+        </div>
 
-          <div className={`relative aspect-[4/5] transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
-            <Image src={mainImage || "/placeholder.svg"} alt={experience.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-            {experience.highlight && (
-              <div className="absolute -bottom-8 -left-8 bg-[#800913] text-white p-8 max-w-[280px]">
-                <p className="text-xl font-light mb-2">{experience.highlight}</p>
-              </div>
+        {/* Description - below the fold */}
+        <div className="px-6 pt-0 pb-8 md:px-12 md:pb-10 lg:px-16">
+          <div
+            data-reveal-index="6"
+            className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${isRevealed(6) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+          >
+            {experience.long_description ? (
+              <div
+                className="whitespace-pre-line"
+                dangerouslySetInnerHTML={{
+                  __html: experience.long_description
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                }}
+              />
+            ) : (
+              <p>{experience.description}</p>
             )}
           </div>
         </div>
@@ -398,7 +382,7 @@ function AddOnsSection({ experience }: { experience: Experience }) {
   }, [])
 
   const availableAddons = experience.addons?.filter(a => a.available) || []
-  
+
   if (availableAddons.length === 0) {
     return null
   }
@@ -521,7 +505,7 @@ function NotFoundState() {
 export default function ExperienceDetailPage() {
   const params = useParams()
   const slug = params.slug as string
-  
+
   const [experience, setExperience] = useState<Experience | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isBookingOpen, setIsBookingOpen] = useState(false)
@@ -557,10 +541,9 @@ export default function ExperienceDetailPage() {
 
   return (
     <main>
-      <Navigation />
-      <HeroSection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
-<DescriptionSection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
-  <IncludedSection experience={experience} />
+      <Navigation solidNav />
+      <SplitHeroDescription experience={experience} onBookClick={() => setIsBookingOpen(true)} />
+      <IncludedSection experience={experience} />
       <GallerySection experience={experience} />
       <AddOnsSection experience={experience} />
 

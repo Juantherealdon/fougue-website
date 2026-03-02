@@ -166,28 +166,9 @@ function IntroSection() {
           <span className="w-16 h-px bg-[#1E1E1E]/30" />
         </div>
 
-        {/* La Rupture - Point d'Orgue with quotes */}
-        <blockquote
-          className={`text-[#1E1E1E] text-xl md:text-2xl font-serif italic leading-relaxed mb-8 transition-all duration-1000 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          {'"'}This is not a reservation.<br />
-          It is a moment written for you.{'"'}
-        </blockquote>
-
-        {/* Horizontal line */}
-        <div
-          className={`flex justify-center mb-8 transition-all duration-1000 delay-500 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <span className="w-16 h-px bg-[#1E1E1E]/30" />
-        </div>
-
         {/* Le Rythme de fin - Signature */}
         <p
-          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-600 ${
+          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -236,9 +217,9 @@ function ExperiencesPreview() {
     fetchExperiences()
   }, [])
 
-  // Format price with apostrophe separator (e.g., 4'000)
+  // Format price with comma separator (e.g., 4,000)
   const formatPrice = (price: number) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'")
+    return price.toLocaleString('en-US')
   }
 
   const nextSlide = () => {
@@ -250,7 +231,7 @@ function ExperiencesPreview() {
   }
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#121212]">
+    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -286,12 +267,12 @@ function ExperiencesPreview() {
         <div className={`relative overflow-hidden group transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
           {isLoading ? (
             <div className="flex flex-col md:flex-row animate-pulse">
-              <div className="w-full md:w-3/5 aspect-[4/3] md:aspect-[4/3] bg-[#2A2A2A]" />
-              <div className="w-full md:w-2/5 bg-[#1A1A1A] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
-                <div className="h-3 bg-[#2A2A2A] w-24 mb-4" />
-                <div className="h-10 bg-[#2A2A2A] w-48 mb-8" />
-                <div className="h-4 bg-[#2A2A2A] w-32 mb-6" />
-                <div className="h-10 bg-[#2A2A2A] w-40" />
+              <div className="w-full md:w-3/5 aspect-[5/3] bg-[#2A2A2A]" />
+              <div className="w-full md:w-2/5 bg-[#F0EBE3] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
+                <div className="h-3 bg-[#D8D0C8] w-24 mb-4" />
+                <div className="h-10 bg-[#D8D0C8] w-48 mb-8" />
+                <div className="h-4 bg-[#D8D0C8] w-32 mb-6" />
+                <div className="h-10 bg-[#D8D0C8] w-40" />
               </div>
             </div>
           ) : (
@@ -313,58 +294,58 @@ function ExperiencesPreview() {
                       className="flex flex-col md:flex-row"
                       style={{ width: `${100 / experiences.length}%` }}
                     >
-                      {/* Image - matches info panel height */}
-                      <div className="relative w-full md:w-3/5 aspect-[4/3] md:aspect-auto overflow-hidden">
-                        <Image
-                          src={exp.image || "/placeholder.svg"}
-                          alt={exp.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 60vw"
-                          className="object-cover"
-                        />
-                        {isAlmostAvailable && (
-                          <div className="absolute top-6 left-6 bg-black/70 text-white text-[10px] tracking-[0.2em] uppercase px-4 py-2 backdrop-blur-sm">
-                            Coming Soon
-                          </div>
-                        )}
+                  {/* Image - 4/3 on mobile, 5/3 on desktop */}
+                  <div className="relative w-full md:w-3/5 aspect-[4/3] md:aspect-[5/3] overflow-hidden">
+                    <Image
+                      src={exp.image || "/placeholder.svg"}
+                      alt={exp.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 60vw"
+                      className="object-cover"
+                    />
+                    {isAlmostAvailable && (
+                      <div className="absolute top-6 left-6 bg-black/70 text-white text-[10px] tracking-[0.2em] uppercase px-4 py-2 backdrop-blur-sm">
+                        Coming Soon
                       </div>
-                      
-                      {/* Info Panel */}
-                      <div className="w-full md:w-2/5 bg-[#1A1A1A] p-8 md:p-12 lg:p-14 flex flex-col justify-center">
-                        <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
-                          {exp.subtitle}
-                        </p>
-                        <h3 className="text-white text-2xl md:text-3xl lg:text-4xl font-light mb-8 leading-tight">
-                          {exp.title}
-                        </h3>
-                        
-                        <div className="flex flex-col gap-6">
-                          <p className="text-white/50 text-sm tracking-wide">
-                            Starting from <span className="text-white font-medium">{formatPrice(exp.price || 0)} AED</span>
-                          </p>
-                          
-                          {isAlmostAvailable ? (
-                            <button
-                              onClick={() => {
-                                setSelectedExperience(exp.title)
-                                setShowWaitlist(true)
-                              }}
-                              className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
-                            >
-                              Join Waitlist
-                              <ArrowRight size={14} />
-                            </button>
-                          ) : (
-                            <Link
-                              href={`/experiences/${exp.id}`}
-                              className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
-                            >
-                              Discover This Story
-                              <ArrowRight size={14} />
-                            </Link>
-                          )}
-                        </div>
-                      </div>
+                    )}
+                  </div>
+
+                  {/* Info Panel - 3/3 (square) on mobile, 5/3 on desktop */}
+                  <div className="relative w-full md:w-2/5 aspect-square md:aspect-[5/3] bg-[#FBF5EF] flex flex-col justify-center p-8 md:p-12 lg:p-14">
+                    <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
+                      {exp.subtitle}
+                    </p>
+                    <h3 className="text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light mb-8 leading-tight">
+                      {exp.title}
+                    </h3>
+
+                    <div className="flex flex-col gap-6">
+                      <p className="text-[#1E1E1E]/50 text-sm tracking-wide">
+                        Starting from <span className="text-[#1E1E1E] font-medium">{formatPrice(exp.price || 0)} AED</span>
+                      </p>
+
+                      {isAlmostAvailable ? (
+                        <button
+                          onClick={() => {
+                            setSelectedExperience(exp.title)
+                            setShowWaitlist(true)
+                          }}
+                          className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
+                        >
+                          Join Waitlist
+                          <ArrowRight size={14} />
+                        </button>
+                      ) : (
+                        <Link
+                          href={`/experiences/${exp.id}`}
+                          className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
+                        >
+                          Discover This Story
+                          <ArrowRight size={14} />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
                     </div>
                   )
                 })}

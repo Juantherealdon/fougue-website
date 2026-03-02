@@ -85,9 +85,8 @@ interface RegisterData {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-const supabase = createClient()
-
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const supabase = createClient()
   const [user, setUser] = useState<User | null>(null)
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -135,6 +134,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Listen for auth state changes
   useEffect(() => {
+    // If supabase client failed to initialize, skip auth
+    if (!supabase) {
+      setIsLoading(false)
+      return
+    }
+
     let isMounted = true
 
     const initSession = async () => {

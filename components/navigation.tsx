@@ -15,7 +15,7 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ]
 
-export function Navigation() {
+export function Navigation({ solidNav = false }: { solidNav?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { totalItems, setIsCartOpen } = useCart()
@@ -43,8 +43,8 @@ export function Navigation() {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? "bg-[#1E1E1E]/95 backdrop-blur-md py-4"
+          isScrolled || solidNav
+            ? "bg-[#1E1E1E] py-4"
             : "bg-transparent py-6"
         }`}
       >
