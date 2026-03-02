@@ -231,11 +231,11 @@ function SplitHeroDescription({
             )}
           </div>
 
-          {/* CTA Button - pushed to bottom via mt-auto */}
+          {/* CTA Button - pushed to bottom via mt-auto, mb-16 to align with WhatsApp button */}
           <button
             data-reveal-index="5"
             onClick={onBookClick}
-            className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-auto mb-8 ${
+            className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-auto mb-16 ${
               isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
@@ -245,7 +245,7 @@ function SplitHeroDescription({
         </div>
 
         {/* Description - below the fold */}
-        <div className="px-6 py-8 md:px-12 md:py-10 lg:px-16">
+        <div className="px-6 pt-0 pb-8 md:px-12 md:pb-10 lg:px-16">
           <div
             data-reveal-index="6"
             className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${
