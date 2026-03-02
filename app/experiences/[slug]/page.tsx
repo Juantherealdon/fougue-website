@@ -99,12 +99,12 @@ const iconMap: Record<string, any> = {
   clock: Clock,
 }
 
-function SplitHeroDescription({ 
-  experience, 
-  onBookClick 
-}: { 
+function SplitHeroDescription({
+  experience,
+  onBookClick
+}: {
   experience: Experience
-  onBookClick: () => void 
+  onBookClick: () => void
 }) {
   const sectionRef = useRef<HTMLElement>(null)
   const [revealedElements, setRevealedElements] = useState<Set<number>>(new Set())
@@ -175,18 +175,16 @@ function SplitHeroDescription({
 
           <p
             data-reveal-index="0"
-            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-              isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             {experience.subtitle}
           </p>
 
           <h1
             data-reveal-index="1"
-            className={`text-4xl md:text-5xl font-light leading-tight mb-6 transition-all duration-700 delay-100 ${
-              isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`text-4xl md:text-5xl font-light leading-tight mb-6 transition-all duration-700 delay-100 ${isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             {titleMain}{' '}
             <span className="italic text-[#800913]">{titleAccent}</span>
@@ -194,26 +192,23 @@ function SplitHeroDescription({
 
           <p
             data-reveal-index="2"
-            className={`text-xl italic text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${
-              isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`text-xl italic text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             Starting from {experience.currency} {experience.price.toLocaleString()}
           </p>
 
           <div
             data-reveal-index="3"
-            className={`w-full h-px bg-[#1E1E1E]/10 mb-8 transition-all duration-700 delay-300 ${
-              isRevealed(3) ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`w-full h-px bg-[#1E1E1E]/10 mb-8 transition-all duration-700 delay-300 ${isRevealed(3) ? 'opacity-100' : 'opacity-0'
+              }`}
           />
 
           {/* Metadata */}
           <div
             data-reveal-index="4"
-            className={`flex flex-wrap gap-8 md:gap-12 transition-all duration-700 delay-400 ${
-              isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`flex flex-wrap gap-8 md:gap-12 transition-all duration-700 delay-400 ${isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             <div>
               <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Duration</p>
@@ -235,9 +230,8 @@ function SplitHeroDescription({
           <button
             data-reveal-index="5"
             onClick={onBookClick}
-            className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-auto mb-16 ${
-              isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-auto mb-0 ${isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             Book This Experience
             <ArrowRight size={14} />
@@ -248,9 +242,8 @@ function SplitHeroDescription({
         <div className="px-6 pt-0 pb-8 md:px-12 md:pb-10 lg:px-16">
           <div
             data-reveal-index="6"
-            className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${
-              isRevealed(6) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${isRevealed(6) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             {experience.long_description ? (
               <div
@@ -385,7 +378,7 @@ function AddOnsSection({ experience }: { experience: Experience }) {
   }, [])
 
   const availableAddons = experience.addons?.filter(a => a.available) || []
-  
+
   if (availableAddons.length === 0) {
     return null
   }
@@ -508,7 +501,7 @@ function NotFoundState() {
 export default function ExperienceDetailPage() {
   const params = useParams()
   const slug = params.slug as string
-  
+
   const [experience, setExperience] = useState<Experience | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isBookingOpen, setIsBookingOpen] = useState(false)
@@ -546,7 +539,7 @@ export default function ExperienceDetailPage() {
     <main>
       <Navigation solidNav />
       <SplitHeroDescription experience={experience} onBookClick={() => setIsBookingOpen(true)} />
-  <IncludedSection experience={experience} />
+      <IncludedSection experience={experience} />
       <GallerySection experience={experience} />
       <AddOnsSection experience={experience} />
 
