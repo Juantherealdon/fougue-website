@@ -165,7 +165,7 @@ function SplitHeroDescription({
       {/* Right - Scrolling Content */}
       <div className="w-full md:w-1/2 bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
         {/* First viewport - info up to CTA - uses 100dvh for mobile browser compatibility */}
-        <div className="min-h-[100dvh] px-6 pt-10 pb-8 md:px-12 md:pt-12 md:pb-8 lg:px-16 lg:pt-14 lg:pb-8 flex flex-col justify-center relative">
+        <div className="min-h-[100dvh] px-6 pt-10 pb-12 md:px-12 md:pt-12 md:pb-16 lg:px-16 lg:pt-14 lg:pb-20 flex flex-col justify-end relative">
           {/* Back link - positioned absolutely so it doesn't affect vertical centering */}
           <Link
             href="/experiences"
