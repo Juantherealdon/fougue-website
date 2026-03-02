@@ -165,77 +165,81 @@ function SplitHeroDescription({
       {/* Right - Scrolling Content */}
       <div className="w-full md:w-1/2 bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
         {/* First viewport - info up to CTA - uses 100dvh for mobile browser compatibility */}
-        <div className="min-h-[100dvh] px-6 py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 flex flex-col">
+        <div className="min-h-[100dvh] px-6 pt-10 pb-8 md:px-12 md:pt-12 md:pb-8 lg:px-16 lg:pt-14 lg:pb-8 flex flex-col justify-center relative">
+          {/* Back link - positioned absolutely so it doesn't affect vertical centering */}
           <Link
             href="/experiences"
-            className="text-[#1E1E1E]/40 text-xs tracking-[0.2em] uppercase mb-8 hover:text-[#800913] transition-colors block w-max"
+            className="absolute top-10 left-6 md:top-12 md:left-12 lg:top-14 lg:left-16 text-[#1E1E1E]/40 text-xs tracking-[0.2em] uppercase hover:text-[#800913] transition-colors"
           >
             ← Back to experiences
           </Link>
 
-          <p
-            data-reveal-index="0"
-            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-          >
-            {experience.subtitle}
-          </p>
+          {/* Main content block - centered vertically */}
+          <div>
+            <p
+              data-reveal-index="0"
+              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              {experience.subtitle}
+            </p>
 
-          <h1
-            data-reveal-index="1"
-            className={`text-4xl md:text-5xl font-light leading-tight mb-6 transition-all duration-700 delay-100 ${isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-          >
-            {titleMain}{' '}
-            <span className="italic text-[#800913]">{titleAccent}</span>
-          </h1>
+            <h1
+              data-reveal-index="1"
+              className={`text-4xl md:text-5xl font-light leading-tight mb-6 transition-all duration-700 delay-100 ${isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              {titleMain}{' '}
+              <span className="italic text-[#800913]">{titleAccent}</span>
+            </h1>
 
-          <p
-            data-reveal-index="2"
-            className={`text-xl italic text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-          >
-            Starting from {experience.currency} {experience.price.toLocaleString()}
-          </p>
+            <p
+              data-reveal-index="2"
+              className={`text-xl italic text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              Starting from {experience.currency} {experience.price.toLocaleString()}
+            </p>
 
-          <div
-            data-reveal-index="3"
-            className={`w-full h-px bg-[#1E1E1E]/10 mb-8 transition-all duration-700 delay-300 ${isRevealed(3) ? 'opacity-100' : 'opacity-0'
-              }`}
-          />
+            <div
+              data-reveal-index="3"
+              className={`w-full h-px bg-[#1E1E1E]/10 mb-8 transition-all duration-700 delay-300 ${isRevealed(3) ? 'opacity-100' : 'opacity-0'
+                }`}
+            />
 
-          {/* Metadata */}
-          <div
-            data-reveal-index="4"
-            className={`flex flex-wrap gap-8 md:gap-12 transition-all duration-700 delay-400 ${isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-          >
-            <div>
-              <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Duration</p>
-              <p className="text-lg font-light">{experience.duration_hours} hours</p>
-            </div>
-            <div>
-              <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Guests</p>
-              <p className="text-lg font-light">{experience.guests}</p>
-            </div>
-            {experience.location && (
+            {/* Metadata */}
+            <div
+              data-reveal-index="4"
+              className={`flex flex-wrap gap-8 md:gap-12 transition-all duration-700 delay-400 ${isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
               <div>
-                <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Location</p>
-                <p className="text-lg font-light">{experience.location}</p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Duration</p>
+                <p className="text-lg font-light">{experience.duration_hours} hours</p>
               </div>
-            )}
-          </div>
+              <div>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Guests</p>
+                <p className="text-lg font-light">{experience.guests}</p>
+              </div>
+              {experience.location && (
+                <div>
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Location</p>
+                  <p className="text-lg font-light">{experience.location}</p>
+                </div>
+              )}
+            </div>
 
-          {/* CTA Button - pushed to bottom via mt-auto, mb-16 to align with WhatsApp button */}
-          <button
-            data-reveal-index="5"
-            onClick={onBookClick}
-            className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-auto mb-0 ${isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-          >
-            Book This Experience
-            <ArrowRight size={14} />
-          </button>
+            {/* CTA Button - fixed spacing from metadata */}
+            <button
+              data-reveal-index="5"
+              onClick={onBookClick}
+              className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-12 ${isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
+            >
+              Book This Experience
+              <ArrowRight size={14} />
+            </button>
+          </div>
         </div>
 
         {/* Description - below the fold */}
