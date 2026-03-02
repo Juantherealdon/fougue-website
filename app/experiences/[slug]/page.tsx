@@ -155,25 +155,25 @@ function SplitHeroDescription({
           className="object-cover opacity-90 hover:scale-105 transition-transform duration-[3s] ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-        <div className="absolute top-8 left-8 md:top-12 md:left-12">
-          <span className="px-4 py-2 border border-white/30 text-white font-sans text-[9px] uppercase tracking-[0.3em] backdrop-blur-sm">
+        <div className="absolute top-6 left-6 md:top-8 md:left-8">
+          <span className="px-3 py-1.5 border border-white/30 text-white text-[10px] uppercase tracking-[0.2em] backdrop-blur-sm">
             Signature Experience
           </span>
         </div>
       </div>
 
       {/* Right - Scrolling Content */}
-      <div className="w-full md:w-1/2 px-8 py-16 md:p-20 lg:p-24 flex flex-col justify-center bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
+      <div className="w-full md:w-1/2 px-6 py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 flex flex-col justify-center bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
         <Link
           href="/experiences"
-          className="font-sans text-[9px] text-[#1E1E1E]/40 tracking-[0.3em] uppercase mb-12 hover:text-[#800913] transition-colors block w-max"
+          className="text-[#1E1E1E]/40 text-xs tracking-[0.2em] uppercase mb-8 hover:text-[#800913] transition-colors block w-max"
         >
           ← Back to experiences
         </Link>
 
         <p
           data-reveal-index="0"
-          className={`font-sans text-[10px] text-[#800913] tracking-[0.4em] uppercase mb-4 font-medium transition-all duration-700 ${
+          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-3 transition-all duration-700 ${
             isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
@@ -182,26 +182,26 @@ function SplitHeroDescription({
 
         <h1
           data-reveal-index="1"
-          className={`font-serif text-5xl md:text-6xl lg:text-7xl font-light leading-none mb-6 transition-all duration-700 delay-100 ${
+          className={`text-4xl md:text-5xl font-light leading-tight mb-4 transition-all duration-700 delay-100 ${
             isRevealed(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          {titleMain}<br />
+          {titleMain}{' '}
           <span className="italic text-[#800913]">{titleAccent}</span>
         </h1>
 
         <p
           data-reveal-index="2"
-          className={`font-serif text-2xl text-[#1E1E1E]/60 italic mb-12 font-light transition-all duration-700 delay-200 ${
+          className={`text-lg text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${
             isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          Starting from {experience.currency} {experience.price.toLocaleString()}
+          Starting from <span className="text-[#1E1E1E] font-medium">{experience.currency} {experience.price.toLocaleString()}</span>
         </p>
 
         <div
           data-reveal-index="3"
-          className={`w-full h-[1px] bg-[#1E1E1E]/10 mb-12 transition-all duration-700 delay-300 ${
+          className={`w-full h-px bg-[#1E1E1E]/10 mb-8 transition-all duration-700 delay-300 ${
             isRevealed(3) ? 'opacity-100' : 'opacity-0'
           }`}
         />
@@ -209,22 +209,22 @@ function SplitHeroDescription({
         {/* Metadata */}
         <div
           data-reveal-index="4"
-          className={`flex flex-wrap gap-8 md:gap-12 mb-16 transition-all duration-700 delay-400 ${
+          className={`flex flex-wrap gap-6 md:gap-10 mb-10 transition-all duration-700 delay-400 ${
             isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
           <div>
-            <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-[#1E1E1E]/40 mb-2">Duration</p>
-            <p className="font-serif text-xl font-light">{experience.duration_hours} Hours</p>
+            <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Duration</p>
+            <p className="text-lg font-light">{experience.duration_hours} Hours</p>
           </div>
           <div>
-            <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-[#1E1E1E]/40 mb-2">Guests</p>
-            <p className="font-serif text-xl font-light">{experience.guests}</p>
+            <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Guests</p>
+            <p className="text-lg font-light">{experience.guests}</p>
           </div>
           {experience.location && (
             <div>
-              <p className="font-sans text-[9px] tracking-[0.3em] uppercase text-[#1E1E1E]/40 mb-2">Location</p>
-              <p className="font-serif text-xl font-light">{experience.location}</p>
+              <p className="text-[10px] tracking-[0.2em] uppercase text-[#1E1E1E]/40 mb-1">Location</p>
+              <p className="text-lg font-light">{experience.location}</p>
             </div>
           )}
         </div>
@@ -233,17 +233,18 @@ function SplitHeroDescription({
         <button
           data-reveal-index="5"
           onClick={onBookClick}
-          className={`inline-block text-center w-full md:w-auto px-12 py-5 bg-[#800913] text-white font-sans text-[10px] uppercase tracking-[0.3em] hover:bg-[#1E1E1E] transition-colors duration-500 mb-20 ${
+          className={`inline-flex items-center justify-center gap-2 w-full md:w-auto px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mb-12 ${
             isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
           Book This Experience
+          <ArrowRight size={14} />
         </button>
 
         {/* Description */}
         <div
           data-reveal-index="6"
-          className={`font-sans font-light text-[14px] leading-[2.5] text-[#1E1E1E]/70 space-y-6 [&_strong]:font-serif [&_strong]:italic [&_strong]:font-normal [&_strong]:text-2xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-8 transition-all duration-700 delay-500 ${
+          className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${
             isRevealed(6) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
@@ -538,7 +539,7 @@ export default function ExperienceDetailPage() {
 
   return (
     <main>
-      <Navigation />
+      <Navigation solidNav />
       <SplitHeroDescription experience={experience} onBookClick={() => setIsBookingOpen(true)} />
   <IncludedSection experience={experience} />
       <GallerySection experience={experience} />
