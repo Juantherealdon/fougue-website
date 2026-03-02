@@ -294,8 +294,8 @@ function ExperiencesPreview() {
                       className="flex flex-col md:flex-row"
                       style={{ width: `${100 / experiences.length}%` }}
                     >
-                  {/* Image - 25% taller via aspect ratio */}
-                  <div className="relative w-full md:w-3/5 aspect-[5/3] md:aspect-auto overflow-hidden">
+                  {/* Image - 4/3 on mobile, 5/3 on desktop */}
+                  <div className="relative w-full md:w-3/5 aspect-[4/3] md:aspect-[5/3] overflow-hidden">
                     <Image
                       src={exp.image || "/placeholder.svg"}
                       alt={exp.title}
@@ -310,8 +310,8 @@ function ExperiencesPreview() {
                     )}
                   </div>
 
-                  {/* Info Panel - cream background */}
-                  <div className="w-full md:w-2/5 bg-[#FBF5EF] p-8 md:p-12 lg:p-14 flex flex-col justify-center min-h-[375px] md:min-h-0">
+                  {/* Info Panel - 3/3 (square) on mobile, 5/3 on desktop */}
+                  <div className="relative w-full md:w-2/5 aspect-square md:aspect-[5/3] bg-[#FBF5EF] flex flex-col justify-center p-8 md:p-12 lg:p-14">
                     <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
                       {exp.subtitle}
                     </p>
