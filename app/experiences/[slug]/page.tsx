@@ -162,10 +162,10 @@ function SplitHeroDescription({
         </div>
       </div>
 
-      {/* Right - Scrolling Content - min-h-screen to ensure CTA reaches bottom */}
-      <div className="w-full md:w-1/2 min-h-screen px-6 py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 flex flex-col justify-between bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
-        {/* Top content - fills to push CTA to bottom */}
-        <div className="flex-1 flex flex-col">
+      {/* Right - Scrolling Content */}
+      <div className="w-full md:w-1/2 bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
+        {/* First viewport - info up to CTA */}
+        <div className="min-h-screen px-6 py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 flex flex-col">
           <Link
             href="/experiences"
             className="text-[#1E1E1E]/40 text-xs tracking-[0.2em] uppercase mb-6 hover:text-[#800913] transition-colors block w-max"
@@ -211,7 +211,7 @@ function SplitHeroDescription({
           {/* Metadata */}
           <div
             data-reveal-index="4"
-            className={`flex flex-wrap gap-6 md:gap-10 transition-all duration-700 delay-400 ${
+            className={`flex flex-wrap gap-6 md:gap-10 mb-auto transition-all duration-700 delay-400 ${
               isRevealed(4) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
@@ -230,42 +230,42 @@ function SplitHeroDescription({
               </div>
             )}
           </div>
+
+          {/* CTA Button - pushed to bottom via mb-auto above */}
+          <button
+            data-reveal-index="5"
+            onClick={onBookClick}
+            className={`inline-flex items-center justify-center gap-2 w-full md:w-auto px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-8 ${
+              isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            Book This Experience
+            <ArrowRight size={14} />
+          </button>
         </div>
 
-        {/* CTA Button - at bottom of viewport */}
-        <button
-          data-reveal-index="5"
-          onClick={onBookClick}
-          className={`inline-flex items-center justify-center gap-2 w-full md:w-auto px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 ${
-            isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          Book This Experience
-          <ArrowRight size={14} />
-        </button>
-      </div>
-
-      {/* Description - separate section below the fold */}
-      <div className="w-full md:w-1/2 md:ml-[50%] px-6 py-12 md:px-12 md:py-16 lg:px-16 bg-[#FBF5EF] text-[#1E1E1E]">
-        <div
-          data-reveal-index="6"
-          className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${
-            isRevealed(6) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          {experience.long_description ? (
-            <div
-              className="whitespace-pre-line"
-              dangerouslySetInnerHTML={{
-                __html: experience.long_description
-                  .replace(/</g, '&lt;')
-                  .replace(/>/g, '&gt;')
-                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-              }}
-            />
-          ) : (
-            <p>{experience.description}</p>
-          )}
+        {/* Description - below the fold */}
+        <div className="px-6 py-12 md:px-12 md:py-16 lg:px-16">
+          <div
+            data-reveal-index="6"
+            className={`text-[#1E1E1E]/70 text-base leading-relaxed space-y-6 [&_strong]:font-medium [&_strong]:text-xl [&_strong]:text-[#1E1E1E] [&_strong]:block [&_strong]:mb-2 [&_strong]:mt-6 transition-all duration-700 delay-500 ${
+              isRevealed(6) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            {experience.long_description ? (
+              <div
+                className="whitespace-pre-line"
+                dangerouslySetInnerHTML={{
+                  __html: experience.long_description
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                }}
+              />
+            ) : (
+              <p>{experience.description}</p>
+            )}
+          </div>
         </div>
       </div>
     </section>
