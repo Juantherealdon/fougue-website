@@ -165,7 +165,7 @@ function SplitHeroDescription({
       {/* Right - Scrolling Content */}
       <div className="w-full md:w-1/2 bg-[#FBF5EF] relative z-10 text-[#1E1E1E]">
         {/* First viewport - info up to CTA - uses 100dvh for mobile browser compatibility */}
-        <div className="min-h-[100dvh] px-6 pt-10 pb-12 md:px-12 md:pt-12 md:pb-16 lg:px-16 lg:pt-14 lg:pb-20 flex flex-col justify-end relative">
+        <div className="min-h-[100dvh] px-6 pt-10 pb-0 md:px-12 md:pt-12 md:pb-0 lg:px-16 lg:pt-14 lg:pb-0 flex flex-col justify-center relative">
           {/* Back link - positioned absolutely so it doesn't affect vertical centering */}
           <Link
             href="/experiences"
@@ -175,7 +175,7 @@ function SplitHeroDescription({
           </Link>
 
           {/* Main content block - centered vertically */}
-          <div>
+          <div className="mt-16">
             <p
               data-reveal-index="0"
               className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -229,11 +229,11 @@ function SplitHeroDescription({
               )}
             </div>
 
-            {/* CTA Button - fixed spacing from metadata */}
+            {/* CTA Button - fixed spacing from metadata, mb-8 for bottom breathing room */}
             <button
               data-reveal-index="5"
               onClick={onBookClick}
-              className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-12 ${isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              className={`inline-flex items-center justify-center gap-2 w-full px-10 py-4 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase hover:bg-[#1E1E1E] transition-colors duration-500 mt-16 mb-8 ${isRevealed(5) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
             >
               Book This Experience
