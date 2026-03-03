@@ -103,7 +103,7 @@ function PhilosophySection() {
   return (
     <section id="philosophy-section" ref={sectionRef} className="min-h-screen px-6 py-24 flex flex-col items-center justify-center text-center bg-[#FBF5EF] relative z-10">
       <p
-        className={`text-[#800913] text-sm tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        className={`text-[#800913] text-sm font-medium tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
       >
         Our Philosophy
@@ -174,7 +174,7 @@ function DNASection() {
         {/* Header */}
         <div className="text-center mb-20">
           <p
-            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
+            className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
               }`}
@@ -306,7 +306,7 @@ function FounderSection() {
           {/* Content */}
           <div className="lg:pl-8">
             <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
+              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
                 }`}
@@ -453,7 +453,7 @@ function CTASection() {
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <p
-          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
           Start Your Journey

@@ -237,7 +237,7 @@ function ExperiencesPreview() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div className="mb-6 md:mb-0">
             <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
@@ -488,7 +488,7 @@ function GiftsSection() {
         <div className="flex items-center bg-[#FBF5EF] px-6 lg:px-16 py-16 lg:py-0">
           <div className="max-w-lg">
             <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-8"

@@ -178,7 +178,7 @@ function SplitHeroDescription({
           <div className="mt-16">
             <p
               data-reveal-index="0"
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isRevealed(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
             >
               {experience.subtitle}
@@ -344,7 +344,7 @@ function GallerySection({ experience }: { experience: Experience }) {
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <p className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             Gallery
           </p>
           <h2 className={`text-[#1E1E1E] text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
@@ -391,7 +391,7 @@ function AddOnsSection({ experience }: { experience: Experience }) {
     <section ref={sectionRef} className="py-24 lg:py-32 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <p className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             Enhance Your Experience
           </p>
           <h2 className={`text-[#1E1E1E] text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
@@ -440,7 +440,7 @@ function CTASection({ experience, onBookClick }: { experience: Experience; onBoo
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <p className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+        <p className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           Your Experience Awaits
         </p>
         <h2 className={`text-white text-4xl md:text-5xl lg:text-6xl font-light mb-6 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
