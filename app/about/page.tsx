@@ -29,7 +29,7 @@ function HeroSection() {
         <div className="absolute inset-0 bg-black/40" />
         {/* Seamless fade to cream at bottom */}
         <div
-          className="absolute bottom-0 left-0 w-full h-80"
+          className="absolute bottom-0 left-0 w-full h-50"
           style={{
             background: 'linear-gradient(to top, rgba(251, 245, 239, 1) 0%, rgba(251, 245, 239, 0.95) 15%, rgba(251, 245, 239, 0.8) 30%, rgba(251, 245, 239, 0.5) 60%, rgba(251, 245, 239, 0) 100%)'
           }}
@@ -66,9 +66,8 @@ function HeroSection() {
         onClick={() => {
           document.getElementById('philosophy-section')?.scrollIntoView({ behavior: 'smooth' })
         }}
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-10 transition-all duration-700 delay-500 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-10 transition-all duration-700 delay-500 ${isLoaded ? "opacity-100" : "opacity-0"
+          }`}
         aria-label="Scroll to next section"
       >
         <ChevronDown className="text-white/60 animate-bounce" size={32} />
