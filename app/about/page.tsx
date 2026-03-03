@@ -45,13 +45,13 @@ function HeroSection() {
           The Brand
         </p>
 
-        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md mb-6">
+        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md mb-4">
           A Maison devoted to<br />
           <span className="italic text-[#800913]">modern romance.</span>
         </h1>
 
         {/* Dictionary definition */}
-        <div className="flex flex-col items-center px-4">
+        <div className="flex flex-col items-center px-4 mt-2">
           <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
             [foog] : noun - French
           </p>
