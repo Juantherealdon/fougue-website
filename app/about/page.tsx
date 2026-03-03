@@ -36,7 +36,7 @@ function HeroSection() {
         />
       </div>
 
-      {/* Content */}
+      {/* Top content - title */}
       <div
         className={`relative z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
@@ -45,20 +45,23 @@ function HeroSection() {
           The Brand
         </p>
 
-        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md mb-4">
+        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md">
           A Maison devoted to<br />
           <span className="italic text-[#800913]">modern romance.</span>
         </h1>
+      </div>
 
-        {/* Dictionary definition */}
-        <div className="flex flex-col items-center px-4 mt-2">
-          <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
-            [foog] : noun - French
-          </p>
-          <p className="text-white text-lg md:text-xl italic font-light">
-            A feeling of strong passion, enthusiasm, ardour.
-          </p>
-        </div>
+      {/* Dictionary definition - midpoint between title and arrow */}
+      <div
+        className={`absolute bottom-24 left-1/2 -translate-x-1/2 z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+      >
+        <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
+          [foog] : noun - French
+        </p>
+        <p className="text-white text-lg md:text-xl italic font-light">
+          A feeling of strong passion, enthusiasm, ardour.
+        </p>
       </div>
 
       {/* Scroll arrow */}
