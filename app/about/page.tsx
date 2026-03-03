@@ -28,36 +28,34 @@ function HeroSection() {
         />
         <div className="absolute inset-0 bg-black/40" />
         {/* Seamless fade to cream at bottom */}
-        <div 
-          className="absolute bottom-0 left-0 w-full h-48"
-          style={{ 
-            background: 'linear-gradient(to top, rgba(251, 245, 239, 1) 0%, rgba(251, 245, 239, 0.95) 15%, rgba(251, 245, 239, 0.8) 30%, rgba(251, 245, 239, 0.5) 60%, rgba(251, 245, 239, 0) 100%)' 
+        <div
+          className="absolute bottom-0 left-0 w-full h-80"
+          style={{
+            background: 'linear-gradient(to top, rgba(251, 245, 239, 1) 0%, rgba(251, 245, 239, 0.95) 15%, rgba(251, 245, 239, 0.8) 30%, rgba(251, 245, 239, 0.5) 60%, rgba(251, 245, 239, 0) 100%)'
           }}
         />
       </div>
 
       {/* Content */}
-      <div 
-        className={`relative z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${
-          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-        }`}
+      <div
+        className={`relative z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
       >
         <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
           The Brand
         </p>
-        
-        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-tight drop-shadow-md mb-8">
+
+        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md mb-8">
           A Maison devoted to<br />
           <span className="italic text-[#800913]">modern romance.</span>
         </h1>
-        
+
         {/* Vertical line */}
-        <div 
-          className={`w-px bg-white/50 mb-6 transition-all duration-[2000ms] ease-out ${
-            isLoaded ? "h-10 opacity-100" : "h-0 opacity-0"
-          }`}
+        <div
+          className={`w-px bg-white/50 mb-6 transition-all duration-[2000ms] ease-out ${isLoaded ? "h-10 opacity-100" : "h-0 opacity-0"
+            }`}
         />
-        
+
         {/* Dictionary definition */}
         <div className="flex flex-col items-center px-4">
           <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
@@ -96,33 +94,29 @@ function PhilosophySection() {
   return (
     <section ref={sectionRef} className="pt-8 pb-32 md:pb-40 px-6 flex flex-col items-center text-center bg-[#FBF5EF] relative z-10">
       {/* Vertical line with drop animation */}
-      <div 
-        className={`w-px bg-[#1E1E1E]/20 mb-16 transition-all duration-[2000ms] ease-out ${
-          isVisible ? "h-20 opacity-100" : "h-0 opacity-0"
-        }`}
+      <div
+        className={`w-px bg-[#1E1E1E]/20 mb-16 transition-all duration-[2000ms] ease-out ${isVisible ? "h-20 opacity-100" : "h-0 opacity-0"
+          }`}
       />
-      
+
       <p
-        className={`text-[#800913] text-sm tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={`text-[#800913] text-sm tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
       >
         Our Philosophy
       </p>
 
       <h2
-        className={`text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light leading-snug max-w-3xl mb-12 transition-all duration-700 delay-100 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={`text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light leading-snug max-w-3xl mb-12 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
       >
         In a city of endless options, romance can feel polished, yet impersonal. <br />
         <span className="italic text-[#800913]">Fougue is our quiet antidote.</span>
       </h2>
 
       <p
-        className={`text-[#1E1E1E]/70 text-lg leading-relaxed max-w-2xl transition-all duration-700 delay-200 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={`text-[#1E1E1E]/70 text-lg leading-relaxed max-w-2xl transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
       >
         We believe romance lives in the feeling — in presence rather than performance. We compose immersive experiences, thoughtfully curated and shaped as stories. Each Fougue Moment is intimate, personal by design, where moments become memories.
       </p>
@@ -176,20 +170,18 @@ function DNASection() {
         {/* Header */}
         <div className="text-center mb-20">
           <p
-            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
+            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+              }`}
           >
             What defines us
           </p>
           <h2
-            className={`text-white text-4xl md:text-5xl font-light mb-8 transition-all duration-700 delay-100 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
+            className={`text-white text-4xl md:text-5xl font-light mb-8 transition-all duration-700 delay-100 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+              }`}
           >
             Our{" "}
             <span className="italic text-[#800913]">DNA</span>
@@ -197,11 +189,10 @@ function DNASection() {
 
           {/* Definition */}
           <div
-            className={`bg-white/5 px-8 py-6 inline-block transition-all duration-700 delay-200 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
+            className={`bg-white/5 px-8 py-6 inline-block transition-all duration-700 delay-200 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+              }`}
           >
             <p className="text-white/40 text-sm tracking-wide mb-2">
               [foog]: noun - French
@@ -217,11 +208,10 @@ function DNASection() {
           {values.map((value, index) => (
             <div
               key={value.title}
-              className={`text-center p-8 border border-white/10 hover:border-[#800913]/30 transition-all duration-500 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`text-center p-8 border border-white/10 hover:border-[#800913]/30 transition-all duration-500 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
               style={{ transitionDelay: `${300 + index * 100}ms` }}
             >
               <h3 className="text-white text-xl font-light mb-3">
@@ -235,11 +225,10 @@ function DNASection() {
         {/* Vision & Mission */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div
-            className={`transition-all duration-700 delay-500 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
+            className={`transition-all duration-700 delay-500 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+              }`}
           >
             <h3 className="text-[#800913] text-sm tracking-[0.2em] uppercase mb-4">
               Vision
@@ -250,11 +239,10 @@ function DNASection() {
           </div>
 
           <div
-            className={`transition-all duration-700 delay-600 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
+            className={`transition-all duration-700 delay-600 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+              }`}
           >
             <h3 className="text-[#800913] text-sm tracking-[0.2em] uppercase mb-4">
               Mission
@@ -296,9 +284,8 @@ function FounderSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
           <div
-            className={`relative transition-all duration-1000 ${
-              isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
-            }`}
+            className={`relative transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+              }`}
           >
             <div className="relative aspect-[3/4] overflow-hidden">
               <Image
@@ -315,31 +302,28 @@ function FounderSection() {
           {/* Content */}
           <div className="lg:pl-8">
             <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               Meet the Founder
             </p>
 
             <h2
-              className={`text-[#1E1E1E] text-4xl md:text-5xl font-light italic mb-8 transition-all duration-700 delay-100 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#1E1E1E] text-4xl md:text-5xl font-light italic mb-8 transition-all duration-700 delay-100 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               Bonjour!
             </h2>
 
             <div
-              className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`space-y-6 text-[#1E1E1E]/70 text-lg leading-relaxed text-justify transition-all duration-700 delay-200 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               <p>
                 I&apos;m Manon, a Parisian romantic at heart drawn to stories,
@@ -364,11 +348,10 @@ function FounderSection() {
             </div>
 
             <div
-              className={`mt-10 pt-8 border-t border-[#1E1E1E]/10 transition-all duration-700 delay-300 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`mt-10 pt-8 border-t border-[#1E1E1E]/10 transition-all duration-700 delay-300 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               <p className="text-[#1E1E1E] text-xl font-light">Manon Gaillard</p>
               <p className="text-[#800913] text-sm tracking-wide italic">
@@ -420,22 +403,19 @@ function QuoteSection() {
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
         <blockquote
-          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           &ldquo;Romance lives in the feeling. In presence rather than
           performance.&rdquo;
         </blockquote>
         <div
-          className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
-          }`}
+          className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+            }`}
         />
         <p
-          className={`text-white/50 text-sm tracking-[0.2em] uppercase mt-6 transition-all duration-700 delay-500 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
+          className={`text-white/50 text-sm tracking-[0.2em] uppercase mt-6 transition-all duration-700 delay-500 ${isVisible ? "opacity-100" : "opacity-0"
+            }`}
         >
           Our Belief
         </p>
@@ -469,32 +449,28 @@ function CTASection() {
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <p
-          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           Start Your Journey
         </p>
         <h2
-          className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           Welcome to{" "}
           <span className="italic text-[#800913]">Fougue.</span>
         </h2>
         <p
-          className={`text-[#1E1E1E]/70 text-lg mb-10 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-[#1E1E1E]/70 text-lg mb-10 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           Discover our curated experiences and let us craft your next love
           story.
         </p>
         <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           <Link
             href="/experiences"
