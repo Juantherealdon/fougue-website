@@ -42,9 +42,8 @@ function HeroSection() {
           alt="Romantic surprise moment"
           fill
           sizes="100vw"
-          className={`object-cover object-top transition-transform duration-[2s] ${
-            isLoaded ? "scale-100" : "scale-110"
-          }`}
+          className={`object-cover object-top transition-transform duration-[2s] ${isLoaded ? "scale-100" : "scale-110"
+            }`}
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
@@ -52,9 +51,8 @@ function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center pt-24">
         <div
-          className={`transition-all duration-1000 delay-300 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
             IMMERSIVE ROMANTIC EXPERIENCES IN DUBAI
@@ -62,9 +60,8 @@ function HeroSection() {
         </div>
 
         <h1
-          className={`text-white text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] mb-6 transition-all duration-1000 delay-500 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.95] mb-6 transition-all duration-1000 delay-500 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <span className="block text-balance">
             The Art of <span className="text-[#800913]">Romance</span>
@@ -72,17 +69,15 @@ function HeroSection() {
         </h1>
 
         <p
-          className={`text-white/70 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed transition-all duration-1000 delay-700 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white/70 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed transition-all duration-1000 delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           Private, story-driven moments, designed for couples.
         </p>
 
         <div
-          className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-900 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-900 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <Link
             href="/experiences"
@@ -121,9 +116,8 @@ function IntroSection() {
       <div className="mx-auto max-w-2xl text-center">
         {/* Logo */}
         <div
-          className={`mb-8 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-8 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <Image
             src="/images/fougue-logo-red-transparent.png"
@@ -136,18 +130,16 @@ function IntroSection() {
 
         {/* L'Ancrage - Title */}
         <h2
-          className={`font-serif text-[#1E1E1E] text-4xl md:text-5xl font-normal leading-tight mb-10 transition-all duration-1000 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`font-serif text-[#1E1E1E] text-4xl md:text-5xl font-normal leading-tight mb-10 transition-all duration-1000 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           Love deserves intention.
         </h2>
 
         {/* Le Corps du texte - Narrative */}
         <div
-          className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-10 space-y-6 transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-10 space-y-6 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <p>
             In a city of endless options, romance can feel polished yet impersonal. Fougue re-enchants the way couples spend time together by designing fully curated, private experiences built around your story.
@@ -159,18 +151,16 @@ function IntroSection() {
 
         {/* Horizontal line */}
         <div
-          className={`flex justify-center mb-8 transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
+          className={`flex justify-center mb-8 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100" : "opacity-0"
+            }`}
         >
           <span className="w-16 h-px bg-[#1E1E1E]/30" />
         </div>
 
         {/* Le Rythme de fin - Signature */}
         <p
-          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-400 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           Crafted with intention. Composed with precision. Shaped by emotion.
         </p>
@@ -191,13 +181,13 @@ function ExperiencesPreview() {
     async function fetchExperiences() {
       try {
         const response = await fetch('/api/experiences')
-        
+
         if (!response.ok) {
           return
         }
 
         const data = await response.json()
-        
+
         const filteredExperiences = data
           .filter((exp: Experience) => exp.status === 'available' || exp.status === 'almost_available')
           .slice(0, 3)
@@ -205,7 +195,7 @@ function ExperiencesPreview() {
             ...exp,
             status: exp.status || (exp.available ? 'available' : 'coming_soon'),
           }))
-        
+
         setExperiences(filteredExperiences)
       } catch {
         // silent
@@ -237,32 +227,29 @@ function ExperiencesPreview() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div className="mb-6 md:mb-0">
             <p
-              className={`text-white/80 text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+              className={`text-white/80 text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
             >
               Signature Experiences
             </p>
             <h2
-              className={`text-white text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+              className={`text-white text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
             >
               Stories You Can <span className="text-[#800913] italic">Step Into</span>
             </h2>
           </div>
-          
+
           <Link
             href="/experiences"
-            className={`group inline-flex items-center gap-2 text-white/60 hover:text-white mt-6 lg:mt-0 text-sm tracking-[0.2em] uppercase transition-all duration-700 delay-200 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`group inline-flex items-center gap-2 text-white/60 hover:text-white mt-6 lg:mt-0 text-sm tracking-[0.2em] uppercase transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             View All Experiences
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
-        
+
         {/* Carousel */}
         <div className={`relative overflow-hidden group transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>
           {isLoading ? (
@@ -278,74 +265,74 @@ function ExperiencesPreview() {
           ) : (
             <>
               {/* Track */}
-              <div 
+              <div
                 className="flex transition-transform duration-700 ease-in-out"
-                style={{ 
+                style={{
                   width: `${experiences.length * 100}%`,
                   transform: `translateX(-${currentIndex * (100 / experiences.length)}%)`
                 }}
               >
                 {experiences.map((exp) => {
                   const isAlmostAvailable = exp.status === 'almost_available'
-                  
+
                   return (
-                    <div 
-                      key={exp.id} 
+                    <div
+                      key={exp.id}
                       className="flex flex-col md:flex-row"
                       style={{ width: `${100 / experiences.length}%` }}
                     >
-                  {/* Image - 4/3 on mobile, 5/3 on desktop */}
-                  <div className="relative w-full md:w-3/5 aspect-[4/3] md:aspect-[5/3] overflow-hidden">
-                    <Image
-                      src={exp.image || "/placeholder.svg"}
-                      alt={exp.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 60vw"
-                      className="object-cover"
-                    />
-                    {isAlmostAvailable && (
-                      <div className="absolute top-6 left-6 bg-black/70 text-white text-[10px] tracking-[0.2em] uppercase px-4 py-2 backdrop-blur-sm">
-                        Coming Soon
+                      {/* Image - 4/3 on mobile, 5/3 on desktop */}
+                      <div className="relative w-full md:w-3/5 aspect-[4/3] md:aspect-[5/3] overflow-hidden">
+                        <Image
+                          src={exp.image || "/placeholder.svg"}
+                          alt={exp.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 60vw"
+                          className="object-cover"
+                        />
+                        {isAlmostAvailable && (
+                          <div className="absolute top-6 left-6 bg-black/70 text-white text-[10px] tracking-[0.2em] uppercase px-4 py-2 backdrop-blur-sm">
+                            Coming Soon
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
 
-                  {/* Info Panel - 3/3 (square) on mobile, 5/3 on desktop */}
-                  <div className="relative w-full md:w-2/5 aspect-square md:aspect-[5/3] bg-[#FBF5EF] flex flex-col justify-center p-8 md:p-12 lg:p-14">
-                    <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
-                      {exp.subtitle}
-                    </p>
-                    <h3 className="text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light mb-8 leading-tight">
-                      {exp.title}
-                    </h3>
+                      {/* Info Panel - 3/3 (square) on mobile, 5/3 on desktop */}
+                      <div className="relative w-full md:w-2/5 aspect-square md:aspect-[5/3] bg-[#FBF5EF] flex flex-col justify-center p-8 md:p-12 lg:p-14">
+                        <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
+                          {exp.subtitle}
+                        </p>
+                        <h3 className="text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light mb-8 leading-tight">
+                          {exp.title}
+                        </h3>
 
-                    <div className="flex flex-col gap-6">
-                      <p className="text-[#1E1E1E]/50 text-sm tracking-wide">
-                        Starting from <span className="text-[#1E1E1E] font-medium">{formatPrice(exp.price || 0)} AED</span>
-                      </p>
+                        <div className="flex flex-col gap-6">
+                          <p className="text-[#1E1E1E]/50 text-sm tracking-wide">
+                            Starting from <span className="text-[#1E1E1E] font-medium">{formatPrice(exp.price || 0)} AED</span>
+                          </p>
 
-                      {isAlmostAvailable ? (
-                        <button
-                          onClick={() => {
-                            setSelectedExperience(exp.title)
-                            setShowWaitlist(true)
-                          }}
-                          className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
-                        >
-                          Join Waitlist
-                          <ArrowRight size={14} />
-                        </button>
-                      ) : (
-                        <Link
-                          href={`/experiences/${exp.id}`}
-                          className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
-                        >
-                          Discover This Story
-                          <ArrowRight size={14} />
-                        </Link>
-                      )}
-                    </div>
-                  </div>
+                          {isAlmostAvailable ? (
+                            <button
+                              onClick={() => {
+                                setSelectedExperience(exp.title)
+                                setShowWaitlist(true)
+                              }}
+                              className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
+                            >
+                              Join Waitlist
+                              <ArrowRight size={14} />
+                            </button>
+                          ) : (
+                            <Link
+                              href={`/experiences/${exp.id}`}
+                              className="inline-flex items-center gap-2 bg-[#800913] text-white py-3 px-6 text-xs tracking-[0.2em] uppercase hover:bg-[#600910] transition-colors w-fit"
+                            >
+                              Discover This Story
+                              <ArrowRight size={14} />
+                            </Link>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )
                 })}
@@ -354,13 +341,13 @@ function ExperiencesPreview() {
               {/* Navigation Arrows */}
               {experiences.length > 1 && (
                 <>
-                  <button 
+                  <button
                     onClick={prevSlide}
                     className={`absolute top-1/2 left-4 md:left-8 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-[#800913] text-white flex items-center justify-center rounded-full backdrop-blur-sm transition-all duration-300 z-10 ${currentIndex === 0 ? 'opacity-0 pointer-events-none' : 'opacity-0 group-hover:opacity-100'}`}
                   >
                     <ArrowRight size={20} className="rotate-180" />
                   </button>
-                  <button 
+                  <button
                     onClick={nextSlide}
                     className="absolute top-1/2 right-4 md:right-[40%] -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-[#800913] text-white flex items-center justify-center rounded-full backdrop-blur-sm transition-all duration-300 opacity-0 group-hover:opacity-100 z-10"
                   >
@@ -385,7 +372,7 @@ function ExperiencesPreview() {
           )}
         </div>
       </div>
-      
+
       <WaitlistModal
         isOpen={showWaitlist}
         onClose={() => setShowWaitlist(false)}
@@ -428,16 +415,14 @@ function DifferenceSection() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center mb-20">
           <h2
-            className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light transition-all duration-700 delay-150 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light transition-all duration-700 delay-150 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             The <span className="italic font-serif text-[#800913]">Fougue.</span> Difference
           </h2>
           <div
-            className={`mt-6 w-12 h-px bg-[#800913] mx-auto transition-all duration-700 delay-300 ${
-              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
-            }`}
+            className={`mt-6 w-12 h-px bg-[#800913] mx-auto transition-all duration-700 delay-300 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
+              }`}
           />
         </div>
 
@@ -445,9 +430,8 @@ function DifferenceSection() {
           {pillars.map((pillar, index) => (
             <div
               key={pillar.title}
-              className={`relative text-center px-4 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-              }`}
+              className={`relative text-center px-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                }`}
               style={{ transitionDelay: `${400 + index * 150}ms` }}
             >
               <Sparkles size={16} className="text-[#800913] mx-auto mb-6" />
@@ -477,56 +461,50 @@ function GiftsSection() {
             alt="Luxury gift presentation"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className={`object-cover transition-all duration-[1500ms] ease-out ${
-              isVisible 
-                ? "scale-100 opacity-100 translate-x-0" 
-                : "scale-110 opacity-0 -translate-x-8"
-            }`}
+            className={`object-cover transition-all duration-[1500ms] ease-out ${isVisible
+              ? "scale-100 opacity-100 translate-x-0"
+              : "scale-110 opacity-0 -translate-x-8"
+              }`}
           />
-          <div 
-            className={`absolute inset-0 bg-gradient-to-r from-[#FBF5EF] to-transparent transition-all duration-[1200ms] ease-out ${
-              isVisible ? "opacity-0" : "opacity-100"
-            }`}
+          <div
+            className={`absolute inset-0 bg-gradient-to-r from-[#FBF5EF] to-transparent transition-all duration-[1200ms] ease-out ${isVisible ? "opacity-0" : "opacity-100"
+              }`}
           />
         </div>
 
         <div className="flex items-center bg-[#FBF5EF] px-6 lg:px-16 py-16 lg:py-0">
           <div className="max-w-lg">
             <p
-              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               Gifts Collection
             </p>
             <h2
-              className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               Love, Made
               <span className="italic text-[#800913]"> Tangible</span>
             </h2>
             <p
-              className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-8 transition-all duration-700 delay-200 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-8 transition-all duration-700 delay-200 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               A curated selection of meaningful and symbolic pieces, designed to deepen connection, mark a moment, or carry the memory long after it unfolds.
             </p>
             <Link
               href="/gifts"
-              className={`group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-700 delay-300 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
+              className={`group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-700 delay-300 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+                }`}
             >
               Explore the Collection
               <ArrowRight
@@ -560,25 +538,22 @@ function QuoteSection() {
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
         <h2
-          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light mb-8 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light mb-8 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           Who Is It <span className="italic text-[#800913]">For</span>
         </h2>
         <p
-          className={`text-white text-xl md:text-2xl italic font-light leading-relaxed transition-all duration-1000 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-white text-xl md:text-xl italic font-light leading-relaxed transition-all duration-1000 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.
         </p>
         <p
-          className={`text-white text-xl md:text-2xl italic font-light leading-relaxed mt-6 transition-all duration-1000 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-white text-xl md:text-xl italic font-light leading-relaxed mt-6 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
         </p>
@@ -594,23 +569,20 @@ function CTASection() {
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <h2
-          className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           Your <span className="italic text-[#800913]">Chapter</span> Awaits.
         </h2>
         <p
-          className={`text-[#1E1E1E]/70 text-lg mb-10 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-[#1E1E1E]/70 text-lg mb-10 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           {"We'll take care of every detail."}
         </p>
         <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           <Link
             href="/contact"
@@ -641,23 +613,20 @@ function NewsletterSection() {
     <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
       <div className="mx-auto max-w-2xl px-6 text-center">
         <h2
-          className={`text-white text-3xl md:text-4xl font-light mb-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-white text-3xl md:text-4xl font-light mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           Stay Inspired
         </h2>
         <p
-          className={`text-white/60 mb-8 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`text-white/60 mb-8 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           Receive curated stories, exclusive previews, and inspiration for your next chapter.
         </p>
         <div
-          className={`transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           <NewsletterForm variant="dark" />
         </div>
