@@ -27,10 +27,12 @@ function HeroSection() {
           priority
         />
         <div className="absolute inset-0 bg-black/40" />
-        {/* Sharp fade to cream at very bottom - only ~2cm */}
+        {/* Seamless fade to cream at bottom */}
         <div 
-          className="absolute bottom-0 left-0 w-full h-12"
-          style={{ background: 'linear-gradient(to top, #FBF5EF 0%, #FBF5EF 20%, rgba(251, 245, 239, 0) 100%)' }}
+          className="absolute bottom-0 left-0 w-full h-48"
+          style={{ 
+            background: 'linear-gradient(to top, rgba(251, 245, 239, 1) 0%, rgba(251, 245, 239, 0.95) 15%, rgba(251, 245, 239, 0.8) 30%, rgba(251, 245, 239, 0.5) 60%, rgba(251, 245, 239, 0) 100%)' 
+          }}
         />
       </div>
 
@@ -40,7 +42,7 @@ function HeroSection() {
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
-        <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
+        <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
           The Brand
         </p>
         
@@ -109,7 +111,7 @@ function PhilosophySection() {
       </p>
 
       <h2
-        className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light leading-snug max-w-4xl mb-12 transition-all duration-700 delay-100 ${
+        className={`text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light leading-snug max-w-3xl mb-12 transition-all duration-700 delay-100 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
@@ -118,7 +120,7 @@ function PhilosophySection() {
       </h2>
 
       <p
-        className={`text-[#1E1E1E]/70 text-[13px] md:text-[14px] leading-[2.5] max-w-2xl font-light transition-all duration-700 delay-200 ${
+        className={`text-[#1E1E1E]/70 text-lg leading-relaxed max-w-2xl transition-all duration-700 delay-200 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
