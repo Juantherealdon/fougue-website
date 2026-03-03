@@ -15,8 +15,9 @@ function HeroSection() {
   }, [])
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      <div className="absolute inset-0">
+    <section className="relative h-screen w-full overflow-hidden bg-[#FBF5EF] flex flex-col items-center justify-center">
+      {/* Background Image with overlays */}
+      <div className="absolute inset-0 z-0">
         <Image
           src="/images/couple-dancing.jpg"
           alt="Couple dancing in the night"
@@ -25,41 +26,45 @@ function HeroSection() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
+        <div className="absolute inset-0 bg-black/40" />
+        {/* Seamless fade to cream at bottom */}
+        <div 
+          className="absolute bottom-0 left-0 w-full h-48"
+          style={{ background: 'linear-gradient(to top, #FBF5EF 0%, rgba(251, 245, 239, 0) 100%)' }}
+        />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
-        <p
-          className={`text-white/80 text-sm tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          The Brand
-        </p>
-        <h1
-          className={`text-white text-5xl md:text-6xl lg:text-7xl font-light mb-8 transition-all duration-700 delay-200 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          A Maison devoted to{" "}
-          <span className="italic text-[#800913]">modern romance.</span>
-        </h1>
-        <p
-          className={`text-white/70 text-lg md:text-xl max-w-2xl leading-relaxed transition-all duration-700 delay-400 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          In a city defined by abundance, we design intimacy.
-        </p>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div
-        className={`absolute bottom-12 left-1/2 -translate-x-1/2 transition-all duration-700 delay-700 ${
-          isLoaded ? "opacity-100" : "opacity-0"
+      {/* Content */}
+      <div 
+        className={`relative z-10 text-center flex flex-col items-center pb-16 px-6 transition-all duration-[3000ms] ease-in-out ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
-        <div className="w-px h-16 bg-gradient-to-b from-white/50 to-transparent animate-pulse" />
+        <p className="text-white/80 text-sm tracking-[0.5em] uppercase mb-6 drop-shadow-sm">
+          The Brand
+        </p>
+        
+        <h1 className="text-white text-5xl md:text-6xl lg:text-7xl font-light tracking-wide leading-tight drop-shadow-md mb-10">
+          A Maison devoted to<br />
+          <span className="italic text-[#800913] font-medium">modern romance.</span>
+        </h1>
+        
+        {/* Vertical line */}
+        <div 
+          className={`w-px bg-white/40 mb-8 drop-shadow-sm transition-all duration-[2000ms] ease-out ${
+            isLoaded ? "h-12 opacity-100" : "h-0 opacity-0"
+          }`}
+        />
+        
+        {/* Dictionary definition */}
+        <div className="flex flex-col items-center px-4 drop-shadow-sm">
+          <p className="text-white/80 text-[10px] tracking-widest uppercase mb-3">
+            [foog] : noun - French
+          </p>
+          <p className="text-white/95 text-lg md:text-xl italic font-light">
+            A feeling of strong passion, enthusiasm, ardour.
+          </p>
+        </div>
       </div>
     </section>
   )
@@ -87,92 +92,38 @@ function PhilosophySection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-28 lg:py-40 bg-[#FBF5EF]">
-      <div className="mx-auto max-w-4xl px-6 lg:px-8">
-        <div className="text-center">
-          <p
-            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            Our Philosophy
-          </p>
+    <section ref={sectionRef} className="pt-8 pb-32 md:pb-40 px-6 flex flex-col items-center text-center bg-[#FBF5EF] relative z-10">
+      {/* Vertical line with drop animation */}
+      <div 
+        className={`w-px bg-[#1E1E1E]/20 mb-16 transition-all duration-[2000ms] ease-out ${
+          isVisible ? "h-20 opacity-100" : "h-0 opacity-0"
+        }`}
+      />
+      
+      <p
+        className={`text-[#800913] text-sm tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        Our Philosophy
+      </p>
 
-          <h2
-            className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-10 transition-all duration-700 delay-100 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            Love deserves more than{" "}
-            <span className="italic text-[#800913]">ordinary.</span>
-          </h2>
+      <h2
+        className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light leading-snug max-w-4xl mb-12 transition-all duration-700 delay-100 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        In a city of endless options, romance can feel polished, yet impersonal. <br />
+        <span className="italic text-[#800913]">Fougue is our quiet antidote.</span>
+      </h2>
 
-          <div className={`w-16 h-px bg-[#800913] mx-auto mb-12 transition-all duration-700 delay-150 ${
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
-          }`} />
-
-          <p
-            className={`text-[#1E1E1E]/60 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10 transition-all duration-700 delay-200 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            In a city of endless options, romance can begin to feel polished, yet impersonal.
-          </p>
-
-          <p
-            className={`text-[#800913] text-2xl md:text-3xl italic mb-12 transition-all duration-700 delay-250 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            Fougue is our quiet antidote.
-          </p>
-
-          <div
-            className={`space-y-6 text-[#1E1E1E]/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto transition-all duration-700 delay-300 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            <p>
-              In a city of abundance, we design intimacy.
-            </p>
-            <p>
-              We believe romance lives in the feeling — in presence rather than performance, in attention, emotion, and authenticity.
-            </p>
-            <p>
-              We compose immersive romantic experiences, thoughtfully curated and shaped as stories to share. Each Fougue. Moment is intentional: <strong className="font-semibold text-[#1E1E1E]">intimate, immersive and personal by design,</strong> where moments become memories.
-            </p>
-          </div>
-
-          <div
-            className={`mt-20 transition-all duration-700 delay-400 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-          >
-            <Image
-              src="/images/fougue-logo-red-transparent.png"
-              alt="Fougue."
-              width={200}
-              height={80}
-              className="h-16 w-auto mx-auto mb-4"
-            />
-            <p className="text-[#1E1E1E]/50 text-sm italic tracking-wide">
-              The Art of Romance
-            </p>
-          </div>
-        </div>
-      </div>
+      <p
+        className={`text-[#1E1E1E]/70 text-[13px] md:text-[14px] leading-[2.5] max-w-2xl font-light transition-all duration-700 delay-200 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        We believe romance lives in the feeling — in presence rather than performance. We compose immersive experiences, thoughtfully curated and shaped as stories. Each Fougue Moment is intimate, personal by design, where moments become memories.
+      </p>
     </section>
   )
 }
