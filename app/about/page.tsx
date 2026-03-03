@@ -101,7 +101,7 @@ function PhilosophySection() {
   }, [])
 
   return (
-    <section id="philosophy-section" ref={sectionRef} className="pt-16 pb-32 md:pb-40 px-6 flex flex-col items-center text-center bg-[#FBF5EF] relative z-10">
+    <section id="philosophy-section" ref={sectionRef} className="min-h-screen px-6 py-24 flex flex-col items-center justify-center text-center bg-[#FBF5EF] relative z-10">
       <p
         className={`text-[#800913] text-sm tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
