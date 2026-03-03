@@ -560,14 +560,27 @@ function QuoteSection() {
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
         <p
-          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${
+          className={`text-white/80 text-xs font-medium tracking-[0.3em] uppercase mb-6 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Re-enchanting the way<br />
-          couples spend time together.
+          Who Is It For
+        </p>
+        <p
+          className={`text-white text-lg md:text-xl font-light leading-relaxed transition-all duration-1000 delay-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.
+        </p>
+        <p
+          className={`text-white/90 text-base md:text-lg italic font-light leading-relaxed mt-4 transition-all duration-1000 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
+          For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
         </p>
         <div
           className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${
