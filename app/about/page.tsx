@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ChevronDown } from "lucide-react"
 
 function HeroSection() {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -45,16 +45,10 @@ function HeroSection() {
           The Brand
         </p>
 
-        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md mb-8">
+        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md mb-6">
           A Maison devoted to<br />
           <span className="italic text-[#800913]">modern romance.</span>
         </h1>
-
-        {/* Vertical line */}
-        <div
-          className={`w-px bg-white/50 mb-6 transition-all duration-[2000ms] ease-out ${isLoaded ? "h-10 opacity-100" : "h-0 opacity-0"
-            }`}
-        />
 
         {/* Dictionary definition */}
         <div className="flex flex-col items-center px-4">
@@ -66,6 +60,19 @@ function HeroSection() {
           </p>
         </div>
       </div>
+
+      {/* Scroll arrow */}
+      <button
+        onClick={() => {
+          document.getElementById('philosophy-section')?.scrollIntoView({ behavior: 'smooth' })
+        }}
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-10 transition-all duration-700 delay-500 ${
+          isLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        aria-label="Scroll to next section"
+      >
+        <ChevronDown className="text-white/60 animate-bounce" size={32} />
+      </button>
     </section>
   )
 }
@@ -92,7 +99,7 @@ function PhilosophySection() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="pt-8 pb-32 md:pb-40 px-6 flex flex-col items-center text-center bg-[#FBF5EF] relative z-10">
+    <section id="philosophy-section" ref={sectionRef} className="pt-8 pb-32 md:pb-40 px-6 flex flex-col items-center text-center bg-[#FBF5EF] relative z-10">
       {/* Vertical line with drop animation */}
       <div
         className={`w-px bg-[#1E1E1E]/20 mb-16 transition-all duration-[2000ms] ease-out ${isVisible ? "h-20 opacity-100" : "h-0 opacity-0"
