@@ -101,13 +101,7 @@ function PhilosophySection() {
   }, [])
 
   return (
-    <section id="philosophy-section" ref={sectionRef} className="pt-8 pb-32 md:pb-40 px-6 flex flex-col items-center text-center bg-[#FBF5EF] relative z-10">
-      {/* Vertical line with drop animation */}
-      <div
-        className={`w-px bg-[#1E1E1E]/20 mb-16 transition-all duration-[2000ms] ease-out ${isVisible ? "h-20 opacity-100" : "h-0 opacity-0"
-          }`}
-      />
-
+    <section id="philosophy-section" ref={sectionRef} className="pt-16 pb-32 md:pb-40 px-6 flex flex-col items-center text-center bg-[#FBF5EF] relative z-10">
       <p
         className={`text-[#800913] text-sm tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
@@ -119,7 +113,8 @@ function PhilosophySection() {
         className={`text-[#1E1E1E] text-2xl md:text-3xl lg:text-4xl font-light leading-snug max-w-3xl mb-12 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
       >
-        In a city of endless options, romance can feel polished, yet impersonal. <br />
+        In a city of endless options, romance can feel<br />
+        polished, yet impersonal.<br />
         <span className="italic text-[#800913]">Fougue is our quiet antidote.</span>
       </h2>
 
