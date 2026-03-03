@@ -273,7 +273,7 @@ function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
         <p
-          className={`text-white/80 text-sm tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${
+          className={`text-white/80 text-sm font-medium tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -573,7 +573,7 @@ function WhyGiftSection() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16">
           <p
-            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+            className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -659,7 +659,7 @@ function ComingSoonSection() {
         </div>
 
         <p
-          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${
+          className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >

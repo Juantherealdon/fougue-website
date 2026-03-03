@@ -102,33 +102,33 @@ function HowItWorksSection() {
           </h2>
         </div>
 
-        {/* Horizontal Steps */}
-        <div className="flex flex-nowrap justify-center gap-1 overflow-x-auto md:overflow-visible">
+        {/* Horizontal Steps - scrollable on mobile, centered on desktop */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-1 px-2 md:px-0">
           {howItWorksSteps.map((step, index) => (
             <div
               key={step.number}
-              className={`transition-all duration-500 flex-shrink-0 ${
+              className={`transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{ transitionDelay: `${100 + index * 80}ms` }}
             >
               <button
                 onClick={() => toggleStep(index)}
-                className={`group flex items-center gap-1.5 px-3 py-3 md:px-4 text-sm md:text-base whitespace-nowrap transition-all duration-300 ${
+                className={`group flex items-center gap-1.5 px-3 py-2.5 md:px-4 md:py-3 text-xs md:text-base transition-all duration-300 ${
                   activeStep === index
                     ? "bg-[#800913] text-white"
                     : "bg-white hover:bg-[#1E1E1E] hover:text-white text-[#1E1E1E]"
                 }`}
               >
-                <span className={`text-xs font-medium ${activeStep === index ? "text-white/60" : "text-[#800913] group-hover:text-white/60"}`}>
+                <span className={`text-[10px] md:text-xs font-medium ${activeStep === index ? "text-white/60" : "text-[#800913] group-hover:text-white/60"}`}>
                   {step.number}
                 </span>
-                <span>
+                <span className="whitespace-nowrap">
                   {step.title}
                 </span>
                 <ChevronDown 
-                  size={14} 
-                  className={`transition-transform duration-300 flex-shrink-0 ${
+                  size={12} 
+                  className={`transition-transform duration-300 flex-shrink-0 md:w-3.5 md:h-3.5 ${
                     activeStep === index 
                       ? "rotate-180 text-white/60" 
                       : "text-[#1E1E1E]/30 group-hover:text-white/60"
@@ -142,28 +142,16 @@ function HowItWorksSection() {
         {/* Accordion Content */}
         <div
           className={`overflow-hidden transition-all duration-500 ease-out ${
-            activeStep !== null ? "max-h-48 opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
+            activeStep !== null ? "max-h-64 opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
           }`}
         >
           {activeStep !== null && (
-            <div className="bg-white p-6 md:p-8 text-center max-w-3xl mx-auto">
-              <p className="text-[#1E1E1E]/70 text-base leading-relaxed whitespace-pre-line">
+            <div className="bg-white p-4 md:p-8 text-center max-w-3xl mx-auto rounded-sm">
+              <p className="text-[#1E1E1E]/70 text-sm md:text-base leading-relaxed">
                 {howItWorksSteps[activeStep].description}
               </p>
             </div>
           )}
-        </div>
-
-        {/* Who it's for - No title, no border */}
-        <div
-          className={`mt-8 text-center transition-all duration-700 delay-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          <p className="text-[#1E1E1E]/60 text-base leading-relaxed max-w-3xl mx-auto">
-            For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.<br />
-            For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
-          </p>
         </div>
       </div>
     </section>
@@ -193,7 +181,7 @@ function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
         <p
-          className={`text-white/80 text-sm tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${
+          className={`text-white/80 text-sm font-medium tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -289,7 +277,7 @@ function ExperienceCard({
         }`}
       >
         <p
-          className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+          className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -385,7 +373,7 @@ function ComingSoonSection({ comingSoonExperiences }: { comingSoonExperiences: E
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
             <p
-              className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
@@ -477,7 +465,7 @@ function ExclusiveAccessSection() {
             <Bell size={28} className="text-[#800913]" />
           </div>
           <p
-            className={`text-[#800913] text-sm tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
+            className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -603,7 +591,7 @@ export default function ExperiencesPage() {
       {/* Need Help Section */}
       <section className="py-24 lg:py-32 bg-[#FBF5EF]">
         <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
-          <p className="text-[#800913] text-sm tracking-[0.3em] uppercase mb-4">
+          <p className="text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4">
             Need Help Choosing?
           </p>
           <h2 className="text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6">
