@@ -38,7 +38,7 @@ function HeroSection() {
 
       {/* Top content - title */}
       <div
-        className={`relative z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        className={`relative z-10 mb-12 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
       >
         <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
