@@ -27,41 +27,41 @@ function HeroSection() {
           priority
         />
         <div className="absolute inset-0 bg-black/40" />
-        {/* Seamless fade to cream at bottom */}
+        {/* Sharp fade to cream at very bottom - only ~2cm */}
         <div 
-          className="absolute bottom-0 left-0 w-full h-48"
-          style={{ background: 'linear-gradient(to top, #FBF5EF 0%, rgba(251, 245, 239, 0) 100%)' }}
+          className="absolute bottom-0 left-0 w-full h-12"
+          style={{ background: 'linear-gradient(to top, #FBF5EF 0%, #FBF5EF 20%, rgba(251, 245, 239, 0) 100%)' }}
         />
       </div>
 
       {/* Content */}
       <div 
-        className={`relative z-10 text-center flex flex-col items-center pb-16 px-6 transition-all duration-[3000ms] ease-in-out ${
+        className={`relative z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
-        <p className="text-white/80 text-sm tracking-[0.5em] uppercase mb-6 drop-shadow-sm">
+        <p className="text-[#800913] text-xs tracking-[0.3em] uppercase mb-4">
           The Brand
         </p>
         
-        <h1 className="text-white text-5xl md:text-6xl lg:text-7xl font-light tracking-wide leading-tight drop-shadow-md mb-10">
+        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-tight drop-shadow-md mb-8">
           A Maison devoted to<br />
-          <span className="italic text-[#800913] font-medium">modern romance.</span>
+          <span className="italic text-[#800913]">modern romance.</span>
         </h1>
         
         {/* Vertical line */}
         <div 
-          className={`w-px bg-white/40 mb-8 drop-shadow-sm transition-all duration-[2000ms] ease-out ${
-            isLoaded ? "h-12 opacity-100" : "h-0 opacity-0"
+          className={`w-px bg-white/50 mb-6 transition-all duration-[2000ms] ease-out ${
+            isLoaded ? "h-10 opacity-100" : "h-0 opacity-0"
           }`}
         />
         
         {/* Dictionary definition */}
-        <div className="flex flex-col items-center px-4 drop-shadow-sm">
-          <p className="text-white/80 text-[10px] tracking-widest uppercase mb-3">
+        <div className="flex flex-col items-center px-4">
+          <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
             [foog] : noun - French
           </p>
-          <p className="text-white/95 text-lg md:text-xl italic font-light">
+          <p className="text-white text-lg md:text-xl italic font-light">
             A feeling of strong passion, enthusiasm, ardour.
           </p>
         </div>
