@@ -560,33 +560,28 @@ function QuoteSection() {
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
-        <p
-          className={`text-white/80 text-xs font-medium tracking-[0.3em] uppercase mb-6 transition-all duration-1000 ${
+      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+        <h2
+          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light mb-8 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
-          Who Is It For
-        </p>
+          Who Is It <span className="italic text-[#800913]">For</span>
+        </h2>
         <p
-          className={`text-white text-lg md:text-xl font-light leading-relaxed transition-all duration-1000 delay-100 ${
+          className={`text-white text-xl md:text-2xl italic font-light leading-relaxed transition-all duration-1000 delay-100 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
           For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.
         </p>
         <p
-          className={`text-white/90 text-base md:text-lg italic font-light leading-relaxed mt-4 transition-all duration-1000 delay-200 ${
+          className={`text-white text-xl md:text-2xl italic font-light leading-relaxed mt-6 transition-all duration-1000 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           }`}
         >
           For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
         </p>
-        <div
-          className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
-          }`}
-        />
       </div>
     </section>
   )
