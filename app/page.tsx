@@ -461,8 +461,6 @@ function DifferenceSection() {
           ))}
         </div>
       </div>
-      
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#800913]/20 to-transparent" />
     </section>
   )
 }
@@ -473,14 +471,21 @@ function GiftsSection() {
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-0 lg:h-screen">
       <div className="lg:grid lg:grid-cols-2 lg:h-full">
-        <div className="relative h-[50vh] lg:h-full">
+        <div className="relative h-[50vh] lg:h-full overflow-hidden">
           <Image
             src="/images/gift-door.jpg"
             alt="Luxury gift presentation"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className={`object-cover transition-all duration-1000 ${
-              isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
+            className={`object-cover transition-all duration-[1500ms] ease-out ${
+              isVisible 
+                ? "scale-100 opacity-100 translate-x-0" 
+                : "scale-110 opacity-0 -translate-x-8"
+            }`}
+          />
+          <div 
+            className={`absolute inset-0 bg-gradient-to-r from-[#FBF5EF] to-transparent transition-all duration-[1200ms] ease-out ${
+              isVisible ? "opacity-0" : "opacity-100"
             }`}
           />
         </div>
