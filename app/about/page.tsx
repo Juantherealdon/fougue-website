@@ -29,7 +29,7 @@ function HeroSection() {
         <div className="absolute inset-0 bg-black/40" />
         {/* Seamless fade to cream at bottom */}
         <div
-          className="absolute bottom-0 left-0 w-full h-50"
+          className="absolute bottom-0 left-0 w-full h-00"
           style={{
             background: 'linear-gradient(to top, rgba(251, 245, 239, 1) 0%, rgba(251, 245, 239, 0.95) 15%, rgba(251, 245, 239, 0.8) 30%, rgba(251, 245, 239, 0.5) 60%, rgba(251, 245, 239, 0) 100%)'
           }}
