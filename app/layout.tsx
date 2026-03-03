@@ -1,7 +1,7 @@
 import React from "react"
 import type { Metadata } from "next"
 import { Cormorant_Garamond } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 import { CartProvider } from "@/components/cart-context"
 import { CartDrawer } from "@/components/cart-drawer"
 import { AuthProvider } from "@/components/auth-context"
