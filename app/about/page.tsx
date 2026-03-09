@@ -15,66 +15,54 @@ function HeroSection() {
   }, [])
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-[#FBF5EF] flex flex-col items-center justify-center">
-      {/* Background Image with overlays */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/couple-dancing.jpg"
-          alt="Couple dancing in the night"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        {/* Seamless fade to cream at bottom */}
-        <div
-          className="absolute bottom-0 left-0 w-full h-00"
-          style={{
-            background: 'linear-gradient(to top, rgba(251, 245, 239, 1) 0%, rgba(251, 245, 239, 0.95) 15%, rgba(251, 245, 239, 0.8) 30%, rgba(251, 245, 239, 0.5) 60%, rgba(251, 245, 239, 0) 100%)'
-          }}
-        />
-      </div>
-
+    <section className="bg-[#FBF5EF] pt-32 md:pt-40 pb-20 px-6 flex flex-col items-center text-center">
+      
       {/* Top content - title */}
       <div
-        className={`relative z-10 mb-12 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-          }`}
+        className={`transition-all duration-1000 ease-out ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
       >
-        <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
+        <p className="text-[#800913] text-sm font-medium tracking-[0.4em] uppercase mb-8">
           The Brand
         </p>
 
-        <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md">
+        <h1 className="text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-12">
           A Maison devoted to<br />
           <span className="italic text-[#800913]">Modern Romance.</span>
         </h1>
       </div>
 
-      {/* Dictionary definition - midpoint between title and arrow */}
+      {/* Dictionary definition - Intégrée comme un encart chic */}
       <div
-        className={`absolute bottom-50 left-1/2 -translate-x-1/2 z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-          }`}
+        className={`max-w-md w-full border-t border-b border-[#1E1E1E]/10 py-8 mb-20 transition-all duration-1000 delay-300 ease-out ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
       >
-        <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
+        <p className="text-[#1E1E1E]/50 text-[11px] tracking-[0.3em] uppercase mb-3">
           [foog] : noun - French
         </p>
-        <p className="text-white text-lg md:text-xl italic font-light">
+        <p className="text-[#1E1E1E]/80 text-xl md:text-2xl italic font-light">
           Intense passion, enthusiasm, ardour.
         </p>
       </div>
 
-      {/* Scroll arrow */}
-      <button
-        onClick={() => {
-          document.getElementById('philosophy-section')?.scrollIntoView({ behavior: 'smooth' })
-        }}
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-10 transition-all duration-700 delay-500 ${isLoaded ? "opacity-100" : "opacity-0"
-          }`}
-        aria-label="Scroll to next section"
+      {/* Cinematic Image - Contenue avec marges */}
+      <div
+        className={`w-full max-w-6xl mx-auto h-[50vh] md:h-[65vh] relative overflow-hidden transition-all duration-1000 delay-500 ease-out ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        }`}
       >
-        <ChevronDown className="text-white/60 animate-bounce" size={32} />
-      </button>
+        <Image
+          src="/images/couple-dancing.jpg"
+          alt="Couple dancing in the night"
+          fill
+          sizes="(max-width: 1024px) 100vw, 90vw"
+          className="object-cover hover:scale-105 transition-transform duration-[3s] ease-out"
+          priority
+        />
+      </div>
+
     </section>
   )
 }
@@ -500,7 +488,7 @@ function CTASection() {
 export default function AboutPage() {
   return (
     <main>
-      <Navigation />
+      <Navigation solidNav />
       <HeroSection />
       <PhilosophySection />
       <DNASection />
