@@ -60,7 +60,7 @@ function HeroSection() {
           [foog] : noun - French
         </p>
         <p className="text-white text-lg md:text-xl italic font-light">
-          A feeling of strong passion, enthusiasm, ardour.
+          Intense passion, enthusiasm, ardour.
         </p>
       </div>
 
@@ -202,7 +202,7 @@ function DNASection() {
               [foog]: noun - French
             </p>
             <p className="text-white text-lg italic">
-              A feeling of strong passion, enthusiasm, ardour.
+              Intense passion, enthusiasm, ardour.
             </p>
           </div>
         </div>
