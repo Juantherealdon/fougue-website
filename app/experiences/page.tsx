@@ -568,7 +568,7 @@ export default function ExperiencesPage() {
           <h2 className="text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6">
             Our <span className="italic text-[#800913]">Experience Curator</span> is Here
           </h2>
-          <p className="text-[#1E1E1E]/60 text-lg mb-10 max-w-2xl mx-auto">
+          <p className="text-[#1E1E1E]/60 text-lg mb-10 max-w-lg mx-auto">
             Not sure which experience is perfect? Our dedicated team will help you select
             the ideal moment for your loved one.
           </p>
