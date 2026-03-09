@@ -488,7 +488,7 @@ function CTASection() {
 export default function AboutPage() {
   return (
     <main>
-      <Navigation />
+      <Navigation solidNav />
       <HeroSection />
       <PhilosophySection />
       <DNASection />
