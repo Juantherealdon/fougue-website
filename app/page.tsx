@@ -473,7 +473,7 @@ function GiftsSection() {
         </div>
 
         <div className="flex items-center bg-[#FBF5EF] px-6 lg:px-16 py-16 lg:py-0">
-          <div className="max-w-lg">
+          <div className="max-w-xl">
             <p
               className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
                 ? "opacity-100 translate-y-0"
