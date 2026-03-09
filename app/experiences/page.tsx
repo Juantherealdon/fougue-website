@@ -188,7 +188,7 @@ function HeroSection() {
           Signature <span className="italic text-[#800913]">Experiences</span>
         </h1>
         <p
-          className={`text-white/70 text-lg md:text-xl max-w-2xl transition-all duration-700 delay-400 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`text-white/70 text-lg md:text-xl max-w-lg transition-all duration-700 delay-400 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
           Each experience unfolds as a private story, shaped in detail and designed to be remembered.
