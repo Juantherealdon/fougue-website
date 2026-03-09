@@ -53,7 +53,7 @@ function HeroSection() {
 
       {/* Dictionary definition - midpoint between title and arrow */}
       <div
-        className={`absolute bottom-32 left-1/2 -translate-x-1/2 z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        className={`absolute bottom-50 left-1/2 -translate-x-1/2 z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
       >
         <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
