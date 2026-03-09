@@ -18,7 +18,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: "Fougue. | Intimate Experiences for Couples in Dubai",
+  title: "Fougue. | Private Romantic Experiences in Dubai",
   description:
     "Fougue. is a Dubai-based brand creating original, themed and intimate experiences for couples who want more than the usual. Re-enchant the way you spend time together.",
   generator: "v0.app",

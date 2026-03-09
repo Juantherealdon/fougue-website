@@ -10,7 +10,7 @@ import { useAuth } from "./auth-context"
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/experiences", label: "Experiences" },
-  { href: "/gifts", label: "Gifts Collection" },
+  { href: "/gifts", label: "Gifts" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ]
@@ -42,11 +42,10 @@ export function Navigation({ solidNav = false }: { solidNav?: boolean }) {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled || solidNav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || solidNav
             ? "bg-[#1E1E1E] py-4"
             : "bg-transparent py-6"
-        }`}
+          }`}
       >
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -120,9 +119,8 @@ export function Navigation({ solidNav = false }: { solidNav?: boolean }) {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-[#1E1E1E] transition-transform duration-500 lg:hidden ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-0 z-40 bg-[#1E1E1E] transition-transform duration-500 lg:hidden ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex flex-col items-center justify-center h-full gap-8">
           {navLinks.map((link, index) => (
