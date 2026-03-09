@@ -198,7 +198,7 @@ function SplitHeroDescription({
               className={`text-xl italic text-[#1E1E1E]/50 mb-8 transition-all duration-700 delay-200 ${isRevealed(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
                 }`}
             >
-              Starting from {experience.currency} {experience.price.toLocaleString()}
+              Starting from {experience.currency} {experience.price.toLocaleString('en-US')}
             </p>
 
             <div
