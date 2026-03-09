@@ -113,22 +113,9 @@ function IntroSection() {
       ref={sectionRef}
       className="py-20 lg:py-28 px-6 bg-[#FBF5EF]"
     >
-      <div className="mx-auto max-w-2xl text-center">
-        {/* Logo */}
-        <div
-          className={`mb-8 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-        >
-          <Image
-            src="/images/fougue-logo-red-transparent.png"
-            alt="Fougue."
-            width={150}
-            height={50}
-            className="h-11 w-auto mx-auto"
-          />
-        </div>
+      <div className="mx-auto max-w-4xl text-center">
 
-        {/* L'Ancrage - Title */}
+        {/* L'Ancrage - Title (Ton grand titre d'origine) */}
         <h2
           className={`font-serif text-[#1E1E1E] text-4xl md:text-5xl font-normal leading-tight mb-10 transition-all duration-1000 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
@@ -138,7 +125,7 @@ function IntroSection() {
 
         {/* Le Corps du texte - Narrative */}
         <div
-          className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-10 space-y-6 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-12 space-y-6 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
           <p>
@@ -149,21 +136,84 @@ function IntroSection() {
           </p>
         </div>
 
-        {/* Horizontal line */}
+        {/* NOUVEAU SÉPARATEUR PREMIUM : La ligne en dégradé (S'estompe sur les côtés) */}
         <div
           className={`flex justify-center mb-8 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100" : "opacity-0"
             }`}
         >
-          <span className="w-16 h-px bg-[#1E1E1E]/30" />
+          <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#1E1E1E]/30 to-transparent"></div>
         </div>
 
         {/* Le Rythme de fin - Signature */}
         <p
-          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`text-[#1E1E1E]/60 text-[11px] font-medium uppercase tracking-[0.2em] mb-10 transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
           Crafted with intention. Composed with precision. Shaped by emotion.
         </p>
+
+        {/* NOUVEL EMPLACEMENT DU LOGO : Tout en bas comme une signature */}
+        <div
+          className={`transition-all duration-1000 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+        >
+          <Image
+            src="/images/fougue-logo-red-transparent.png"
+            alt="Fougue."
+            width={150}
+            height={50}
+            className="h-8 w-auto mx-auto"
+          />
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+function ManifestoBar() {
+  const { ref: sectionRef, isVisible } = useInView(0.3)
+
+  const items = [
+    "Choose moments over things",
+    "Presence over performance",
+    "Seek meaningful pauses"
+  ]
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative bg-[#800913] py-14 flex flex-col items-center overflow-hidden"
+    >
+      {/* Subtile ombre interne en bas pour la transition vers le noir */}
+      <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+
+        {/* Titre d'accroche - Rapproché des piliers (mb-8) */}
+        <h3 className={`font-serif italic text-[#FBF5EF] text-2xl md:text-3xl mb-8 tracking-wide transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
+          For Those Who...
+        </h3>
+
+        {/* Grille des piliers */}
+        <div className={`flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 lg:gap-16 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100" : "opacity-0"
+          }`}>
+
+          {items.map((item, index) => (
+            <div key={index} className="flex items-center gap-6 md:gap-12 lg:gap-16">
+              <p className="text-[#FBF5EF]/90 text-[10px] md:text-[11px] font-medium tracking-[0.2em] uppercase whitespace-nowrap">
+                {item}
+              </p>
+
+              {/* Séparateur vertical blanc/beige très fin */}
+              {index < items.length - 1 && (
+                <div className="hidden md:block w-[1px] h-6 bg-gradient-to-b from-transparent via-[#FBF5EF]/20 to-transparent"></div>
+              )}
+            </div>
+          ))}
+
+        </div>
       </div>
     </section>
   )
@@ -641,6 +691,7 @@ export default function HomePage() {
       <Navigation />
       <HeroSection />
       <IntroSection />
+      <ManifestoBar />
       <ExperiencesPreview />
       <DifferenceSection />
       <GiftsSection />
