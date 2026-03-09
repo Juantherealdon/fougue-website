@@ -387,7 +387,7 @@ function DifferenceSection() {
 
   const pillars = [
     {
-      title: "Personalised to your story",
+      title: "Personalised to Your Story",
       description: "We compose experiences shaped around your story, love language, and memories.",
     },
     {
@@ -396,12 +396,12 @@ function DifferenceSection() {
         "From the first invitation to the final note, every detail unfolds with intention and emotional coherence.",
     },
     {
-      title: "True immersion",
+      title: "True Immersion",
       description:
-        "Beyond aesthetics, we layer culture, sensory cues and thoughtful prompts to create atmosphere with meaning, and spark genuine connection.",
+        "Beyond aesthetics, we layer culture, sensory cues and thoughtful prompts to create atmosphere with meaning.",
     },
     {
-      title: "Effortless booking",
+      title: "Effortless Booking",
       description:
         "Transparent pricing, seamless reservation process and refined coordination - simplicity without compromise.",
     },
