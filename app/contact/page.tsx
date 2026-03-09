@@ -171,9 +171,9 @@ function ContactSection() {
     {
       icon: MessageCircle,
       label: "WhatsApp",
-      value: "+971 52 315 7273",
-      href: "https://wa.me/971523157273",
-      color: "#25D366",
+      value: "+971 52 616 0505",
+      href: "https://wa.me/971526160505",
+      color: "#800913",
     },
     {
       icon: Mail,

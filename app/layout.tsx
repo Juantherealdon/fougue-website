@@ -29,7 +29,9 @@ export const metadata: Metadata = {
     "date ideas Dubai",
     "luxury experiences",
   ],
-
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 export default function RootLayout({
