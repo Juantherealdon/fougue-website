@@ -284,7 +284,7 @@ export function buildContactClientEmail(data: ContactEmailData): string {
                 <tr>
                   <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; color: #1E1E1E; opacity: 0.55; line-height: 1.8; text-align: center;">
                     In the meantime, feel free to reach us anytime.<br/>
-                    <a href="https://wa.me/971523157273" style="color: #800913; text-decoration: none;">WhatsApp</a>
+                    <a href="https://wa.me/971526160505" style="color: #800913; text-decoration: none;">WhatsApp</a>
                     &nbsp;&middot;&nbsp;
                     <a href="mailto:hello@fougue.ae" style="color: #800913; text-decoration: none;">hello@fougue.ae</a>
                   </td>

@@ -7,7 +7,7 @@ import { X, MessageCircle } from "lucide-react"
 // WhatsApp Business Configuration
 const WHATSAPP_CONFIG = {
   // WhatsApp Business number (include country code, no + or spaces)
-  phoneNumber: "971523157273",
+  phoneNumber: "971526160505",
   // Default message when users click to chat
   defaultMessage: "Hello Fougue! I'm interested in learning more about your romantic experiences.",
 }
@@ -116,7 +116,7 @@ export function WhatsAppButton() {
               />
               <button
                 onClick={handleWhatsAppClick}
-                className="w-full bg-[#25D366] hover:bg-[#20BD5A] text-white py-3 rounded-lg text-sm font-medium transition-colors duration-300 flex items-center justify-center gap-2"
+                className="w-full bg-[#800913] hover:bg-[#1E1E1E] text-white py-3 rounded-lg text-sm font-medium transition-colors duration-300 flex items-center justify-center gap-2"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -158,7 +158,7 @@ export function WhatsAppButton() {
         className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-500 hover:scale-110 ${
           isExpanded
             ? "bg-[#1E1E1E] rotate-0"
-            : "bg-[#25D366] hover:bg-[#20BD5A]"
+            : "bg-[#800913] hover:bg-[#1E1E1E]"
         } ${
           isVisible
             ? "opacity-100 pointer-events-auto"
@@ -181,7 +181,7 @@ export function WhatsAppButton() {
 
       {/* Pulse Animation on Button */}
       {!isExpanded && isVisible && (
-        <span className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] animate-ping opacity-30 pointer-events-none" />
+        <span className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#800913] animate-ping opacity-20 pointer-events-none" />
       )}
 
       {/* Tooltip */}
