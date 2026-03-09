@@ -47,7 +47,7 @@ function HeroSection() {
 
         <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md">
           A Maison devoted to<br />
-          <span className="italic text-[#800913]">modern romance.</span>
+          <span className="italic text-[#800913]">Modern Romance.</span>
         </h1>
       </div>
 
