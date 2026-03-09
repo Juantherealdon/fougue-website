@@ -9,6 +9,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ImageCarousel } from "@/components/image-carousel"
 import { BookingModal } from "@/components/booking-modal"
+import { useInView } from "@/hooks/use-in-view"
 import {
   ArrowRight,
   Clock,
@@ -27,6 +28,8 @@ import {
   Loader2,
   Star,
   Heart,
+  Plus,
+  Minus
 } from "lucide-react"
 
 interface IncludedItem {
@@ -502,6 +505,123 @@ function NotFoundState() {
   )
 }
 
+// ---- LA SECTION FAQ HARDCODÉE POUR PARISIAN INTERLUDE ----
+function ParisianFAQSection() {
+  const { ref: sectionRef, isVisible } = useInView(0.2)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  const faqs = [
+    {
+      question: "Is the experience private?",
+      answer: (
+        <div className="space-y-4">
+          <p>Yes. Each Parisian Interlude is designed for one couple at a time to preserve intimacy and create a truly personal moment.</p>
+          <p>For special occasions, the experience can be extended to accommodate up to four guests upon request.</p>
+        </div>
+      )
+    },
+    {
+      question: "Where does the experience take place?",
+      answer: (
+        <div className="space-y-4">
+          <p>The Parisian Interlude is hosted in a beautiful outdoor setting in Dubai, carefully selected for its calm and romantic atmosphere.</p>
+          <p>For couples seeking additional privacy, the experience can also be arranged in a private garden or exclusive location upon request.</p>
+        </div>
+      )
+    },
+    {
+      question: "How long does the experience last?",
+      answer: (
+        <div className="space-y-4">
+          <p>The experience lasts approximately three hours.</p>
+          <p>This duration is intentionally designed to allow couples to slow down, enjoy the setting, and fully immerse themselves in the moment without feeling rushed. Guests are, of course, free to leave earlier if they wish.</p>
+        </div>
+      )
+    },
+    {
+      question: "Can the experience be personalised?",
+      answer: (
+        <div className="space-y-4">
+          <p>Yes. While each Fougue experience is thoughtfully designed, we are happy to incorporate small personal touches to make the moment even more meaningful.</p>
+          <p>After booking, our team will reach out to learn a few details about you as a couple - such as a special message, music preferences, meaningful memories, or dietary preferences — so we can prepare the experience accordingly.</p>
+          <p>Optional enhancements such as professional photography, celebration cakes, or concierge coordination for special surprises can also be added.</p>
+        </div>
+      )
+    },
+    {
+      question: "What is the cancellation or rescheduling policy?",
+      answer: (
+        <div className="space-y-4">
+          <p>As each Fougue experience is carefully prepared in advance, we kindly ask for notice if your plans change.</p>
+          <ul className="list-disc pl-5 space-y-2">
+            <li>Free cancellation up to 7 days before the experience (full refund).</li>
+            <li>Cancellations made within 7 days are non-refundable due to preparation and supplier commitments.</li>
+            <li>However, we are happy to reschedule your experience with at least 72 hours’ notice, subject to availability. Rescheduling is limited to one date change per booking.</li>
+          </ul>
+          <p>In case of unfavourable weather or unforeseen circumstances, we will always propose an alternative date.</p>
+        </div>
+      )
+    },
+    {
+      question: "Can this experience be gifted?",
+      answer: (
+        <div className="space-y-4">
+          <p>Yes. The Parisian Interlude can be offered as a romantic gift experience, perfect for anniversaries, birthdays or surprises.</p>
+        </div>
+      )
+    }
+  ]
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
+
+  return (
+    <section ref={sectionRef} className="py-24 lg:py-32 bg-[#FBF5EF]">
+      <div className="mx-auto max-w-3xl px-6">
+
+        {/* Titres avec la typo et les couleurs EXACTES des autres sections */}
+        <div className="text-center mb-16">
+          <p className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            Parisian Interlude
+          </p>
+          <h2 className={`text-[#1E1E1E] text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            Frequently Asked <span className="italic text-[#800913]">Questions</span>
+          </h2>
+        </div>
+
+        <div className={`flex flex-col border-t border-[#1E1E1E]/10 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index
+            return (
+              <div key={index} className="border-b border-[#1E1E1E]/10">
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full py-8 flex items-center justify-between text-left group focus:outline-none"
+                >
+                  <h3 className={`font-serif text-xl md:text-2xl pr-8 transition-colors duration-300 ${isOpen ? "text-[#800913] italic" : "text-[#1E1E1E] group-hover:text-[#800913]"}`}>
+                    {faq.question}
+                  </h3>
+                  <span className="text-[#1E1E1E]/40 group-hover:text-[#800913] transition-colors duration-300 flex-shrink-0">
+                    {isOpen ? <Minus strokeWidth={1} size={24} /> : <Plus strokeWidth={1} size={24} />}
+                  </span>
+                </button>
+                <div className={`grid transition-all duration-500 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 pb-8" : "grid-rows-[0fr] opacity-0 pb-0"}`}>
+                  <div className="overflow-hidden">
+                    <div className="font-sans text-[#1E1E1E]/70 text-base leading-relaxed pr-2 md:pr-12 space-y-4">
+                      {faq.answer}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export default function ExperienceDetailPage() {
   const params = useParams()
   const slug = params.slug as string
@@ -546,6 +666,10 @@ export default function ExperienceDetailPage() {
       <IncludedSection experience={experience} />
       <GallerySection experience={experience} />
       <AddOnsSection experience={experience} />
+      {/* 2. TA NOUVELLE SECTION FAQ JUSTE ICI */}
+      {(slug === "parisian-interlude" || experience.title.toLowerCase().includes("parisian")) && (
+        <ParisianFAQSection />
+      )}
 
       <CTASection experience={experience} onBookClick={() => setIsBookingOpen(true)} />
       <Footer />
