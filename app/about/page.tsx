@@ -410,8 +410,7 @@ function QuoteSection() {
           className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             }`}
         >
-          &ldquo;Romance lives in the feeling. In presence rather than
-          performance.&rdquo;
+          &ldquo;The most meaningful luxury <br /> is time spent together.&rdquo;
         </blockquote>
         <div
           className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"
