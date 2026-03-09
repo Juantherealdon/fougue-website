@@ -114,8 +114,8 @@ function PhilosophySection() {
           }`}
       >
         In a city of endless options, romance can feel<br />
-        polished, yet impersonal.<br />
-        <span className="italic text-[#800913]">Fougue is our quiet antidote.</span>
+        polished, yet impersonal.
+        <span className="block mt-6 italic text-[#800913]">Fougue. is our quiet antidote.</span>
       </h2>
 
       <p
