@@ -113,7 +113,7 @@ function IntroSection() {
       ref={sectionRef}
       className="py-20 lg:py-28 px-6 bg-[#FBF5EF]"
     >
-      <div className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto max-w-4xl text-center">
 
         {/* L'Ancrage - Title (Ton grand titre d'origine) */}
         <h2
