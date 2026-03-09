@@ -171,6 +171,54 @@ function IntroSection() {
   )
 }
 
+function ManifestoBar() {
+  const { ref: sectionRef, isVisible } = useInView(0.3)
+
+  const items = [
+    "Choose moments over things",
+    "Presence over performance",
+    "Seek meaningful pauses"
+  ]
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative bg-[#800913] py-14 flex flex-col items-center overflow-hidden"
+    >
+      {/* Subtile ombre interne en bas pour la transition vers le noir */}
+      <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
+
+        {/* Titre d'accroche - Rapproché des piliers (mb-8) */}
+        <h3 className={`font-serif italic text-[#FBF5EF] text-2xl md:text-3xl mb-8 tracking-wide transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
+          For Those Who...
+        </h3>
+
+        {/* Grille des piliers */}
+        <div className={`flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 lg:gap-16 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100" : "opacity-0"
+          }`}>
+
+          {items.map((item, index) => (
+            <div key={index} className="flex items-center gap-6 md:gap-12 lg:gap-16">
+              <p className="text-[#FBF5EF]/90 text-[10px] md:text-[11px] font-medium tracking-[0.2em] uppercase whitespace-nowrap">
+                {item}
+              </p>
+
+              {/* Séparateur vertical blanc/beige très fin */}
+              {index < items.length - 1 && (
+                <div className="hidden md:block w-[1px] h-6 bg-gradient-to-b from-transparent via-[#FBF5EF]/20 to-transparent"></div>
+              )}
+            </div>
+          ))}
+
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function ExperiencesPreview() {
   const { ref: sectionRef, isVisible } = useInView(0.1)
   const [experiences, setExperiences] = useState<Experience[]>([])
@@ -643,6 +691,7 @@ export default function HomePage() {
       <Navigation />
       <HeroSection />
       <IntroSection />
+      <ManifestoBar />
       <ExperiencesPreview />
       <DifferenceSection />
       <GiftsSection />
