@@ -109,37 +109,13 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Branding - logo centered + tagline bottom right */}
-          <div className="flex flex-col items-center justify-between">
-            <div className="flex-1 flex items-center justify-center">
-              <Image
-                src="/images/fougue-logo-white-transparent.png"
-                alt="Fougue."
-                width={150}
-                height={60}
-                className="h-12 w-auto"
-              />
-            </div>
-            <p className="text-white/40 text-sm italic self-end">
-              The Art of Romance.
-            </p>
-          </div>
-
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/10 space-y-6">
-          {/* Copyright */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-white/40 text-sm">
-              &copy; {new Date().getFullYear()} Fougue. All rights reserved.
-            </p>
-          </div>
-
-          {/* Payment Methods */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <p className="text-white/30 text-xs tracking-wide">Secure checkout powered by Stripe</p>
-            <div className="flex items-center gap-3">
+          {/* Secure Checkout - 4th column */}
+          <div>
+            <h4 className="text-sm tracking-[0.2em] uppercase mb-6 text-white/40">
+              Secure Checkout
+            </h4>
+            <p className="text-white/30 text-xs tracking-wide mb-4">Powered by Stripe</p>
+            <div className="flex flex-wrap gap-2">
               {/* Visa */}
               <svg width="42" height="28" viewBox="0 0 42 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
                 <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1"/>
@@ -162,6 +138,31 @@ export function Footer() {
                 <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="7" fontWeight="500" fontFamily="sans-serif">G Pay</text>
               </svg>
             </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-16 pt-8 border-t border-white/10">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            {/* Left: copyright */}
+            <p className="text-white/40 text-sm md:w-1/3">
+              &copy; {new Date().getFullYear()} Fougue. All rights reserved.
+            </p>
+            {/* Center: logo */}
+            <div className="flex justify-center md:w-1/3">
+              <Image
+                src="/images/fougue-logo-white-transparent.png"
+                alt="Fougue."
+                width={100}
+                height={40}
+                className="h-8 w-auto opacity-60"
+              />
+            </div>
+            {/* Right: tagline */}
+            <p className="text-white/40 text-sm italic md:w-1/3 md:text-right">
+              The Art of Romance.
+            </p>
           </div>
         </div>
       </div>
