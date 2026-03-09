@@ -47,20 +47,20 @@ function HeroSection() {
 
         <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-light leading-none drop-shadow-md">
           A Maison devoted to<br />
-          <span className="italic text-[#800913]">modern romance.</span>
+          <span className="italic text-[#800913]">Modern Romance.</span>
         </h1>
       </div>
 
       {/* Dictionary definition - midpoint between title and arrow */}
       <div
-        className={`absolute bottom-32 left-1/2 -translate-x-1/2 z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+        className={`absolute bottom-50 left-1/2 -translate-x-1/2 z-10 text-center flex flex-col items-center px-6 transition-all duration-[3000ms] ease-in-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
       >
         <p className="text-white text-xs tracking-[0.2em] uppercase mb-2">
           [foog] : noun - French
         </p>
         <p className="text-white text-lg md:text-xl italic font-light">
-          A feeling of strong passion, enthusiasm, ardour.
+          Intense passion, enthusiasm, ardour.
         </p>
       </div>
 
@@ -114,8 +114,8 @@ function PhilosophySection() {
           }`}
       >
         In a city of endless options, romance can feel<br />
-        polished, yet impersonal.<br />
-        <span className="italic text-[#800913]">Fougue is our quiet antidote.</span>
+        polished, yet impersonal.
+        <span className="block mt-6 italic text-[#800913]">Fougue. is our quiet antidote.</span>
       </h2>
 
       <p
@@ -202,7 +202,7 @@ function DNASection() {
               [foog]: noun - French
             </p>
             <p className="text-white text-lg italic">
-              A feeling of strong passion, enthusiasm, ardour.
+              Intense passion, enthusiasm, ardour.
             </p>
           </div>
         </div>
@@ -410,8 +410,7 @@ function QuoteSection() {
           className={`text-white text-3xl md:text-4xl lg:text-5xl font-light italic leading-relaxed transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             }`}
         >
-          &ldquo;Romance lives in the feeling. In presence rather than
-          performance.&rdquo;
+          &ldquo;The most meaningful luxury <br /> is time spent together.&rdquo;
         </blockquote>
         <div
           className={`mt-8 w-16 h-px bg-[#800913] mx-auto transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-0"

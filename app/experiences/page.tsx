@@ -94,9 +94,8 @@ function HowItWorksSection() {
         {/* Header - Compact */}
         <div className="text-center mb-8">
           <h2
-            className={`text-[#1E1E1E] text-2xl md:text-3xl font-light transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
+            className={`text-[#1E1E1E] text-2xl md:text-3xl font-light transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
           >
             How It <span className="italic text-[#800913]">Works</span>
           </h2>
@@ -107,18 +106,16 @@ function HowItWorksSection() {
           {howItWorksSteps.map((step, index) => (
             <div
               key={step.number}
-              className={`transition-all duration-500 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
+              className={`transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
               style={{ transitionDelay: `${100 + index * 80}ms` }}
             >
               <button
                 onClick={() => toggleStep(index)}
-                className={`group flex items-center gap-1.5 px-3 py-2.5 md:px-4 md:py-3 text-xs md:text-base transition-all duration-300 ${
-                  activeStep === index
-                    ? "bg-[#800913] text-white"
-                    : "bg-white hover:bg-[#1E1E1E] hover:text-white text-[#1E1E1E]"
-                }`}
+                className={`group flex items-center gap-1.5 px-3 py-2.5 md:px-4 md:py-3 text-xs md:text-base transition-all duration-300 ${activeStep === index
+                  ? "bg-[#800913] text-white"
+                  : "bg-white hover:bg-[#1E1E1E] hover:text-white text-[#1E1E1E]"
+                  }`}
               >
                 <span className={`text-[10px] md:text-xs font-medium ${activeStep === index ? "text-white/60" : "text-[#800913] group-hover:text-white/60"}`}>
                   {step.number}
@@ -126,13 +123,12 @@ function HowItWorksSection() {
                 <span className="whitespace-nowrap">
                   {step.title}
                 </span>
-                <ChevronDown 
-                  size={12} 
-                  className={`transition-transform duration-300 flex-shrink-0 md:w-3.5 md:h-3.5 ${
-                    activeStep === index 
-                      ? "rotate-180 text-white/60" 
-                      : "text-[#1E1E1E]/30 group-hover:text-white/60"
-                  }`} 
+                <ChevronDown
+                  size={12}
+                  className={`transition-transform duration-300 flex-shrink-0 md:w-3.5 md:h-3.5 ${activeStep === index
+                    ? "rotate-180 text-white/60"
+                    : "text-[#1E1E1E]/30 group-hover:text-white/60"
+                    }`}
                 />
               </button>
             </div>
@@ -141,9 +137,8 @@ function HowItWorksSection() {
 
         {/* Accordion Content */}
         <div
-          className={`overflow-hidden transition-all duration-500 ease-out ${
-            activeStep !== null ? "max-h-64 opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
-          }`}
+          className={`overflow-hidden transition-all duration-500 ease-out ${activeStep !== null ? "max-h-64 opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
+            }`}
         >
           {activeStep !== null && (
             <div className="bg-white p-4 md:p-8 text-center max-w-3xl mx-auto rounded-sm">
@@ -181,26 +176,22 @@ function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
         <p
-          className={`text-white/80 text-sm font-medium tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white/80 text-sm font-medium tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
-          Curated for Two
+          Crafted for Two
         </p>
         <h1
-          className={`text-white text-5xl md:text-6xl lg:text-7xl font-light mb-6 transition-all duration-700 delay-200 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white text-5xl md:text-6xl lg:text-7xl font-light mb-6 transition-all duration-700 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
-          Our <span className="italic text-[#800913]">Experiences</span>
+          Signature <span className="italic text-[#800913]">Experiences</span>
         </h1>
         <p
-          className={`text-white/70 text-lg md:text-xl max-w-2xl transition-all duration-700 delay-400 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white/70 text-lg md:text-xl max-w-lg transition-all duration-700 delay-400 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
-          Each experience is a carefully crafted story, designed to create
-          unforgettable moments between you and your partner.
+          Each experience unfolds as a private story, shaped in detail and designed to be remembered.
         </p>
       </div>
     </section>
@@ -241,24 +232,21 @@ function ExperienceCard({
   return (
     <div
       ref={cardRef}
-      className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 items-center ${
-        isReversed ? "lg:flex-row-reverse" : ""
-      }`}
+      className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 items-center ${isReversed ? "lg:flex-row-reverse" : ""
+        }`}
     >
       {/* Image */}
       <div
-        className={`relative aspect-[4/3] lg:aspect-square overflow-hidden ${
-          isReversed ? "lg:order-2" : ""
-        }`}
+        className={`relative aspect-[4/3] lg:aspect-square overflow-hidden ${isReversed ? "lg:order-2" : ""
+          }`}
       >
         <Image
           src={experience.image || "/placeholder.svg"}
           alt={experience.title}
           fill
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className={`object-cover transition-all duration-1000 ${
-            isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
-          } ${!experience.available ? "grayscale-[30%]" : ""}`}
+          className={`object-cover transition-all duration-1000 ${isVisible ? "scale-100 opacity-100" : "scale-105 opacity-0"
+            } ${!experience.available ? "grayscale-[30%]" : ""}`}
         />
         <div className="absolute top-6 left-6 bg-[#800913] text-white text-xs tracking-[0.2em] uppercase px-4 py-2">
           Experience {String(index + 1).padStart(2, "0")}
@@ -272,37 +260,32 @@ function ExperienceCard({
 
       {/* Content */}
       <div
-        className={`px-6 lg:px-16 py-8 lg:py-7 bg-[#FBF5EF] ${
-          isReversed ? "lg:order-1" : ""
-        }`}
+        className={`px-6 lg:px-16 py-8 lg:py-7 bg-[#FBF5EF] ${isReversed ? "lg:order-1" : ""
+          }`}
       >
         <p
-          className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           {experience.subtitle}
         </p>
         <h2
-          className={`text-[#1E1E1E] text-3xl md:text-4xl lg:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#1E1E1E] text-3xl md:text-4xl lg:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           {experience.title}
         </h2>
         <p
-          className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-8 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#1E1E1E]/70 text-lg leading-relaxed mb-8 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           {experience.description}
         </p>
 
         {/* Details */}
         <div
-          className={`flex flex-wrap gap-6 mb-8 transition-all duration-700 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`flex flex-wrap gap-6 mb-8 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <div className="flex items-center gap-2 text-[#1E1E1E]/60">
             <Clock size={18} />
@@ -321,9 +304,8 @@ function ExperienceCard({
         {experience.status === 'available' ? (
           <Link
             href={`/experiences/${experience.id}`}
-            className={`group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-700 delay-400 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             Discover More
             <ArrowRight
@@ -334,9 +316,8 @@ function ExperienceCard({
         ) : (
           <button
             onClick={() => onJoinWaitlist(experience.title)}
-            className={`group inline-flex items-center gap-3 bg-[#1E1E1E] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#333] transition-all duration-700 delay-400 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`group inline-flex items-center gap-3 bg-[#1E1E1E] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#333] transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             <Bell size={16} />
             Join the Waitlist
@@ -373,23 +354,20 @@ function ComingSoonSection({ comingSoonExperiences }: { comingSoonExperiences: E
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
             <p
-              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
             >
               Coming Soon
             </p>
             <h2
-              className={`text-[#1E1E1E] text-3xl md:text-4xl lg:text-5xl font-light mb-4 transition-all duration-700 delay-100 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#1E1E1E] text-3xl md:text-4xl lg:text-5xl font-light mb-4 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
             >
               New Stories <span className="italic text-[#800913]">Await</span>
             </h2>
             <p
-              className={`text-[#1E1E1E]/60 text-lg max-w-2xl mx-auto transition-all duration-700 delay-200 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+              className={`text-[#1E1E1E]/60 text-lg max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
             >
               Be the first to experience our upcoming creations
             </p>
@@ -399,9 +377,8 @@ function ComingSoonSection({ comingSoonExperiences }: { comingSoonExperiences: E
             {comingSoonExperiences.map((exp, index) => (
               <div
                 key={exp.id}
-                className={`group bg-white p-8 border border-[#1E1E1E]/5 hover:border-[#800913]/20 transition-all duration-500 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-                }`}
+                className={`group bg-white p-8 border border-[#1E1E1E]/5 hover:border-[#800913]/20 transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                  }`}
                 style={{ transitionDelay: `${300 + index * 100}ms` }}
               >
                 <div className="w-12 h-12 rounded-full bg-[#800913]/10 flex items-center justify-center mb-6">
@@ -458,41 +435,35 @@ function ExclusiveAccessSection() {
       <section ref={sectionRef} className="py-24 lg:py-32 bg-[#1E1E1E]">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <div
-            className={`w-16 h-16 rounded-full bg-[#800913]/20 flex items-center justify-center mx-auto mb-8 transition-all duration-700 ${
-              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
-            }`}
+            className={`w-16 h-16 rounded-full bg-[#800913]/20 flex items-center justify-center mx-auto mb-8 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+              }`}
           >
             <Bell size={28} className="text-[#800913]" />
           </div>
           <p
-            className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             Exclusive Access
           </p>
           <h2
-            className={`text-white text-3xl md:text-4xl lg:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-white text-3xl md:text-4xl lg:text-5xl font-light mb-6 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
-            New Experiences <span className="italic text-[#800913]">Coming Soon</span>
+            New Experiences <span className="italic text-[#800913]">Are Taking Shape</span>
           </h2>
           <p
-            className={`text-white/60 text-lg leading-relaxed mb-10 max-w-2xl mx-auto transition-all duration-700 delay-200 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-white/60 text-lg leading-relaxed mb-10 max-w-lg mx-auto transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
-            Be among the first to discover new themed experiences,
-            seasonal events, and privileges reserved for our inner circle.
+            Be among the first to discover new experiences and enjoy privileges reserved for our inner circle.
           </p>
           <button
             onClick={() => setShowWaitlist(true)}
-            className={`group inline-flex items-center gap-3 bg-white text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/90 transition-all duration-700 delay-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`group inline-flex items-center gap-3 bg-white text-[#1E1E1E] px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/90 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
-            Join the Waitlist
+            JOIN THE FOUGUE LIST
             <ArrowRight
               size={16}
               className="group-hover:translate-x-1 transition-transform"
@@ -518,9 +489,9 @@ export default function ExperiencesPage() {
         const response = await fetch('/api/experiences')
         if (response.ok) {
           const data = await response.json()
-          
+
           console.log("[v0] Raw experiences from API:", data.map((e: any) => ({ id: e.id, title: e.title, status: e.status, available: e.available })))
-          
+
           // Map database fields to component interface
           const mappedExperiences: any[] = data.map((exp: any) => ({
             id: exp.id,
@@ -534,12 +505,12 @@ export default function ExperiencesPage() {
             available: exp.available ?? false,
             status: exp.status || (exp.available ? 'available' : 'coming_soon'),
           }))
-          
+
           console.log("[v0] Mapped experiences:", mappedExperiences.map(e => ({ id: e.id, title: e.title, status: e.status })))
-          
+
           const comingSoon = mappedExperiences.filter(exp => exp.status === 'coming_soon')
           console.log("[v0] Coming soon experiences:", comingSoon.length, comingSoon.map(e => e.title))
-          
+
           if (mappedExperiences.length > 0) {
             setExperiences(mappedExperiences)
           }
@@ -548,7 +519,7 @@ export default function ExperiencesPage() {
         console.error("Error loading experiences:", error)
       }
     }
-    
+
     loadExperiences()
   }, [])
 
@@ -597,7 +568,7 @@ export default function ExperiencesPage() {
           <h2 className="text-[#1E1E1E] text-4xl md:text-5xl font-light mb-6">
             Our <span className="italic text-[#800913]">Experience Curator</span> is Here
           </h2>
-          <p className="text-[#1E1E1E]/60 text-lg mb-10 max-w-2xl mx-auto">
+          <p className="text-[#1E1E1E]/60 text-lg mb-10 max-w-lg mx-auto">
             Not sure which experience is perfect? Our dedicated team will help you select
             the ideal moment for your loved one.
           </p>

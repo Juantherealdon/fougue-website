@@ -27,7 +27,7 @@ const categories = [
   },
   {
     id: "gift-cards",
-    label: "Gift Cards & Vouchers",
+    label: "Gift Cards",
     icon: CreditCard,
   },
   {
@@ -273,25 +273,22 @@ function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
         <p
-          className={`text-white/80 text-sm font-medium tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white/80 text-sm font-medium tracking-[0.4em] uppercase mb-6 transition-all duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
-          Love, Made Tangible 
+          Love, Made Tangible
         </p>
         <h1
-          className={`text-white text-5xl md:text-6xl lg:text-7xl font-light mb-6 transition-all duration-700 delay-200 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white text-5xl md:text-6xl lg:text-7xl font-light mb-6 transition-all duration-700 delay-200 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           Gifts <span className="italic text-[#800913]">Collection</span>
         </h1>
         <p
-          className={`text-white/70 text-lg md:text-xl max-w-2xl transition-all duration-700 delay-400 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-white/70 text-lg md:text-xl max-w-2xl transition-all duration-700 delay-400 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
-          Curated objects to celebrate love - before, during, and long after the moment.
+          Curated keepsakes to celebrate love - before, during, and long after the moment.
         </p>
       </div>
     </section>
@@ -313,11 +310,10 @@ function CategoryFilter({
             <button
               key={category.id}
               onClick={() => onCategoryChange(category.id)}
-              className={`flex items-center gap-2 md:gap-3 px-4 md:px-6 py-3 text-sm tracking-[0.1em] uppercase whitespace-nowrap transition-all duration-300 ${
-                activeCategory === category.id
-                  ? "bg-[#800913] text-white"
-                  : "bg-transparent text-[#1E1E1E]/70 hover:text-[#800913] hover:bg-[#800913]/5"
-              }`}
+              className={`flex items-center gap-2 md:gap-3 px-4 md:px-6 py-3 text-sm tracking-[0.1em] uppercase whitespace-nowrap transition-all duration-300 ${activeCategory === category.id
+                ? "bg-[#800913] text-white"
+                : "bg-transparent text-[#1E1E1E]/70 hover:text-[#800913] hover:bg-[#800913]/5"
+                }`}
             >
               <category.icon size={18} />
               <span className="hidden md:inline">{category.label}</span>
@@ -364,9 +360,8 @@ function FilterSidebar({
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:relative top-0 left-0 h-full lg:h-auto w-72 lg:w-56 bg-white lg:bg-transparent z-50 lg:z-auto transform transition-transform duration-300 lg:transform-none ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`fixed lg:relative top-0 left-0 h-full lg:h-auto w-72 lg:w-56 bg-white lg:bg-transparent z-50 lg:z-auto transform transition-transform duration-300 lg:transform-none ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }`}
       >
         <div className="p-6 lg:p-0 lg:sticky lg:top-40">
           {/* Mobile Header */}
@@ -387,11 +382,10 @@ function FilterSidebar({
                 <button
                   key={option.id}
                   onClick={() => onSortChange(option.id)}
-                  className={`w-full text-left px-3 py-2 text-sm transition-all duration-200 ${
-                    sortBy === option.id
-                      ? "text-[#800913] bg-[#800913]/5"
-                      : "text-[#1E1E1E]/60 hover:text-[#1E1E1E] hover:bg-[#1E1E1E]/5"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm transition-all duration-200 ${sortBy === option.id
+                    ? "text-[#800913] bg-[#800913]/5"
+                    : "text-[#1E1E1E]/60 hover:text-[#1E1E1E] hover:bg-[#1E1E1E]/5"
+                    }`}
                 >
                   {option.label}
                 </button>
@@ -408,11 +402,10 @@ function FilterSidebar({
               <div className="space-y-2">
                 <button
                   onClick={() => onSubcategoryChange("all")}
-                  className={`w-full text-left px-3 py-2 text-sm transition-all duration-200 ${
-                    selectedSubcategory === "all"
-                      ? "text-[#800913] bg-[#800913]/5"
-                      : "text-[#1E1E1E]/60 hover:text-[#1E1E1E] hover:bg-[#1E1E1E]/5"
-                  }`}
+                  className={`w-full text-left px-3 py-2 text-sm transition-all duration-200 ${selectedSubcategory === "all"
+                    ? "text-[#800913] bg-[#800913]/5"
+                    : "text-[#1E1E1E]/60 hover:text-[#1E1E1E] hover:bg-[#1E1E1E]/5"
+                    }`}
                 >
                   All Collections
                 </button>
@@ -420,11 +413,10 @@ function FilterSidebar({
                   <button
                     key={sub.id}
                     onClick={() => onSubcategoryChange(sub.name)}
-                    className={`w-full text-left px-3 py-2 text-sm transition-all duration-200 ${
-                      selectedSubcategory === sub.name
-                        ? "text-[#800913] bg-[#800913]/5"
-                        : "text-[#1E1E1E]/60 hover:text-[#1E1E1E] hover:bg-[#1E1E1E]/5"
-                    }`}
+                    className={`w-full text-left px-3 py-2 text-sm transition-all duration-200 ${selectedSubcategory === sub.name
+                      ? "text-[#800913] bg-[#800913]/5"
+                      : "text-[#1E1E1E]/60 hover:text-[#1E1E1E] hover:bg-[#1E1E1E]/5"
+                      }`}
                   >
                     {sub.name}
                   </button>
@@ -474,9 +466,8 @@ function ProductCard({
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`group cursor-pointer transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      }`}
+      className={`group cursor-pointer transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        }`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
       {/* Image */}
@@ -486,17 +477,15 @@ function ProductCard({
           alt={product.title}
           fill
           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className={`object-cover transition-transform duration-700 ${
-            isHovered ? "scale-105" : "scale-100"
-          }`}
+          className={`object-cover transition-transform duration-700 ${isHovered ? "scale-105" : "scale-100"
+            }`}
           {...(index < 4 ? { priority: true } : { loading: "lazy" as const })}
         />
 
         {/* Quick View Overlay */}
         <div
-          className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${
-            isHovered ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"
+            }`}
         >
           <span className="text-white text-sm tracking-[0.2em] uppercase border border-white px-6 py-3 hover:bg-white hover:text-[#1E1E1E] transition-colors">
             Quick View
@@ -573,16 +562,14 @@ function WhyGiftSection() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16">
           <p
-            className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             The Fougue. Difference
           </p>
           <h2
-            className={`text-white text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
+            className={`text-white text-4xl md:text-5xl font-light transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
           >
             More Than <span className="italic text-[#800913]">Gifts</span>
           </h2>
@@ -592,9 +579,8 @@ function WhyGiftSection() {
           {reasons.map((reason, index) => (
             <div
               key={reason.title}
-              className={`text-center transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-              }`}
+              className={`text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                }`}
               style={{ transitionDelay: `${200 + index * 150}ms` }}
             >
               <div className="w-16 h-16 mx-auto mb-6 border border-[#800913] flex items-center justify-center">
@@ -651,49 +637,43 @@ function ComingSoonSection() {
     <section ref={sectionRef} className="py-32 lg:py-48 bg-[#FBF5EF]">
       <div className="mx-auto max-w-2xl px-6 text-center">
         <div
-          className={`mb-8 transition-all duration-700 ${
-            isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
-          }`}
+          className={`mb-8 transition-all duration-700 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+            }`}
         >
           <Sparkles size={32} className="text-[#800913] mx-auto" />
         </div>
 
         <p
-          className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-6 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           The Collection
         </p>
 
         <h2
-          className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light mb-8 transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#1E1E1E] text-4xl md:text-5xl lg:text-6xl font-light mb-8 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           Coming <span className="italic text-[#800913]">Soon</span>
         </h2>
 
         <p
-          className={`text-[#1E1E1E]/60 text-lg md:text-xl leading-relaxed mb-6 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#1E1E1E]/60 text-lg md:text-xl leading-relaxed mb-6 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           Our collection is quietly taking form.
         </p>
 
         <p
-          className={`text-[#1E1E1E]/50 text-base md:text-lg leading-relaxed mb-14 max-w-xl mx-auto transition-all duration-700 delay-300 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-[#1E1E1E]/50 text-base md:text-lg leading-relaxed mb-14 max-w-xl mx-auto transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           A series of symbolic keepsakes and intimate rituals designed to extend the art of romance beyond the moment.
         </p>
 
         <div
-          className={`transition-all duration-700 delay-[400ms] ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`transition-all duration-700 delay-[400ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <p className="text-[#1E1E1E]/70 text-sm tracking-[0.15em] uppercase mb-6">
             {"Join Fougue inner circle for early access"}
@@ -755,7 +735,7 @@ export default function GiftsPage() {
         const response = await fetch('/api/products')
         if (response.ok) {
           const data = await response.json()
-          
+
           // Map database fields to component interface
           const mappedProducts: ProductWithSubcategory[] = data.map((prod: any) => ({
             id: prod.id,
@@ -769,7 +749,7 @@ export default function GiftsPage() {
             details: prod.badges || [],
             includes: [],
           }))
-          
+
           setHasLoadedFromDb(true)
           if (mappedProducts.length > 0) {
             setProducts(mappedProducts)
@@ -788,7 +768,7 @@ export default function GiftsPage() {
         setProducts(fallbackProducts)
       }
     }
-    
+
     const loadSubcategories = async () => {
       try {
         const response = await fetch('/api/product-subcategories')
@@ -800,7 +780,7 @@ export default function GiftsPage() {
         console.error("Error loading subcategories:", error)
       }
     }
-    
+
     loadProducts()
     loadSubcategories()
   }, [])

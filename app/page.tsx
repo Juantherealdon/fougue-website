@@ -55,7 +55,7 @@ function HeroSection() {
             }`}
         >
           <p className="text-white/80 text-sm tracking-[0.4em] uppercase mb-6">
-            IMMERSIVE ROMANTIC EXPERIENCES IN DUBAI
+            PRIVATE ROMANTIC EXPERIENCES IN DUBAI
           </p>
         </div>
 
@@ -72,7 +72,7 @@ function HeroSection() {
           className={`text-white/70 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed transition-all duration-1000 delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
-          Private, story-driven moments, designed for couples.
+          Immersive stories designed for two.
         </p>
 
         <div
@@ -83,7 +83,7 @@ function HeroSection() {
             href="/experiences"
             className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
           >
-            Discover Experiences
+            Reserve Your Experience
             <ArrowRight
               size={16}
               className="group-hover:translate-x-1 transition-transform"
@@ -93,7 +93,7 @@ function HeroSection() {
             href="/gifts"
             className="inline-flex items-center gap-3 border border-white/30 text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-300"
           >
-            Gifts Collection
+            Explore Gifts
           </Link>
         </div>
       </div>
@@ -387,7 +387,7 @@ function DifferenceSection() {
 
   const pillars = [
     {
-      title: "Personalised to your story",
+      title: "Personalised to Your Story",
       description: "We compose experiences shaped around your story, love language, and memories.",
     },
     {
@@ -396,12 +396,12 @@ function DifferenceSection() {
         "From the first invitation to the final note, every detail unfolds with intention and emotional coherence.",
     },
     {
-      title: "True immersion",
+      title: "True Immersion",
       description:
-        "Beyond aesthetics, we layer culture, sensory cues and thoughtful prompts to create atmosphere with meaning, and spark genuine connection.",
+        "Beyond aesthetics, we layer culture, sensory cues and thoughtful prompts to create atmosphere with meaning.",
     },
     {
-      title: "Effortless booking",
+      title: "Effortless Booking",
       description:
         "Transparent pricing, seamless reservation process and refined coordination - simplicity without compromise.",
     },
@@ -473,7 +473,7 @@ function GiftsSection() {
         </div>
 
         <div className="flex items-center bg-[#FBF5EF] px-6 lg:px-16 py-16 lg:py-0">
-          <div className="max-w-lg">
+          <div className="max-w-xl">
             <p
               className={`text-[#800913] text-sm font-medium tracking-[0.3em] uppercase mb-4 transition-all duration-700 ${isVisible
                 ? "opacity-100 translate-y-0"
