@@ -155,7 +155,7 @@ const initialSettings: Settings = {
     logoPosition: "left",
     showSocialLinks: true,
     facebookUrl: "https://facebook.com/fougue",
-    instagramUrl: "https://instagram.com/fougue",
+    instagramUrl: "https://instagram.com/fougue.ae",
     linkedinUrl: "https://linkedin.com/company/fougue",
   },
   localization: {

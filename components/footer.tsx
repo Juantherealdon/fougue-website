@@ -94,13 +94,13 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/lovewithfougue"
+                  href="https://instagram.com/fougue.ae"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/60 hover:text-white transition-colors duration-300 flex items-center gap-2"
                 >
                   <Instagram size={16} />
-                  @lovewithfougue
+                  @fougue.ae
                 </a>
               </li>
               <li className="pt-2">

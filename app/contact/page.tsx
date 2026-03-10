@@ -185,8 +185,8 @@ function ContactSection() {
     {
       icon: Instagram,
       label: "Instagram",
-      value: "@lovewithfougue",
-      href: "https://instagram.com/lovewithfougue",
+      value: "@fougue.ae",
+      href: "https://instagram.com/fougue.ae",
       color: "#E4405F",
     },
     {
