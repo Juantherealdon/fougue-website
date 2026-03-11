@@ -72,7 +72,7 @@ function HeroSection() {
           className={`text-white/70 text-lg md:text-xl max-w-2xl mb-12 leading-relaxed transition-all duration-1000 delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
         >
-          Immersive stories designed for two.
+          Elegant, story-driven moments designed for couples.
         </p>
 
         <div
@@ -192,16 +192,14 @@ function ManifestoBar() {
       <div className="max-w-7xl mx-auto px-6 text-center relative z-10 w-full">
 
         {/* Titre d'accroche */}
-        <h3 className={`font-serif italic text-[#FBF5EF] text-2xl md:text-3xl mb-10 tracking-wide transition-all duration-1000 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}>
+        <h3 className={`font-serif italic text-[#FBF5EF] text-2xl md:text-3xl mb-10 tracking-wide transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
           For Those Who...
         </h3>
 
         {/* Grille des piliers - Gap ajusté pour 4 éléments */}
-        <div className={`flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-12 transition-all duration-1000 delay-300 ${
-          isVisible ? "opacity-100" : "opacity-0"
-        }`}>
+        <div className={`flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-12 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100" : "opacity-0"
+          }`}>
 
           {items.map((item, index) => (
             <div key={index} className="flex items-center gap-6 md:gap-8 lg:gap-12">
