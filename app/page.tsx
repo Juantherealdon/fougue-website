@@ -81,7 +81,7 @@ function HeroSection() {
         >
           <Link
             href="/experiences"
-            className="group inline-flex items-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
+            className="group inline-flex items-center justify-center gap-3 bg-[#800913] text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-[#600910] transition-all duration-300"
           >
             Reserve Your Experience
             <ArrowRight
@@ -91,7 +91,7 @@ function HeroSection() {
           </Link>
           <Link
             href="/gifts"
-            className="inline-flex items-center gap-3 border border-white/30 text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-300"
+            className="inline-flex items-center justify-center gap-3 border border-white/30 text-white px-8 py-4 text-sm tracking-[0.2em] uppercase hover:bg-white/10 transition-all duration-300"
           >
             Explore Gifts
           </Link>
