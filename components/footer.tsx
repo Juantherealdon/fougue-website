@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Instagram, Mail } from "lucide-react"
+import { Instagram, Mail, Phone } from "lucide-react"
 import { NewsletterForm } from "./newsletter-form"
 
 export function Footer() {
@@ -79,6 +79,15 @@ export function Footer() {
               Connect
             </h4>
             <ul className="space-y-4">
+              <li>
+                <a
+                  href="tel:+971526160505"
+                  className="text-white/60 hover:text-white transition-colors duration-300 flex items-center gap-2"
+                >
+                  <Phone size={16} />
+                  +971 52 616 0505
+                </a>
+              </li>
               <li>
                 <a
                   href="mailto:hello@fougue.ae"
