@@ -719,7 +719,7 @@ export default function HomePage() {
       <ExperiencesPreview />
       <DifferenceSection />
       <GiftsSection />
-      <TestimonialBar />
+      <TestimonialSection />
       <CTASection />
 
       <Footer />
