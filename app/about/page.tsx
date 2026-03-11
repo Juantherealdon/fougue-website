@@ -16,12 +16,11 @@ function HeroSection() {
 
   return (
     <section className="bg-[#FBF5EF] pt-32 md:pt-40 pb-20 px-6 flex flex-col items-center text-center">
-      
+
       {/* Top content - title */}
       <div
-        className={`transition-all duration-1000 ease-out ${
-          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={`transition-all duration-1000 ease-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
       >
         <p className="text-[#800913] text-sm font-medium tracking-[0.4em] uppercase mb-8">
           The Brand
@@ -35,9 +34,8 @@ function HeroSection() {
 
       {/* Dictionary definition - Intégrée comme un encart chic */}
       <div
-        className={`max-w-md w-full border-t border-b border-[#1E1E1E]/10 py-8 mb-20 transition-all duration-1000 delay-300 ease-out ${
-          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={`max-w-md w-full border-t border-b border-[#1E1E1E]/10 py-8 mb-20 transition-all duration-1000 delay-300 ease-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
       >
         <p className="text-[#1E1E1E]/50 text-[11px] tracking-[0.3em] uppercase mb-3">
           [foog] : noun - French
@@ -49,9 +47,8 @@ function HeroSection() {
 
       {/* Cinematic Image - Contenue avec marges */}
       <div
-        className={`w-full max-w-6xl mx-auto h-[50vh] md:h-[65vh] relative overflow-hidden transition-all duration-1000 delay-500 ease-out ${
-          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-        }`}
+        className={`w-full max-w-6xl mx-auto h-[50vh] md:h-[65vh] relative overflow-hidden transition-all duration-1000 delay-500 ease-out ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
       >
         <Image
           src="/images/couple-dancing.jpg"
@@ -89,7 +86,7 @@ function PhilosophySection() {
   }, [])
 
   return (
-    <section id="philosophy-section" ref={sectionRef} className="min-h-screen px-6 py-24 flex flex-col items-center justify-center text-center bg-[#FBF5EF] relative z-10">
+    <section id="philosophy-section" ref={sectionRef} className=" px-6 py-16 flex flex-col items-center justify-center text-center bg-[#FBF5EF] relative z-10">
       <p
         className={`text-[#800913] text-sm font-medium tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
