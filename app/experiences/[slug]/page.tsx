@@ -566,7 +566,7 @@ function ParisianFAQSection() {
       question: "Can this experience be gifted?",
       answer: (
         <div className="space-y-4">
-          <p>Yes. The Parisian Interlude can be offered as a romantic gift experience, perfect for anniversaries, birthdays or surprises.</p>
+          <p>Yes. The Parisian Interlude can be offered as a gift voucher — a thoughtful way to surprise someone special with a beautifully curated romantic experience. The voucher remains valid for 12 months from the date of purchase.</p>
         </div>
       )
     }
