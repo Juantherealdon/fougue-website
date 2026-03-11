@@ -504,9 +504,9 @@ function GiftsSection() {
   const { ref: sectionRef, isVisible } = useInView(0.2)
 
   return (
-    <section ref={sectionRef} className="relative py-24 lg:py-0 lg:h-screen">
+    <section ref={sectionRef} className="relative lg:h-screen">
       <div className="lg:grid lg:grid-cols-2 lg:h-full">
-        <div className="relative h-[50vh] lg:h-full overflow-hidden">
+        <div className="relative h-[45vh] lg:h-full overflow-hidden">
           <Image
             src="/images/gift-door.jpg"
             alt="Luxury gift presentation"
