@@ -51,11 +51,11 @@ function HeroSection() {
           }`}
       >
         <Image
-          src="/images/couple-dancing.jpg"
-          alt="Couple dancing in the night"
+          src="/images/about-hero.jpg"
+          alt="Two hands reaching toward each other — a moment of connection"
           fill
           sizes="(max-width: 1024px) 100vw, 90vw"
-          className="object-cover hover:scale-105 transition-transform duration-[3s] ease-out"
+          className="object-cover object-center hover:scale-105 transition-transform duration-[3s] ease-out"
           priority
         />
       </div>
