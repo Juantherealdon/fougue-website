@@ -58,7 +58,7 @@ export function Navigation({ solidNav = false }: { solidNav?: boolean }) {
                 height={50}
                 className="h-10 w-auto"
                 priority
-                loading="eager"
+                fetchPriority="high"
               />
             </Link>
 
