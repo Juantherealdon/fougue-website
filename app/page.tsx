@@ -570,44 +570,42 @@ function GiftsSection() {
   )
 }
 
-function QuoteSection() {
+function TestimonialBar() {
   const { ref: sectionRef, isVisible } = useInView(0.3)
 
   return (
     <section
       ref={sectionRef}
-      className="relative py-32 lg:py-48 overflow-hidden"
+      className="py-16 md:py-24 bg-white border-y border-[#1E1E1E]/5"
     >
-      <div className="absolute inset-0">
-        <Image
-          src="/images/couple-dancing.jpg"
-          alt="Couple dancing in the street"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/60" />
-      </div>
+      <div className="mx-auto max-w-3xl px-6 text-center">
+        {/* Surtitre discret */}
+        <p
+          className={`text-[#800913] text-xs font-medium tracking-[0.3em] uppercase mb-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+        >
+          A word from our clients
+        </p>
 
-      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
-        <h2
-          className={`text-white text-3xl md:text-4xl lg:text-5xl font-light mb-8 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        {/* Citation - Typographie Serif pour l'élégance */}
+        <blockquote
+          className={`text-[#1E1E1E] text-xl md:text-2xl lg:text-3xl font-light font-serif italic leading-relaxed md:leading-relaxed transition-all duration-700 delay-150 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
         >
-          Who Is It <span className="italic text-[#800913]">For</span>
-        </h2>
-        <p
-          className={`text-white text-xl md:text-xl italic font-light leading-relaxed transition-all duration-1000 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          &ldquo;For a moment we forgot we were in Dubai. The music, the food, the little details — it felt like a hidden corner of Paris just for us.&rdquo;
+        </blockquote>
+
+        {/* Signature avec deux petites lignes fines */}
+        <div
+          className={`mt-10 flex items-center justify-center gap-4 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
         >
-          For couples who choose moments over things, value thoughtful details, and seek meaningful pauses from the everyday.
-        </p>
-        <p
-          className={`text-white text-xl md:text-xl italic font-light leading-relaxed mt-6 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-            }`}
-        >
-          For the romantics, the unconventionals, the busy ones, and those who dare to explore something new, together.
-        </p>
+          <div className="w-8 h-px bg-[#1E1E1E]/20"></div>
+          <p className="text-[#1E1E1E]/70 text-sm tracking-[0.2em] uppercase">
+            Amanda & Robin
+          </p>
+          <div className="w-8 h-px bg-[#1E1E1E]/20"></div>
+        </div>
       </div>
     </section>
   )
@@ -696,7 +694,7 @@ export default function HomePage() {
       <ExperiencesPreview />
       <DifferenceSection />
       <GiftsSection />
-      <QuoteSection />
+      <TestimonialBar />
       <CTASection />
 
       <Footer />
