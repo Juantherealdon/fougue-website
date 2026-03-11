@@ -15,7 +15,7 @@ function HeroSection() {
   }, [])
 
   return (
-    <section className="bg-[#FBF5EF] pt-32 md:pt-40 pb-8 px-6 flex flex-col items-center text-center">
+    <section className="bg-[#FBF5EF] pt-32 md:pt-40 pb-2 px-6 flex flex-col items-center text-center">
 
       {/* Top content - title */}
       <div
