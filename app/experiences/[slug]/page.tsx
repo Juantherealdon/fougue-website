@@ -552,13 +552,10 @@ function ParisianFAQSection() {
       question: "What is the cancellation or rescheduling policy?",
       answer: (
         <div className="space-y-4">
-          <p>As each Fougue experience is carefully prepared in advance, we kindly ask for notice if your plans change.</p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>Free cancellation up to 7 days before the experience (full refund).</li>
-            <li>Cancellations made within 7 days are non-refundable due to preparation and supplier commitments.</li>
-            <li>However, we are happy to reschedule your experience with at least 72 hours’ notice, subject to availability. Rescheduling is limited to one date change per booking.</li>
-          </ul>
-          <p>In case of unfavourable weather or unforeseen circumstances, we will always propose an alternative date.</p>
+          <p>As each Fougue experience is carefully prepared in advance, bookings are confirmed with full payment and are non-refundable once confirmed.</p>
+          <p>However, we are happy to reschedule your experience with at least 72 hours’ notice, subject to availability. Rescheduling is limited to one date change per booking within 60 days of the original date.</p>
+          <p>In case of unfavourable weather, we may need to reschedule the experience to ensure the comfort and quality of the moment. An alternative date will then be offered within the same 60-day rescheduling window.</p>
+          <p>Our team will always do their best to help you find a suitable alternative date whenever possible.</p>
         </div>
       )
     },
