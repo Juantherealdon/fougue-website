@@ -15,7 +15,7 @@ function HeroSection() {
   }, [])
 
   return (
-    <section className="bg-[#FBF5EF] pt-32 md:pt-40 pb-20 px-6 flex flex-col items-center text-center">
+    <section className="bg-[#FBF5EF] pt-32 md:pt-40 pb-8 px-6 flex flex-col items-center text-center">
 
       {/* Top content - title */}
       <div
@@ -86,7 +86,7 @@ function PhilosophySection() {
   }, [])
 
   return (
-    <section id="philosophy-section" ref={sectionRef} className=" px-6 py-16 flex flex-col items-center justify-center text-center bg-[#FBF5EF] relative z-10">
+    <section id="philosophy-section" ref={sectionRef} className=" px-6 py-20 flex flex-col items-center justify-center text-center bg-[#FBF5EF] relative z-10">
       <p
         className={`text-[#800913] text-sm font-medium tracking-[0.4em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
