@@ -578,56 +578,66 @@ function TestimonialSection() {
       ref={sectionRef}
       className="bg-white border-y border-[#1E1E1E]/5 overflow-hidden"
     >
+      {/* 1. ZONE DE TRANSITION (Le "Moat") 
+          Cette bande blanche évite que les photos de Gifts et du Testimonial ne se percutent. */}
+      <div className="bg-white py-16 md:py-24 px-6 text-center">
+        <p className={`text-[#1E1E1E]/50 text-[10px] md:text-xs font-medium tracking-[0.4em] uppercase transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
+          A Few Words from Our Guests
+        </p>
+        <div className={`mt-8 w-px h-12 bg-[#800913]/20 mx-auto transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0"
+          }`}></div>
+      </div>
+
+      {/* 2. LA GRILLE ÉDITORIALE (Full Bleed sur les côtés) */}
       <div className="w-full grid grid-cols-1 md:grid-cols-3 items-stretch bg-white">
 
-        {/* Colonne 1 : Image Gauche (Anciennement HANDS 2) */}
-        <div className={`relative aspect-square md:aspect-auto min-h-[450px] transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+        {/* Colonne 1 : Le Regard (Gaze) */}
+        <div className={`relative aspect-square md:aspect-auto min-h-[450px] transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
           }`}>
           <Image
             src="/images/testimonial-left.jpg"
             alt="Intimate close-up of a woman's face with eyes closed, captured in soft light — a moment of peaceful vulnerability in a Fougue romantic experience"
             fill
-            className="object-cover grayscale brightness-[1.05] contrast-[1.1] hover:scale-105 transition-transform duration-[5s]"
+            className="object-cover grayscale brightness-[1.05] contrast-[1.1] hover:scale-105 transition-transform duration-[5s] ease-out"
           />
         </div>
 
-        {/* Colonne 2 : Texte (Centre - 2 lignes) */}
-        <div className="flex flex-col justify-center items-center text-center py-20 px-8 md:py-32 md:px-12 lg:px-16 bg-white relative">
+        {/* Colonne 2 : Le Texte (Centré - 2 lignes) */}
+        <div className="flex flex-col justify-center items-center text-center py-20 px-8 md:py-24 md:px-12 bg-white relative">
 
-          <p className={`text-[#1E1E1E]/50 text-[10px] md:text-xs font-medium tracking-[0.3em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}>
-            A Few Words from Our Guests
-          </p>
-
-          <div className={`mb-8 flex justify-center transition-all duration-700 delay-100 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+          {/* Guillemets signature */}
+          <div className={`mb-8 flex justify-center transition-all duration-700 delay-300 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"
             }`}>
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#800913] opacity-60">
               <path d="M10 11L8 15H11V18H5V15L7 11H5V6H11V11H10ZM21 11L19 15H22V18H16V15L18 11H16V6H22V11H21Z" fill="currentColor" />
             </svg>
           </div>
 
-          <blockquote className={`text-[#1E1E1E] text-sm md:text-base lg:text-[17px] font-light font-serif italic leading-relaxed md:leading-loose max-w-[480px] transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          {/* Citation calibrée */}
+          <blockquote className={`text-[#1E1E1E] text-sm md:text-base lg:text-[17px] font-light font-serif italic leading-relaxed md:leading-loose max-w-[480px] transition-all duration-1000 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}>
             &ldquo;For a moment we forgot we were in Dubai. The music, the food, the little details — it felt like a hidden corner of Paris just for us.&rdquo;
           </blockquote>
 
-          <div className={`mt-12 flex flex-col items-center w-full transition-all duration-700 delay-400 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          {/* Signature avec séparateur Premium */}
+          <div className={`mt-12 flex flex-col items-center w-full transition-all duration-700 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}>
-            <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#1E1E1E]/30 to-transparent"></div>
+            <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#1E1E1E]/20 to-transparent"></div>
             <p className="font-sans text-[#1E1E1E]/80 text-[11px] md:text-xs tracking-[0.2em] uppercase mt-8">
               Amanda & Robin
             </p>
           </div>
         </div>
 
-        {/* Colonne 3 : Image Droite (Anciennement lover story) */}
-        <div className={`relative aspect-square md:aspect-auto min-h-[450px] transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+        {/* Colonne 3 : Le Couple (Lover Story) */}
+        <div className={`relative aspect-square md:aspect-auto min-h-[450px] transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
           }`}>
           <Image
             src="/images/testimonial-1.jpg"
             alt="Cinematic blurred moment of a couple dancing during a story-driven romantic experience by Fougue Dubai"
             fill
-            className="object-cover grayscale brightness-[1.05] contrast-[1.1] hover:scale-105 transition-transform duration-[5s]"
+            className="object-cover grayscale brightness-[1.05] contrast-[1.1] hover:scale-105 transition-transform duration-[5s] ease-out"
           />
         </div>
 
