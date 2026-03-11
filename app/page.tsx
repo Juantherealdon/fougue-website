@@ -584,8 +584,8 @@ function TestimonialSection() {
         <div className={`relative aspect-square md:aspect-auto min-h-[450px] transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
           }`}>
           <Image
-            src="/images/testimonial-2.jpg"
-            alt="Intimate detail of intertwined hands, representing the thoughtful craft of a Fougue romantic experience in Dubai"
+            src="/images/testimonial-left.jpg"
+            alt="Intimate close-up of a woman's face with eyes closed, captured in soft light — a moment of peaceful vulnerability in a Fougue romantic experience"
             fill
             className="object-cover grayscale brightness-[1.05] contrast-[1.1] hover:scale-105 transition-transform duration-[5s]"
           />
