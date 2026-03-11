@@ -576,36 +576,47 @@ function TestimonialBar() {
   return (
     <section
       ref={sectionRef}
-      className="py-16 md:py-24 bg-white border-y border-[#1E1E1E]/5"
+      className="py-20 md:py-28 bg-[#1E1E1E] relative overflow-hidden"
     >
-      <div className="mx-auto max-w-3xl px-6 text-center">
-        {/* Surtitre discret */}
+      <div className="mx-auto max-w-4xl px-6 text-center relative z-10">
+
+        {/* Surtitre mis à jour */}
         <p
-          className={`text-[#800913] text-xs font-medium tracking-[0.3em] uppercase mb-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          className={`text-[#FBF5EF]/50 text-xs font-medium tracking-[0.3em] uppercase mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
         >
-          A word from our clients
+          A Few Words from Our Guests
         </p>
 
-        {/* Citation - Typographie Serif pour l'élégance */}
+        {/* Icône de guillemets élégante en rouge Fougue */}
+        <div
+          className={`mb-8 flex justify-center transition-all duration-700 delay-100 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+            }`}
+        >
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#800913] opacity-80">
+            <path d="M10 11L8 15H11V18H5V15L7 11H5V6H11V11H10ZM21 11L19 15H22V18H16V15L18 11H16V6H22V11H21Z" fill="currentColor" />
+          </svg>
+        </div>
+
+        {/* Citation - Typographie Serif lumineuse sur fond sombre */}
         <blockquote
-          className={`text-[#1E1E1E] text-xl md:text-2xl lg:text-3xl font-light font-serif italic leading-relaxed md:leading-relaxed transition-all duration-700 delay-150 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          className={`text-[#FBF5EF] text-2xl md:text-xl lg:text-2xl font-light font-serif italic leading-relaxed md:leading-snug transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
         >
           &ldquo;For a moment we forgot we were in Dubai. The music, the food, the little details — it felt like a hidden corner of Paris just for us.&rdquo;
         </blockquote>
 
-        {/* Signature avec deux petites lignes fines */}
+        {/* Signature avec une ligne d'ancrage */}
         <div
-          className={`mt-10 flex items-center justify-center gap-4 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          className={`mt-12 flex flex-col items-center justify-center gap-4 transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
         >
-          <div className="w-8 h-px bg-[#1E1E1E]/20"></div>
-          <p className="text-[#1E1E1E]/70 text-sm tracking-[0.2em] uppercase">
+          <div className="w-12 h-px bg-[#800913]"></div>
+          <p className="text-[#FBF5EF]/80 text-sm tracking-[0.2em] uppercase mt-2">
             Amanda & Robin
           </p>
-          <div className="w-8 h-px bg-[#1E1E1E]/20"></div>
         </div>
+
       </div>
     </section>
   )
