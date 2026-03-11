@@ -16,18 +16,17 @@ export function WhatsAppButton() {
   const pathname = usePathname()
   const isHomepage = pathname === "/"
   
-  // Initialize isVisible based on current page and scroll position
-  const [isVisible, setIsVisible] = useState(() => {
-    if (!isHomepage) return true
-    // On homepage, hide initially (will check scroll in useEffect)
-    return typeof window !== "undefined" ? window.scrollY > 100 : false
-  })
+  // Always start with false to avoid hydration mismatch, useEffect will set the correct value
+  const [isVisible, setIsVisible] = useState(false)
+  const [hasMounted, setHasMounted] = useState(false)
   
   const [isExpanded, setIsExpanded] = useState(false)
   const [customMessage, setCustomMessage] = useState(WHATSAPP_CONFIG.defaultMessage)
 
-  // Hide button on homepage hero banner, show after scroll
+  // Set mounted state and handle visibility
   useEffect(() => {
+    setHasMounted(true)
+    
     if (!isHomepage) {
       setIsVisible(true)
       return
@@ -180,12 +179,12 @@ export function WhatsAppButton() {
       </button>
 
       {/* Pulse Animation on Button */}
-      {!isExpanded && isVisible && (
+      {hasMounted && !isExpanded && isVisible && (
         <span className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#800913] animate-ping opacity-20 pointer-events-none" />
       )}
 
       {/* Tooltip */}
-      {!isExpanded && isVisible && (
+      {hasMounted && !isExpanded && isVisible && (
         <div className="fixed bottom-8 right-24 z-50 bg-white px-4 py-2 rounded-lg shadow-lg opacity-0 hover:opacity-100 pointer-events-none transition-opacity duration-300">
           <p className="text-[#1E1E1E] text-sm whitespace-nowrap">Chat with us</p>
           <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full">

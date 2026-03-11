@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Instagram, Mail } from "lucide-react"
+import { Instagram, Mail, Phone } from "lucide-react"
 import { NewsletterForm } from "./newsletter-form"
 
 export function Footer() {
@@ -26,10 +26,10 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 lg:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
-          {/* Policies */}
+          {/* Information */}
           <div>
             <h4 className="text-sm tracking-[0.2em] uppercase mb-6 text-white/40">
-              Policies
+              Information
             </h4>
             <ul className="space-y-4">
               <li>
@@ -42,11 +42,7 @@ export function Footer() {
                   Privacy Policy
                 </Link>
               </li>
-              <li>
-                <Link href="/refund" className="text-white/60 hover:text-white transition-colors duration-300">
-                  Refund Policy
-                </Link>
-              </li>
+
               <li>
                 <Link href="/faq" className="text-white/60 hover:text-white transition-colors duration-300">
                   FAQs
@@ -55,10 +51,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Navigate */}
+          {/* Explore */}
           <div>
             <h4 className="text-sm tracking-[0.2em] uppercase mb-6 text-white/40">
-              Navigate
+              Explore
             </h4>
             <ul className="space-y-4">
               {[
@@ -85,6 +81,15 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
+                  href="tel:+971526160505"
+                  className="text-white/60 hover:text-white transition-colors duration-300 flex items-center gap-2"
+                >
+                  <Phone size={16} />
+                  +971 52 616 0505
+                </a>
+              </li>
+              <li>
+                <a
                   href="mailto:hello@fougue.ae"
                   className="text-white/60 hover:text-white transition-colors duration-300 flex items-center gap-2"
                 >
@@ -94,13 +99,13 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://instagram.com/lovewithfougue"
+                  href="https://instagram.com/fougue.ae"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/60 hover:text-white transition-colors duration-300 flex items-center gap-2"
                 >
                   <Instagram size={16} />
-                  @lovewithfougue
+                  @fougue.ae
                 </a>
               </li>
               <li className="pt-2">
@@ -118,23 +123,23 @@ export function Footer() {
             <div className="flex flex-wrap gap-2">
               {/* Visa */}
               <svg width="42" height="28" viewBox="0 0 42 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
-                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1"/>
+                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1" />
                 <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="sans-serif">VISA</text>
               </svg>
               {/* Mastercard */}
               <svg width="42" height="28" viewBox="0 0 42 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
-                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1"/>
-                <circle cx="17" cy="14" r="7" fill="#EB001B" fillOpacity="0.7"/>
-                <circle cx="25" cy="14" r="7" fill="#F79E1B" fillOpacity="0.7"/>
+                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1" />
+                <circle cx="17" cy="14" r="7" fill="#EB001B" fillOpacity="0.7" />
+                <circle cx="25" cy="14" r="7" fill="#F79E1B" fillOpacity="0.7" />
               </svg>
               {/* Apple Pay */}
               <svg width="42" height="28" viewBox="0 0 42 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
-                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1"/>
+                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1" />
                 <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="7" fontWeight="500" fontFamily="sans-serif"> Pay</text>
               </svg>
               {/* Google Pay */}
               <svg width="42" height="28" viewBox="0 0 42 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-40">
-                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1"/>
+                <rect width="42" height="28" rx="4" fill="white" fillOpacity="0.1" />
                 <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="7" fontWeight="500" fontFamily="sans-serif">G Pay</text>
               </svg>
             </div>
