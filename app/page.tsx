@@ -584,7 +584,7 @@ function TestimonialSection() {
         <div className={`relative aspect-square md:aspect-auto min-h-[450px] transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
           }`}>
           <Image
-            src="/images/fougue-maison-romantic-detail-dubai.jpg"
+            src="/images/testimonial-2.jpg"
             alt="Intimate detail of intertwined hands, representing the thoughtful craft of a Fougue romantic experience in Dubai"
             fill
             className="object-cover grayscale brightness-[1.05] contrast-[1.1] hover:scale-105 transition-transform duration-[5s]"
@@ -624,7 +624,7 @@ function TestimonialSection() {
         <div className={`relative aspect-square md:aspect-auto min-h-[450px] transition-all duration-1000 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
           }`}>
           <Image
-            src="/images/fougue-story-driven-romantic-experience-dubai.jpg"
+            src="/images/testimonial-1.jpg"
             alt="Cinematic blurred moment of a couple dancing during a story-driven romantic experience by Fougue Dubai"
             fill
             className="object-cover grayscale brightness-[1.05] contrast-[1.1] hover:scale-105 transition-transform duration-[5s]"
