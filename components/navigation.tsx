@@ -59,6 +59,7 @@ export function Navigation({ solidNav = false }: { solidNav?: boolean }) {
                 className="h-10 w-auto"
                 priority
                 fetchPriority="high"
+                loading="eager"
               />
             </Link>
 
